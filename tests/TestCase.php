@@ -1,6 +1,6 @@
 <?php
 
-namespace Accordia\Tests\Entity;
+namespace Daikon\Tests\Entity;
 
 use PHPUnit\Framework\TestCase as PHPUnitTestCase;
 

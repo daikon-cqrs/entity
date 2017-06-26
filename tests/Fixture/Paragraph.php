@@ -1,11 +1,11 @@
 <?php
 
-namespace Accordia\Tests\Entity\Fixture;
+namespace Daikon\Tests\Entity\Fixture;
 
-use Accordia\Entity\Entity\NestedEntity;
-use Accordia\Entity\ValueObject\Integer;
-use Accordia\Entity\ValueObject\Text;
-use Accordia\Entity\ValueObject\ValueObjectInterface;
+use Daikon\Entity\Entity\NestedEntity;
+use Daikon\Entity\ValueObject\Integer;
+use Daikon\Entity\ValueObject\Text;
+use Daikon\Entity\ValueObject\ValueObjectInterface;
 
 final class Paragraph extends NestedEntity
 {

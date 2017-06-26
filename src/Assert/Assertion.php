@@ -1,11 +1,11 @@
 <?php
 
-namespace Accordia\Entity\Assert;
+namespace Daikon\Entity\Assert;
 
 use Assert\Assertion as BaseAssertion;
-use Accordia\Entity\EntityType\AttributeInterface;
-use Accordia\Entity\EntityTypeInterface;
-use Accordia\Entity\Error\AssertionFailed;
+use Daikon\Entity\EntityType\AttributeInterface;
+use Daikon\Entity\EntityTypeInterface;
+use Daikon\Entity\Error\AssertionFailed;
 
 final class Assertion extends BaseAssertion
 {

@@ -1,14 +1,14 @@
 <?php
 
-namespace Accordia\Tests\Entity\EntityType;
+namespace Daikon\Tests\Entity\EntityType;
 
-use Accordia\Entity\EntityType\Attribute;
-use Accordia\Entity\EntityType\AttributeMap;
-use Accordia\Entity\EntityType\EntityTypeInterface;
-use Accordia\Tests\Entity\TestCase;
-use Accordia\Entity\ValueObject\GeoPoint;
-use Accordia\Entity\ValueObject\Integer;
-use Accordia\Entity\ValueObject\Text;
+use Daikon\Entity\EntityType\Attribute;
+use Daikon\Entity\EntityType\AttributeMap;
+use Daikon\Entity\EntityType\EntityTypeInterface;
+use Daikon\Tests\Entity\TestCase;
+use Daikon\Entity\ValueObject\GeoPoint;
+use Daikon\Entity\ValueObject\Integer;
+use Daikon\Entity\ValueObject\Text;
 
 final class AttributeMapTest extends TestCase
 {

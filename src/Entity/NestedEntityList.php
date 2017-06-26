@@ -1,12 +1,12 @@
 <?php
 
-namespace Accordia\Entity\Entity;
+namespace Daikon\Entity\Entity;
 
-use Accordia\DataStructures\TypedListTrait;
-use Accordia\Entity\Assert\Assertion;
-use Accordia\Entity\Error\InvalidType;
-use Accordia\Entity\ValueObject\ValueObjectInterface;
-use Accordia\Entity\ValueObject\ValueObjectListInterface;
+use Daikon\DataStructures\TypedListTrait;
+use Daikon\Entity\Assert\Assertion;
+use Daikon\Entity\Error\InvalidType;
+use Daikon\Entity\ValueObject\ValueObjectInterface;
+use Daikon\Entity\ValueObject\ValueObjectListInterface;
 
 final class NestedEntityList implements ValueObjectListInterface
 {

@@ -1,14 +1,14 @@
 <?php
 
-namespace Accordia\Tests\Entity\Fixture;
+namespace Daikon\Tests\Entity\Fixture;
 
-use Accordia\Entity\EntityType\Attribute;
-use Accordia\Entity\EntityType\AttributeInterface;
-use Accordia\Entity\EntityType\EntityType;
-use Accordia\Entity\Entity\TypedEntityInterface;
-use Accordia\Entity\ValueObject\GeoPoint;
-use Accordia\Entity\ValueObject\Integer;
-use Accordia\Entity\ValueObject\Text;
+use Daikon\Entity\EntityType\Attribute;
+use Daikon\Entity\EntityType\AttributeInterface;
+use Daikon\Entity\EntityType\EntityType;
+use Daikon\Entity\Entity\TypedEntityInterface;
+use Daikon\Entity\ValueObject\GeoPoint;
+use Daikon\Entity\ValueObject\Integer;
+use Daikon\Entity\ValueObject\Text;
 
 final class LocationType extends EntityType
 {

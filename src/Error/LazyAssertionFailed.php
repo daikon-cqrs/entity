@@ -1,6 +1,6 @@
 <?php
 
-namespace Accordia\Entity\Error;
+namespace Daikon\Entity\Error;
 
 use Assert\LazyAssertionException;
 

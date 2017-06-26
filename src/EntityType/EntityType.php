@@ -1,9 +1,9 @@
 <?php
 
-namespace Accordia\Entity\EntityType;
+namespace Daikon\Entity\EntityType;
 
-use Accordia\Entity\Error\InvalidType;
-use Accordia\Entity\EntityType\Path\TypePathParser;
+use Daikon\Entity\Error\InvalidType;
+use Daikon\Entity\EntityType\Path\TypePathParser;
 
 abstract class EntityType implements EntityTypeInterface
 {
@@ -154,7 +154,7 @@ abstract class EntityType implements EntityTypeInterface
         $attribute = null;
         $entityType = $this;
         foreach ($this->pathParser->parse($typePath) as $pathPart) {
-            /* @var \Accordia\Entity\EntityType\Attribute\NestedEntityListAttribute $attribute */
+            /* @var \Daikon\Entity\EntityType\Attribute\NestedEntityListAttribute $attribute */
             $attribute = $entityType->getAttribute($pathPart->getAttributeName());
             if ($pathPart->hasType()) {
                 $entityType = $attribute->getValueType()->get($pathPart->getType());

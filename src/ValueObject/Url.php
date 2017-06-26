@@ -1,8 +1,8 @@
 <?php
 
-namespace Accordia\Entity\ValueObject;
+namespace Daikon\Entity\ValueObject;
 
-use Accordia\Entity\Assert\Assertion;
+use Daikon\Entity\Assert\Assertion;
 
 final class Url implements ValueObjectInterface
 {

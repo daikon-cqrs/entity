@@ -1,9 +1,9 @@
 <?php
 
-namespace Accordia\Entity\EntityType;
+namespace Daikon\Entity\EntityType;
 
-use Accordia\Entity\EntityType\Path\TypePath;
-use Accordia\Entity\EntityType\Path\TypePathPart;
+use Daikon\Entity\EntityType\Path\TypePath;
+use Daikon\Entity\EntityType\Path\TypePathPart;
 
 trait AttributeTrait
 {

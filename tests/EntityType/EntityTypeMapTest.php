@@ -1,11 +1,11 @@
 <?php
 
-namespace Accordia\Tests\Entity\EntityType;
+namespace Daikon\Tests\Entity\EntityType;
 
-use Accordia\Entity\EntityType\EntityTypeMap;
-use Accordia\Tests\Entity\Fixture\ArticleType;
-use Accordia\Tests\Entity\Fixture\ParagraphType;
-use Accordia\Tests\Entity\TestCase;
+use Daikon\Entity\EntityType\EntityTypeMap;
+use Daikon\Tests\Entity\Fixture\ArticleType;
+use Daikon\Tests\Entity\Fixture\ParagraphType;
+use Daikon\Tests\Entity\TestCase;
 
 class EntityTypeMapTest extends TestCase
 {

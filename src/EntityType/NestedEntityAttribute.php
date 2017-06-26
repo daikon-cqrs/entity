@@ -1,19 +1,19 @@
 <?php
 
-namespace Accordia\Entity\EntityType;
+namespace Daikon\Entity\EntityType;
 
 use Ds\Vector;
-use Accordia\Entity\Assert\Assert;
-use Accordia\Entity\Assert\Assertion;
-use Accordia\Entity\EntityType\EntityTypeMap;
-use Accordia\Entity\Entity\EntityInterface;
-use Accordia\Entity\Entity\NestedEntity;
-use Accordia\Entity\Entity\TypedEntityInterface;
-use Accordia\Entity\Error\CorruptValues;
-use Accordia\Entity\Error\MissingImplementation;
-use Accordia\Entity\Error\UnexpectedValue;
-use Accordia\Entity\ValueObject\Nil;
-use Accordia\Entity\ValueObject\ValueObjectInterface;
+use Daikon\Entity\Assert\Assert;
+use Daikon\Entity\Assert\Assertion;
+use Daikon\Entity\EntityType\EntityTypeMap;
+use Daikon\Entity\Entity\EntityInterface;
+use Daikon\Entity\Entity\NestedEntity;
+use Daikon\Entity\Entity\TypedEntityInterface;
+use Daikon\Entity\Error\CorruptValues;
+use Daikon\Entity\Error\MissingImplementation;
+use Daikon\Entity\Error\UnexpectedValue;
+use Daikon\Entity\ValueObject\Nil;
+use Daikon\Entity\ValueObject\ValueObjectInterface;
 
 class NestedEntityAttribute implements AttributeInterface
 {

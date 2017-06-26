@@ -1,9 +1,9 @@
 <?php
 
-namespace Accordia\Tests\Entity\ValueObject;
+namespace Daikon\Tests\Entity\ValueObject;
 
-use Accordia\Tests\Entity\TestCase;
-use Accordia\Entity\ValueObject\Uuid;
+use Daikon\Tests\Entity\TestCase;
+use Daikon\Entity\ValueObject\Uuid;
 
 final class UuidTest extends TestCase
 {

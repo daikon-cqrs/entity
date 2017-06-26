@@ -1,9 +1,9 @@
 <?php
 
-namespace Accordia\Tests\Entity\ValueObject;
+namespace Daikon\Tests\Entity\ValueObject;
 
-use Accordia\Tests\Entity\TestCase;
-use Accordia\Entity\ValueObject\Timestamp;
+use Daikon\Tests\Entity\TestCase;
+use Daikon\Entity\ValueObject\Timestamp;
 
 final class TimestampTest extends TestCase
 {

@@ -4,8 +4,8 @@
         "Read more about it at https://getcomposer.org/doc/01-basic-usage.md#composer-lock-the-lock-file",
         "This file is @generated automatically"
     ],
-    "hash": "9914731ab8205c2b59f3cbb09ba96209",
-    "content-hash": "da9c0e925188ccff162cb934d5dd640e",
+    "hash": "8edd111a8456eab4a6d28044cfef2d61",
+    "content-hash": "48ff852909013f14d26cc367f2eabeca",
     "packages": [
         {
             "name": "accordia/data-structures",
@@ -13,12 +13,12 @@
             "source": {
                 "type": "git",
                 "url": "https://github.com/accordia/data-structures.git",
-                "reference": "7a605e981c376db96549c4b59852f686fa5e2724"
+                "reference": "e2fcac5a900293d3df3a4a9bddea0f8c4b7a8a02"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/accordia/data-structures/zipball/7a605e981c376db96549c4b59852f686fa5e2724",
-                "reference": "7a605e981c376db96549c4b59852f686fa5e2724",
+                "url": "https://api.github.com/repos/accordia/data-structures/zipball/e2fcac5a900293d3df3a4a9bddea0f8c4b7a8a02",
+                "reference": "e2fcac5a900293d3df3a4a9bddea0f8c4b7a8a02",
                 "shasum": ""
             },
             "require": {
@@ -33,7 +33,7 @@
             "type": "library",
             "autoload": {
                 "psr-4": {
-                    "Accordia\\DataStructures\\": "src"
+                    "Daikon\\DataStructures\\": "src"
                 }
             },
             "notification-url": "https://packagist.org/downloads/",
@@ -47,7 +47,7 @@
                 "list",
                 "map"
             ],
-            "time": "2017-06-16 20:48:53"
+            "time": "2017-06-26 23:06:03"
         },
         {
             "name": "beberlei/assert",
@@ -424,16 +424,16 @@
         },
         {
             "name": "guzzlehttp/guzzle",
-            "version": "6.2.3",
+            "version": "6.3.0",
             "source": {
                 "type": "git",
                 "url": "https://github.com/guzzle/guzzle.git",
-                "reference": "8d6c6cc55186db87b7dc5009827429ba4e9dc006"
+                "reference": "f4db5a78a5ea468d4831de7f0bf9d9415e348699"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/guzzle/guzzle/zipball/8d6c6cc55186db87b7dc5009827429ba4e9dc006",
-                "reference": "8d6c6cc55186db87b7dc5009827429ba4e9dc006",
+                "url": "https://api.github.com/repos/guzzle/guzzle/zipball/f4db5a78a5ea468d4831de7f0bf9d9415e348699",
+                "reference": "f4db5a78a5ea468d4831de7f0bf9d9415e348699",
                 "shasum": ""
             },
             "require": {
@@ -443,8 +443,11 @@
             },
             "require-dev": {
                 "ext-curl": "*",
-                "phpunit/phpunit": "^4.0",
+                "phpunit/phpunit": "^4.0 || ^5.0",
                 "psr/log": "^1.0"
+            },
+            "suggest": {
+                "psr/log": "Required for using the Log middleware"
             },
             "type": "library",
             "extra": {
@@ -482,7 +485,7 @@
                 "rest",
                 "web service"
             ],
-            "time": "2017-02-28 22:50:30"
+            "time": "2017-06-22 18:50:49"
         },
         {
             "name": "guzzlehttp/promises",
@@ -1669,16 +1672,16 @@
         },
         {
             "name": "sebastian/environment",
-            "version": "3.0.3",
+            "version": "3.0.4",
             "source": {
                 "type": "git",
                 "url": "https://github.com/sebastianbergmann/environment.git",
-                "reference": "02b6b2c7aefe2cdb1185b8dbf8718b0bcedf3ab3"
+                "reference": "74776f8dbc081cab9287c2a601c0c1d842568744"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/sebastianbergmann/environment/zipball/02b6b2c7aefe2cdb1185b8dbf8718b0bcedf3ab3",
-                "reference": "02b6b2c7aefe2cdb1185b8dbf8718b0bcedf3ab3",
+                "url": "https://api.github.com/repos/sebastianbergmann/environment/zipball/74776f8dbc081cab9287c2a601c0c1d842568744",
+                "reference": "74776f8dbc081cab9287c2a601c0c1d842568744",
                 "shasum": ""
             },
             "require": {
@@ -1715,7 +1718,7 @@
                 "environment",
                 "hhvm"
             ],
-            "time": "2017-05-18 10:10:00"
+            "time": "2017-06-20 16:25:05"
         },
         {
             "name": "sebastian/exporter",
@@ -2605,7 +2608,7 @@
         }
     ],
     "aliases": [],
-    "minimum-stability": "dev",
+    "minimum-stability": "stable",
     "stability-flags": {
         "accordia/data-structures": 20,
         "satooshi/php-coveralls": 20

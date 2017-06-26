@@ -1,10 +1,10 @@
 <?php
 
-namespace Accordia\Entity\EntityType\Path;
+namespace Daikon\Entity\EntityType\Path;
 
 use JMS\Parser\AbstractParser;
 use JMS\Parser\SimpleLexer;
-use Accordia\Entity\Error\InvalidTypePath;
+use Daikon\Entity\Error\InvalidTypePath;
 
 final class TypePathParser extends AbstractParser
 {

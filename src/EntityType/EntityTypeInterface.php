@@ -1,10 +1,10 @@
 <?php
 
-namespace Accordia\Entity\EntityType;
+namespace Daikon\Entity\EntityType;
 
-use Accordia\Entity\EntityType\AttributeInterface;
-use Accordia\Entity\EntityType\AttributeMap;
-use Accordia\Entity\Entity\TypedEntityInterface;
+use Daikon\Entity\EntityType\AttributeInterface;
+use Daikon\Entity\EntityType\AttributeMap;
+use Daikon\Entity\Entity\TypedEntityInterface;
 
 interface EntityTypeInterface
 {

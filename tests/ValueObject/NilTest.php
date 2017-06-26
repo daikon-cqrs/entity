@@ -1,10 +1,10 @@
 <?php
 
-namespace Accordia\Tests\Entity\ValueObject\ValueObject;
+namespace Daikon\Tests\Entity\ValueObject\ValueObject;
 
-use Accordia\Tests\Entity\TestCase;
-use Accordia\Entity\ValueObject\Nil;
-use Accordia\Entity\ValueObject\Text;
+use Daikon\Tests\Entity\TestCase;
+use Daikon\Entity\ValueObject\Nil;
+use Daikon\Entity\ValueObject\Text;
 
 final class NilTest extends TestCase
 {

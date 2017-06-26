@@ -1,6 +1,6 @@
 <?php
 
-namespace Accordia\Entity\ValueObject;
+namespace Daikon\Entity\ValueObject;
 
 interface ValueObjectInterface
 {

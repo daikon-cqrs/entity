@@ -1,9 +1,9 @@
 <?php
 
-namespace Accordia\Entity\Assert;
+namespace Daikon\Entity\Assert;
 
 use Assert\Assert as BaseAssert;
-use Accordia\Entity\Error\LazyAssertionFailed;
+use Daikon\Entity\Error\LazyAssertionFailed;
 
 abstract class Assert extends BaseAssert
 {

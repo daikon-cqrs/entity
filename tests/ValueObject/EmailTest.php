@@ -1,9 +1,9 @@
 <?php
 
-namespace Accordia\Tests\Entity\ValueObject;
+namespace Daikon\Tests\Entity\ValueObject;
 
-use Accordia\Tests\Entity\TestCase;
-use Accordia\Entity\ValueObject\Email;
+use Daikon\Tests\Entity\TestCase;
+use Daikon\Entity\ValueObject\Email;
 
 final class EmailTest extends TestCase
 {

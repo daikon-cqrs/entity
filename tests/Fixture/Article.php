@@ -1,14 +1,14 @@
 <?php
 
-namespace Accordia\Tests\Entity\Fixture;
+namespace Daikon\Tests\Entity\Fixture;
 
-use Accordia\Entity\Entity\Entity;
-use Accordia\Entity\Entity\NestedEntityList;
-use Accordia\Entity\ValueObject\Integer;
-use Accordia\Entity\ValueObject\Text;
-use Accordia\Entity\ValueObject\Url;
-use Accordia\Entity\ValueObject\Uuid;
-use Accordia\Entity\ValueObject\ValueObjectInterface;
+use Daikon\Entity\Entity\Entity;
+use Daikon\Entity\Entity\NestedEntityList;
+use Daikon\Entity\ValueObject\Integer;
+use Daikon\Entity\ValueObject\Text;
+use Daikon\Entity\ValueObject\Url;
+use Daikon\Entity\ValueObject\Uuid;
+use Daikon\Entity\ValueObject\ValueObjectInterface;
 
 final class Article extends Entity
 {

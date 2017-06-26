@@ -1,10 +1,10 @@
 <?php
 
-namespace Accordia\Tests\Entity\EntityType\Path;
+namespace Daikon\Tests\Entity\EntityType\Path;
 
-use Accordia\Tests\Entity\TestCase;
-use Accordia\Entity\EntityType\Path\TypePath;
-use Accordia\Entity\EntityType\Path\TypePathParser;
+use Daikon\Tests\Entity\TestCase;
+use Daikon\Entity\EntityType\Path\TypePath;
+use Daikon\Entity\EntityType\Path\TypePathParser;
 
 class TypePathParserTest extends TestCase
 {
@@ -22,7 +22,7 @@ class TypePathParserTest extends TestCase
     }
 
     /**
-     * @expectedException \Accordia\Entity\Error\InvalidTypePath
+     * @expectedException \Daikon\Entity\Error\InvalidTypePath
      */
     public function testMissingType(): void
     {
@@ -31,7 +31,7 @@ class TypePathParserTest extends TestCase
 
 
     /**
-     * @expectedException \Accordia\Entity\Error\InvalidTypePath
+     * @expectedException \Daikon\Entity\Error\InvalidTypePath
      */
     public function testInvalidPath(): void
     {
@@ -39,7 +39,7 @@ class TypePathParserTest extends TestCase
     } // @codeCoverageIgnore
 
     /**
-     * @expectedException \Accordia\Entity\Error\InvalidTypePath
+     * @expectedException \Daikon\Entity\Error\InvalidTypePath
      */
     public function testMissingAttribute(): void
     {

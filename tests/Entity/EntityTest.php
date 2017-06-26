@@ -1,15 +1,15 @@
 <?php
 
-namespace Accordia\Tests\Entity\Entity;
+namespace Daikon\Tests\Entity\Entity;
 
-use Accordia\Entity\EntityType\Attribute\NestedEntityListAttribute;
-use Accordia\Entity\Entity\Path\ValuePath;
-use Accordia\Tests\Entity\Fixture\Article;
-use Accordia\Tests\Entity\Fixture\ArticleType;
-use Accordia\Tests\Entity\Fixture\CategoryRelation;
-use Accordia\Tests\Entity\Fixture\CategoryRelationType;
-use Accordia\Tests\Entity\Fixture\Paragraph;
-use Accordia\Tests\Entity\TestCase;
+use Daikon\Entity\EntityType\Attribute\NestedEntityListAttribute;
+use Daikon\Entity\Entity\Path\ValuePath;
+use Daikon\Tests\Entity\Fixture\Article;
+use Daikon\Tests\Entity\Fixture\ArticleType;
+use Daikon\Tests\Entity\Fixture\CategoryRelation;
+use Daikon\Tests\Entity\Fixture\CategoryRelationType;
+use Daikon\Tests\Entity\Fixture\Paragraph;
+use Daikon\Tests\Entity\TestCase;
 
 class EntityTest extends TestCase
 {
@@ -135,7 +135,7 @@ class EntityTest extends TestCase
     }
 
     /**
-     * @expectedException \Accordia\Entity\Error\AssertionFailed
+     * @expectedException \Daikon\Entity\Error\AssertionFailed
      */
     public function testInvalidValue(): void
     {
@@ -194,7 +194,7 @@ class EntityTest extends TestCase
     }
 
     /**
-     * @expectedException \Accordia\Entity\Error\UnknownAttribute
+     * @expectedException \Daikon\Entity\Error\UnknownAttribute
      */
     public function testInvalidHas(): void
     {
@@ -203,7 +203,7 @@ class EntityTest extends TestCase
     } // @codeCoverageIgnore
 
     /**
-     * @expectedException \Accordia\Entity\Error\UnknownAttribute
+     * @expectedException \Daikon\Entity\Error\UnknownAttribute
      */
     public function testInvalidPath(): void
     {

@@ -1,13 +1,13 @@
 <?php
 
-namespace Accordia\Tests\Entity\EntityType;
+namespace Daikon\Tests\Entity\EntityType;
 
-use Accordia\Entity\EntityType\EntityTypeInterface;
-use Accordia\Entity\EntityType\NestedEntityAttribute;
-use Accordia\Tests\Entity\Fixture\Location;
-use Accordia\Tests\Entity\Fixture\LocationType;
-use Accordia\Tests\Entity\TestCase;
-use Accordia\Entity\ValueObject\Nil;
+use Daikon\Entity\EntityType\EntityTypeInterface;
+use Daikon\Entity\EntityType\NestedEntityAttribute;
+use Daikon\Tests\Entity\Fixture\Location;
+use Daikon\Tests\Entity\Fixture\LocationType;
+use Daikon\Tests\Entity\TestCase;
+use Daikon\Entity\ValueObject\Nil;
 
 final class NestedEntityAttributeTest extends TestCase
 {
@@ -47,7 +47,7 @@ final class NestedEntityAttributeTest extends TestCase
     }
 
     /**
-     * @expectedException \Accordia\Entity\Error\AssertionFailed
+     * @expectedException \Daikon\Entity\Error\AssertionFailed
      */
     public function testUnexpectedValue(): void
     {
@@ -55,17 +55,17 @@ final class NestedEntityAttributeTest extends TestCase
     } // @codeCoverageIgnore
 
     /**
-     * @expectedException \Accordia\Entity\Error\MissingImplementation
+     * @expectedException \Daikon\Entity\Error\MissingImplementation
      */
     public function testNonExistingTypeClass(): void
     {
         /* @var EntityTypeInterface $entityType */
         $entityType = $this->getMockBuilder(EntityTypeInterface::class)->getMock();
-        NestedEntityAttribute::define("foo", [ "\\Accordia\Entity\\FooBaR" ], $entityType);
+        NestedEntityAttribute::define("foo", [ "\\Daikon\Entity\\FooBaR" ], $entityType);
     } // @codeCoverageIgnore
 
     /**
-     * @expectedException \Accordia\Entity\Error\CorruptValues
+     * @expectedException \Daikon\Entity\Error\CorruptValues
      */
     public function testInvalidType(): void
     {
@@ -75,7 +75,7 @@ final class NestedEntityAttributeTest extends TestCase
     } // @codeCoverageIgnore
 
     /**
-     * @expectedException \Accordia\Entity\Error\AssertionFailed
+     * @expectedException \Daikon\Entity\Error\AssertionFailed
      */
     public function testMissingType(): void
     {

@@ -1,12 +1,12 @@
 <?php
 
-namespace Accordia\Tests\Entity\EntityType;
+namespace Daikon\Tests\Entity\EntityType;
 
-use Accordia\Entity\EntityType\Attribute;
-use Accordia\Entity\EntityType\Path\TypePath;
-use Accordia\Tests\Entity\Fixture\ArticleType;
-use Accordia\Tests\Entity\TestCase;
-use Accordia\Entity\ValueObject\Text;
+use Daikon\Entity\EntityType\Attribute;
+use Daikon\Entity\EntityType\Path\TypePath;
+use Daikon\Tests\Entity\Fixture\ArticleType;
+use Daikon\Tests\Entity\TestCase;
+use Daikon\Entity\ValueObject\Text;
 
 class EntityTypeTest extends TestCase
 {
@@ -73,7 +73,7 @@ class EntityTypeTest extends TestCase
     }
 
     /**
-     * @expectedException \Accordia\Entity\Error\InvalidType
+     * @expectedException \Daikon\Entity\Error\InvalidType
      */
     public function testGetAttributeWithNonExistingAttribute(): void
     {

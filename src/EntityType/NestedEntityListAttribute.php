@@ -1,13 +1,13 @@
 <?php
 
-namespace Accordia\Entity\EntityType;
+namespace Daikon\Entity\EntityType;
 
-use Accordia\Entity\Assert\Assert;
-use Accordia\Entity\Assert\Assertion;
-use Accordia\Entity\Entity\EntityInterface;
-use Accordia\Entity\Entity\NestedEntityList;
-use Accordia\Entity\Entity\TypedEntityInterface;
-use Accordia\Entity\ValueObject\ValueObjectInterface;
+use Daikon\Entity\Assert\Assert;
+use Daikon\Entity\Assert\Assertion;
+use Daikon\Entity\Entity\EntityInterface;
+use Daikon\Entity\Entity\NestedEntityList;
+use Daikon\Entity\Entity\TypedEntityInterface;
+use Daikon\Entity\ValueObject\ValueObjectInterface;
 
 class NestedEntityListAttribute extends NestedEntityAttribute
 {

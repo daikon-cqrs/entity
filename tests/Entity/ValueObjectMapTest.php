@@ -1,10 +1,10 @@
 <?php
 
-namespace Accordia\Tests\Entity\Entity;
+namespace Daikon\Tests\Entity\Entity;
 
-use Accordia\Entity\Entity\ValueObjectMap;
-use Accordia\Tests\Entity\Fixture\ArticleType;
-use Accordia\Tests\Entity\TestCase;
+use Daikon\Entity\Entity\ValueObjectMap;
+use Daikon\Tests\Entity\Fixture\ArticleType;
+use Daikon\Tests\Entity\TestCase;
 
 final class ValueObjectMapTest extends TestCase
 {

@@ -1,6 +1,6 @@
 <?php
 
-namespace Accordia\Entity\ValueObject;
+namespace Daikon\Entity\ValueObject;
 
 use Assert\Assertion;
 use Ramsey\Uuid\Uuid as RamseyUuid;

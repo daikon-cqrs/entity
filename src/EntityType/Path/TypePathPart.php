@@ -1,6 +1,6 @@
 <?php
 
-namespace Accordia\Entity\EntityType\Path;
+namespace Daikon\Entity\EntityType\Path;
 
 final class TypePathPart
 {

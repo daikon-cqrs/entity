@@ -1,11 +1,11 @@
 <?php
 
-namespace Accordia\Entity\Entity;
+namespace Daikon\Entity\Entity;
 
-use Accordia\Entity\Assert\Assertion;
-use Accordia\Entity\Error\InvalidType;
-use Accordia\Entity\ValueObject\Nil;
-use Accordia\Entity\ValueObject\ValueObjectInterface;
+use Daikon\Entity\Assert\Assertion;
+use Daikon\Entity\Error\InvalidType;
+use Daikon\Entity\ValueObject\Nil;
+use Daikon\Entity\ValueObject\ValueObjectInterface;
 
 abstract class NestedEntity extends Entity implements ValueObjectInterface
 {

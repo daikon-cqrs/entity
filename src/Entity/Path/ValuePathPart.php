@@ -1,6 +1,6 @@
 <?php
 
-namespace Accordia\Entity\Entity\Path;
+namespace Daikon\Entity\Entity\Path;
 
 final class ValuePathPart
 {

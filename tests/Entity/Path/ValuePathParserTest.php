@@ -1,10 +1,10 @@
 <?php
 
-namespace Accordia\Tests\Entity\Entity\Path;
+namespace Daikon\Tests\Entity\Entity\Path;
 
-use Accordia\Entity\Entity\Path\ValuePath;
-use Accordia\Entity\Entity\Path\ValuePathParser;
-use Accordia\Tests\Entity\TestCase;
+use Daikon\Entity\Entity\Path\ValuePath;
+use Daikon\Entity\Entity\Path\ValuePathParser;
+use Daikon\Tests\Entity\TestCase;
 
 class ValuePathParserTest extends TestCase
 {
@@ -23,7 +23,7 @@ class ValuePathParserTest extends TestCase
     }
 
     /**
-     * @expectedException \Accordia\Entity\Error\InvalidValuePath
+     * @expectedException \Daikon\Entity\Error\InvalidValuePath
      */
     public function testInvalidPath(): void
     {

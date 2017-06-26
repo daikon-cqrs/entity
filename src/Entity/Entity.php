@@ -1,15 +1,15 @@
 <?php
 
-namespace Accordia\Entity\Entity;
+namespace Daikon\Entity\Entity;
 
-use Accordia\Entity\Assert\Assertion;
-use Accordia\Entity\EntityType\EntityTypeInterface;
-use Accordia\Entity\Entity\Path\ValuePath;
-use Accordia\Entity\Entity\Path\ValuePathParser;
-use Accordia\Entity\Entity\Path\ValuePathPart;
-use Accordia\Entity\Error\UnknownAttribute;
-use Accordia\Entity\ValueObject\NestedEntityList;
-use Accordia\Entity\ValueObject\ValueObjectInterface;
+use Daikon\Entity\Assert\Assertion;
+use Daikon\Entity\EntityType\EntityTypeInterface;
+use Daikon\Entity\Entity\Path\ValuePath;
+use Daikon\Entity\Entity\Path\ValuePathParser;
+use Daikon\Entity\Entity\Path\ValuePathPart;
+use Daikon\Entity\Error\UnknownAttribute;
+use Daikon\Entity\ValueObject\NestedEntityList;
+use Daikon\Entity\ValueObject\ValueObjectInterface;
 
 abstract class Entity implements TypedEntityInterface
 {

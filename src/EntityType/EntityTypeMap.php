@@ -1,8 +1,8 @@
 <?php
 
-namespace Accordia\Entity\EntityType;
+namespace Daikon\Entity\EntityType;
 
-use Accordia\DataStructures\TypedMapTrait;
+use Daikon\DataStructures\TypedMapTrait;
 
 final class EntityTypeMap implements \IteratorAggregate, \Countable
 {

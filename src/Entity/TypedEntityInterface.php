@@ -1,9 +1,9 @@
 <?php
 
-namespace Accordia\Entity\Entity;
+namespace Daikon\Entity\Entity;
 
-use Accordia\Entity\EntityType\EntityTypeInterface;
-use Accordia\Entity\ValueObject\ValueObjectInterface;
+use Daikon\Entity\EntityType\EntityTypeInterface;
+use Daikon\Entity\ValueObject\ValueObjectInterface;
 
 interface TypedEntityInterface extends EntityInterface
 {

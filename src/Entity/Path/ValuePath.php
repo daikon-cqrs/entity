@@ -1,11 +1,11 @@
 <?php
 
-namespace Accordia\Entity\Entity\Path;
+namespace Daikon\Entity\Entity\Path;
 
 use Ds\Vector;
-use Accordia\Entity\Assert\Assertion;
-use Accordia\Entity\Entity\NestedEntity;
-use Accordia\Entity\Entity\TypedEntityInterface;
+use Daikon\Entity\Assert\Assertion;
+use Daikon\Entity\Entity\NestedEntity;
+use Daikon\Entity\Entity\TypedEntityInterface;
 
 final class ValuePath implements \IteratorAggregate, \Countable
 {

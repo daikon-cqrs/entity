@@ -1,9 +1,9 @@
 <?php
 
-namespace Accordia\Entity\Entity;
+namespace Daikon\Entity\Entity;
 
-use Accordia\DataStructures\TypedMapTrait;
-use Accordia\Entity\ValueObject\ValueObjectInterface;
+use Daikon\DataStructures\TypedMapTrait;
+use Daikon\Entity\ValueObject\ValueObjectInterface;
 
 final class ValueObjectMap implements \IteratorAggregate, \Countable
 {

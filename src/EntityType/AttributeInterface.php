@@ -1,9 +1,9 @@
 <?php
 
-namespace Accordia\Entity\EntityType;
+namespace Daikon\Entity\EntityType;
 
-use Accordia\Entity\Entity\EntityInterface;
-use Accordia\Entity\ValueObject\ValueObjectInterface;
+use Daikon\Entity\Entity\EntityInterface;
+use Daikon\Entity\ValueObject\ValueObjectInterface;
 
 interface AttributeInterface
 {

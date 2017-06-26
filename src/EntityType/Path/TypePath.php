@@ -1,9 +1,9 @@
 <?php
 
-namespace Accordia\Entity\EntityType\Path;
+namespace Daikon\Entity\EntityType\Path;
 
 use Ds\Vector;
-use Accordia\Entity\EntityType\AttributeInterface;
+use Daikon\Entity\EntityType\AttributeInterface;
 
 final class TypePath implements \IteratorAggregate, \Countable
 {

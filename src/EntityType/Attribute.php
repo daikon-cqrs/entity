@@ -1,13 +1,13 @@
 <?php
 
-namespace Accordia\Entity\EntityType;
+namespace Daikon\Entity\EntityType;
 
-use Accordia\Entity\EntityType\Path\TypePath;
-use Accordia\Entity\EntityType\Path\TypePathPart;
-use Accordia\Entity\Entity\EntityInterface;
-use Accordia\Entity\Error\InvalidType;
-use Accordia\Entity\Error\MissingImplementation;
-use Accordia\Entity\ValueObject\ValueObjectInterface;
+use Daikon\Entity\EntityType\Path\TypePath;
+use Daikon\Entity\EntityType\Path\TypePathPart;
+use Daikon\Entity\Entity\EntityInterface;
+use Daikon\Entity\Error\InvalidType;
+use Daikon\Entity\Error\MissingImplementation;
+use Daikon\Entity\ValueObject\ValueObjectInterface;
 
 class Attribute implements AttributeInterface
 {

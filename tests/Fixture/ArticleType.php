@@ -1,23 +1,23 @@
 <?php
 
-namespace Accordia\Tests\Entity\Fixture;
+namespace Daikon\Tests\Entity\Fixture;
 
-use Accordia\Entity\EntityType\Attribute;
-use Accordia\Entity\EntityType\AttributeMap;
-use Accordia\Entity\EntityType\EntityType;
-use Accordia\Entity\EntityType\NestedEntityAttribute;
-use Accordia\Entity\EntityType\NestedEntityListAttribute;
-use Accordia\Entity\Entity\TypedEntityInterface;
-use Accordia\Entity\ValueObject\Boolean;
-use Accordia\Entity\ValueObject\Date;
-use Accordia\Entity\ValueObject\Decimal;
-use Accordia\Entity\ValueObject\Email;
-use Accordia\Entity\ValueObject\GeoPoint;
-use Accordia\Entity\ValueObject\Integer;
-use Accordia\Entity\ValueObject\Text;
-use Accordia\Entity\ValueObject\Timestamp;
-use Accordia\Entity\ValueObject\Url;
-use Accordia\Entity\ValueObject\Uuid;
+use Daikon\Entity\EntityType\Attribute;
+use Daikon\Entity\EntityType\AttributeMap;
+use Daikon\Entity\EntityType\EntityType;
+use Daikon\Entity\EntityType\NestedEntityAttribute;
+use Daikon\Entity\EntityType\NestedEntityListAttribute;
+use Daikon\Entity\Entity\TypedEntityInterface;
+use Daikon\Entity\ValueObject\Boolean;
+use Daikon\Entity\ValueObject\Date;
+use Daikon\Entity\ValueObject\Decimal;
+use Daikon\Entity\ValueObject\Email;
+use Daikon\Entity\ValueObject\GeoPoint;
+use Daikon\Entity\ValueObject\Integer;
+use Daikon\Entity\ValueObject\Text;
+use Daikon\Entity\ValueObject\Timestamp;
+use Daikon\Entity\ValueObject\Url;
+use Daikon\Entity\ValueObject\Uuid;
 
 final class ArticleType extends EntityType
 {

@@ -1,11 +1,11 @@
 <?php
 
-namespace Accordia\Tests\Entity\Entity;
+namespace Daikon\Tests\Entity\Entity;
 
-use Accordia\Entity\Entity\NestedEntity;
-use Accordia\Entity\EntityTypeInterface;
-use Accordia\Tests\Entity\Fixture\ArticleType;
-use Accordia\Tests\Entity\TestCase;
+use Daikon\Entity\Entity\NestedEntity;
+use Daikon\Entity\EntityTypeInterface;
+use Daikon\Tests\Entity\Fixture\ArticleType;
+use Daikon\Tests\Entity\TestCase;
 
 final class NestedEntityTest extends TestCase
 {
@@ -47,7 +47,7 @@ final class NestedEntityTest extends TestCase
     }
 
     /**
-     * @expectedException \Accordia\Entity\Error\AssertionFailed
+     * @expectedException \Daikon\Entity\Error\AssertionFailed
      */
     public function testInvalidTypeComparison(): void
     {
