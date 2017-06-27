@@ -1,14 +1,14 @@
 {
-    "name": "accordia/entity",
+    "name": "daikon/entity",
     "type": "library",
     "description": "Generic boilerplate for implementing structured entities in php.",
     "keywords": [ "value-object", "entity", "generic" ],
-    "homepage": "https://github.com/accordia/entity",
+    "homepage": "https://github.com/daikon-cqrs/entity",
     "license": "MPL-2.0",
     "prefer-stable": true,
     "require": {
         "php": ">=7.1",
-        "accordia/data-structures": "master@dev",
+        "daikon/data-structures": "master@dev",
         "ramsey/uuid": "~3.6",
         "jms/parser-lib": "~1.0",
         "beberlei/assert": "~2.7"
