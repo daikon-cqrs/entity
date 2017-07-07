@@ -2,7 +2,7 @@
 
 namespace Daikon\Entity\Entity;
 
-use Daikon\DataStructures\TypedMapTrait;
+use Daikon\DataStructure\TypedMapTrait;
 use Daikon\Entity\ValueObject\ValueObjectInterface;
 
 final class ValueObjectMap implements \IteratorAggregate, \Countable

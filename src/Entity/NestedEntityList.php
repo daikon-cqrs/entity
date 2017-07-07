@@ -2,7 +2,7 @@
 
 namespace Daikon\Entity\Entity;
 
-use Daikon\DataStructures\TypedListTrait;
+use Daikon\DataStructure\TypedListTrait;
 use Daikon\Entity\Assert\Assertion;
 use Daikon\Entity\Error\InvalidType;
 use Daikon\Entity\ValueObject\ValueObjectInterface;

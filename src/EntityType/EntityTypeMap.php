@@ -2,7 +2,7 @@
 
 namespace Daikon\Entity\EntityType;
 
-use Daikon\DataStructures\TypedMapTrait;
+use Daikon\DataStructure\TypedMapTrait;
 
 final class EntityTypeMap implements \IteratorAggregate, \Countable
 {
