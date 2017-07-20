@@ -6,9 +6,10 @@
     "homepage": "https://github.com/daikon-cqrs/entity",
     "license": "MPL-2.0",
     "prefer-stable": true,
+    "minimum-stability": "dev",
     "require": {
         "php": ">=7.1",
-        "daikon/data-structure": "master@dev",
+        "daikon/data-structure": "dev-master",
         "ramsey/uuid": "~3.6",
         "jms/parser-lib": "~1.0",
         "beberlei/assert": "~2.7"
