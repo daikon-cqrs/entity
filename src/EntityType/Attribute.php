@@ -2,8 +2,7 @@
 
 namespace Daikon\Entity\EntityType;
 
-use Daikon\Entity\EntityType\Path\TypePath;
-use Daikon\Entity\EntityType\Path\TypePathPart;
+use Daikon\Entity\Assert\Assertion;
 use Daikon\Entity\Entity\EntityInterface;
 use Daikon\Entity\Error\InvalidType;
 use Daikon\Entity\Error\MissingImplementation;
@@ -11,16 +10,21 @@ use Daikon\Entity\ValueObject\ValueObjectInterface;
 
 class Attribute implements AttributeInterface
 {
-    use AttributeTrait;
+    /**
+     * @var string
+     */
+    private $name;
+
+    /**
+     * @var EntityTypeInterface
+     */
+    private $entityType;
 
     /**
      * @var string
      */
     private $valueImplementor;
 
-    /**
-     * {@inheritdoc}
-     */
     public static function define(
         string $name,
         $valueImplementor,
@@ -35,33 +39,35 @@ class Attribute implements AttributeInterface
         return new static($name, $entityType, $valueImplementor);
     }
 
-    /**
-     * {@inheritdoc}
-     */
     public function makeValue($value = null, EntityInterface $parent = null): ValueObjectInterface
     {
-        if (!is_null($value) && $value instanceof $this->valueImplementor) {
+        if (is_object($value)) {
+            Assertion::isInstanceOf($value, $this->valueImplementor);
             return $value;
-        } elseif (is_null($value)) {
-            return $this->valueImplementor::makeEmpty();
-        } else {
-            return $this->valueImplementor::fromNative($value);
         }
+        return call_user_func([$this->valueImplementor, 'fromNative'], $value);
     }
 
-    /**
-     * @return string VO fqcn
-     */
     public function getValueType(): string
     {
         return $this->valueImplementor;
     }
 
-    /**
-     * @param string $name
-     * @param EntityTypeInterface $entityType
-     * @param string $valueImplementor
-     */
+    public function getName(): string
+    {
+        return $this->name;
+    }
+
+    public function getEntityType(): EntityTypeInterface
+    {
+        return $this->entityType;
+    }
+
+    public function getParent(): ?AttributeInterface
+    {
+        return $this->getEntityType()->getParentAttribute();
+    }
+
     protected function __construct(string $name, EntityTypeInterface $entityType, string $valueImplementor)
     {
         $this->name = $name;

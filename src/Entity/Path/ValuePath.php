@@ -2,10 +2,11 @@
 
 namespace Daikon\Entity\Entity\Path;
 
-use Ds\Vector;
 use Daikon\Entity\Assert\Assertion;
 use Daikon\Entity\Entity\NestedEntity;
+use Daikon\Entity\Entity\NestedEntityList;
 use Daikon\Entity\Entity\TypedEntityInterface;
+use Ds\Vector;
 
 final class ValuePath implements \IteratorAggregate, \Countable
 {
@@ -14,10 +15,6 @@ final class ValuePath implements \IteratorAggregate, \Countable
      */
     private $internalVector;
 
-    /**
-     * @param TypedEntityInterface $entity
-     * @return ValuePath
-     */
     public static function fromEntity(TypedEntityInterface $entity): self
     {
         $parentEntity = $entity->getEntityParent();
@@ -37,9 +34,6 @@ final class ValuePath implements \IteratorAggregate, \Countable
         return $valuePath->reverse();
     }
 
-    /**
-     * @param iterable|ValuePathPart[]|null $pathParts
-     */
     public function __construct(iterable $pathParts = null)
     {
         $this->internalVector = new Vector(
@@ -49,11 +43,6 @@ final class ValuePath implements \IteratorAggregate, \Countable
         );
     }
 
-    /**
-     * @param ValuePathPart $pathPart
-     *
-     * @return ValuePath
-     */
     public function push(ValuePathPart $pathPart): ValuePath
     {
         $clonedPath = clone $this;
@@ -61,9 +50,6 @@ final class ValuePath implements \IteratorAggregate, \Countable
         return $clonedPath;
     }
 
-    /**
-     * @return ValuePath
-     */
     public function reverse(): ValuePath
     {
         $clonedPath = clone $this;
@@ -71,25 +57,16 @@ final class ValuePath implements \IteratorAggregate, \Countable
         return $clonedPath;
     }
 
-    /**
-     * @return int
-     */
     public function count(): int
     {
         return count($this->internalVector);
     }
 
-    /**
-     * @return \Iterator
-     */
     public function getIterator(): \Iterator
     {
         return $this->internalVector->getIterator();
     }
 
-    /**
-     * @return string
-     */
     public function __toString(): string
     {
         $flattenPath = function (string $path, ValuePathPart $pathPart): string {

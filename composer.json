@@ -10,6 +10,7 @@
     "require": {
         "php": ">=7.1",
         "daikon/data-structure": "dev-master",
+        "daikon/interop": "dev-master",
         "ramsey/uuid": "~3.6",
         "jms/parser-lib": "~1.0",
         "beberlei/assert": "~2.7"

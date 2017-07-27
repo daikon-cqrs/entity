@@ -15,7 +15,7 @@ final class LazyAssertionFailed extends LazyAssertionException implements ErrorI
      * @param string $message
      * @param AssertionFailed[] $errors
      */
-    public function __construct($message, array $errors)
+    public function __construct(string $message, array $errors)
     {
         parent::__construct($message, $errors);
 
@@ -30,7 +30,7 @@ final class LazyAssertionFailed extends LazyAssertionException implements ErrorI
     /**
      * @return string[]
      */
-    public function getPropertyPaths()
+    public function getPropertyPaths(): array
     {
         return $this->propertyPaths;
     }

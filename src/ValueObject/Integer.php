@@ -14,62 +14,35 @@ final class Integer implements ValueObjectInterface
     /**
      * @var int
      */
-    private $intVal;
+    private $value;
 
     /**
-     * {@inheritdoc}
+     * @param int|null $nativeValue
+     * @return self
      */
-    public static function fromNative($nativeValue): ValueObjectInterface
+    public static function fromNative($nativeValue): self
     {
-        return $nativeValue ? new static($nativeValue) : self::makeEmpty();
+        Assertion::nullOrInteger($nativeValue);
+        return new self($nativeValue);
     }
 
-    /**
-     * {@inheritdoc}
-     */
-    public static function makeEmpty(): ValueObjectInterface
-    {
-        return new static(self::NIL);
-    }
-
-    /**
-     * {@inheritdoc}
-     */
-    public function equals(ValueObjectInterface $otherValue): bool
-    {
-        Assertion::isInstanceOf($otherValue, static::class);
-        return $this->toNative() === $otherValue->toNative();
-    }
-
-    /**
-     * {@inheritdoc}
-     */
-    public function isEmpty(): bool
-    {
-        return $this->intVal === self::NIL;
-    }
-
-    /**
-     * @return null|int
-     */
     public function toNative(): ?int
     {
-        return $this->intVal;
+        return $this->value;
     }
 
-    /**
-     * @return string
-     */
+    public function equals(ValueObjectInterface $otherValue): bool
+    {
+        return $otherValue instanceof self && $this->toNative() === $otherValue->toNative();
+    }
+
     public function __toString(): string
     {
-        return $this->isEmpty() ? "null" : (string)$this->intVal;
+        return $this->value === self::NIL ? "null" : (string)$this->value;
     }
 
-    /**
-     * @param int|null $intVal
-     */
-    private function __construct(?int $intVal)
+    private function __construct(?int $value)
     {
-        $this->intVal = $intVal;
+        $this->value = $value;
     }
 }

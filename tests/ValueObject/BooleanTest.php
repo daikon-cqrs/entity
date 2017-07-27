@@ -2,8 +2,8 @@
 
 namespace Daikon\Tests\Entity\ValueObject;
 
-use Daikon\Tests\Entity\TestCase;
 use Daikon\Entity\ValueObject\Boolean;
+use Daikon\Tests\Entity\TestCase;
 
 final class BooleanTest extends TestCase
 {
@@ -11,7 +11,6 @@ final class BooleanTest extends TestCase
     {
         $this->assertTrue(Boolean::fromNative(true)->toNative());
         $this->assertFalse(Boolean::fromNative(false)->toNative());
-        $this->assertFalse(Boolean::makeEmpty()->toNative());
     }
 
     public function testEquals(): void
@@ -19,12 +18,6 @@ final class BooleanTest extends TestCase
         $bool = Boolean::fromNative(true);
         $this->assertTrue($bool->equals(Boolean::fromNative(true)));
         $this->assertFalse($bool->equals(Boolean::fromNative(false)));
-    }
-
-    public function testIsEmpty(): void
-    {
-        $this->assertTrue(Boolean::makeEmpty()->isEmpty());
-        $this->assertFalse(Boolean::fromNative(true)->isEmpty());
     }
 
     public function testIsTrue(): void

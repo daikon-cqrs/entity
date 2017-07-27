@@ -2,8 +2,8 @@
 
 namespace Daikon\Tests\Entity\ValueObject;
 
-use Daikon\Tests\Entity\TestCase;
 use Daikon\Entity\ValueObject\Text;
+use Daikon\Tests\Entity\TestCase;
 
 final class TextTest extends TestCase
 {
@@ -17,7 +17,7 @@ final class TextTest extends TestCase
     public function testToNative(): void
     {
         $this->assertEquals(self::FIXED_TEXT, $this->text->toNative());
-        $this->assertEquals("", Text::makeEmpty()->toNative());
+        $this->assertEquals("", Text::fromNative(null)->toNative());
     }
 
     public function testEquals(): void
@@ -30,7 +30,8 @@ final class TextTest extends TestCase
 
     public function testIsEmpty(): void
     {
-        $this->assertTrue(Text::makeEmpty()->isEmpty());
+        $this->assertTrue(Text::fromNative("")->isEmpty());
+        $this->assertTrue(Text::fromNative(null)->isEmpty());
         $this->assertFalse($this->text->isEmpty());
     }
 

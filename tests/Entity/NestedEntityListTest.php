@@ -3,9 +3,9 @@
 namespace Daikon\Tests\Entity\Entity;
 
 use Daikon\Entity\Entity\NestedEntityList;
+use Daikon\Entity\ValueObject\Text;
 use Daikon\Tests\Entity\Fixture\ArticleType;
 use Daikon\Tests\Entity\TestCase;
-use Daikon\Entity\ValueObject\Text;
 
 final class NestedEntityListTest extends TestCase
 {
@@ -38,25 +38,25 @@ final class NestedEntityListTest extends TestCase
 
     public function testEquals(): void
     {
-        $sameList = new NestedEntityList([ $this->paragraph1, $this->paragraph2 ]);
+        $sameList = NestedEntityList::wrap([ $this->paragraph1, $this->paragraph2 ]);
         $this->assertTrue($this->entityList->equals($sameList));
-        $differentList = new NestedEntityList([ $this->paragraph1, $this->paragraph1 ]);
+        $differentList = NestedEntityList::wrap([ $this->paragraph1, $this->paragraph1 ]);
         $this->assertFalse($this->entityList->equals($differentList));
-        $emptyList = new NestedEntityList;
+        $emptyList = NestedEntityList::makeEmpty();
         $this->assertFalse($this->entityList->equals($emptyList));
-        $this->assertTrue($emptyList->equals(new NestedEntityList));
+        $this->assertTrue($emptyList->equals(NestedEntityList::makeEmpty()));
     }
 
     public function testIsEmpty(): void
     {
-        $this->assertTrue((new NestedEntityList)->isEmpty());
+        $this->assertTrue((NestedEntityList::makeEmpty())->isEmpty());
         $this->assertFalse($this->entityList->isEmpty());
     }
 
     public function testCount(): void
     {
         $this->assertCount(2, $this->entityList);
-        $this->assertCount(0, new NestedEntityList);
+        $this->assertCount(0, NestedEntityList::makeEmpty());
     }
 
     public function testGetIterator()
@@ -71,7 +71,7 @@ final class NestedEntityListTest extends TestCase
 
     public function testPush(): void
     {
-        $entityList = (new NestedEntityList)
+        $entityList = (NestedEntityList::makeEmpty())
             ->push($this->entityList->getFirst())
             ->push($this->entityList->getFirst());
         $this->assertCount(2, $entityList);
@@ -89,21 +89,13 @@ final class NestedEntityListTest extends TestCase
 
     public function testDiff(): void
     {
-        $this->assertCount(1, $this->entityList->diff(new NestedEntityList([ $this->paragraph1 ])));
+        $this->assertCount(1, $this->entityList->diff(NestedEntityList::wrap([ $this->paragraph1 ])));
     }
 
     public function testToString(): void
     {
         $this->assertEquals("Paragraph:42,\nParagraph:5", (string)$this->entityList);
     }
-
-    /**
-     * @expectedException \Daikon\Entity\Error\AssertionFailed
-     */
-    public function testIncompatibleTypeComparison(): void
-    {
-        $this->entityList->equals(Text::fromNative("wont work"));
-    } // @codeCoverageIgnore
 
     protected function setUp(): void
     {
@@ -112,9 +104,9 @@ final class NestedEntityListTest extends TestCase
         /* @var NestedEntityListAttribute $paragraphs */
         $paragraphs = $articleType->getAttribute("paragraphs");
         /* @var ParagraphType $paragraphType */
-        $paragraphType = $paragraphs->getValueType()->get("paragraph");
+        $paragraphType = $paragraphs->getValueType()->get("Paragraph");
         $this->paragraph1 = $paragraphType->makeEntity(self::FIXED_PARAGRAPH, $article);
         $this->paragraph2 = $this->paragraph1->withValue("kicker", "ho")->withValue("id", 5);
-        $this->entityList = new NestedEntityList([$this->paragraph1, $this->paragraph2]);
+        $this->entityList = NestedEntityList::wrap([$this->paragraph1, $this->paragraph2]);
     }
 }

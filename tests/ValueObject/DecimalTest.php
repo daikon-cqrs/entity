@@ -2,8 +2,8 @@
 
 namespace Daikon\Tests\Entity\ValueObject;
 
-use Daikon\Tests\Entity\TestCase;
 use Daikon\Entity\ValueObject\Decimal;
+use Daikon\Tests\Entity\TestCase;
 
 final class DecimalTest extends TestCase
 {
@@ -17,7 +17,7 @@ final class DecimalTest extends TestCase
     public function testToNative(): void
     {
         $this->assertEquals(self::FIXED_DEC, $this->decimal->toNative());
-        $this->assertNull(Decimal::makeEmpty()->toNative());
+        $this->assertNull(Decimal::fromNative(null)->toNative());
     }
 
     public function testEquals(): void
@@ -28,16 +28,10 @@ final class DecimalTest extends TestCase
         $this->assertFalse($this->decimal->equals($differentNumber));
     }
 
-    public function testIsEmpty(): void
-    {
-        $this->assertFalse($this->decimal->isEmpty());
-        $this->assertTrue(Decimal::makeEmpty()->isEmpty());
-    }
-
     public function testToString(): void
     {
         $this->assertEquals((string)self::FIXED_DEC, (string)$this->decimal);
-        $this->assertEquals("null", (string)Decimal::makeEmpty());
+        $this->assertEquals("null", (string)Decimal::fromNative(null));
     }
 
     protected function setUp(): void

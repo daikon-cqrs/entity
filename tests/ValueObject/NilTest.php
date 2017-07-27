@@ -2,9 +2,9 @@
 
 namespace Daikon\Tests\Entity\ValueObject\ValueObject;
 
-use Daikon\Tests\Entity\TestCase;
 use Daikon\Entity\ValueObject\Nil;
 use Daikon\Entity\ValueObject\Text;
+use Daikon\Tests\Entity\TestCase;
 
 final class NilTest extends TestCase
 {
@@ -20,13 +20,8 @@ final class NilTest extends TestCase
 
     public function testEquals(): void
     {
-        $this->assertTrue($this->nil->equals(Nil::makeEmpty()));
-        $this->assertFalse($this->nil->equals(Text::makeEmpty()));
-    }
-
-    public function testIsEmpty(): void
-    {
-        $this->assertTrue($this->nil->isEmpty());
+        $this->assertTrue($this->nil->equals(Nil::fromNative(null)));
+        $this->assertFalse($this->nil->equals(Text::fromNative(null)));
     }
 
     public function testToString(): void

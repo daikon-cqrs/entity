@@ -14,63 +14,31 @@ final class Decimal implements ValueObjectInterface
     /**
      * @var float
      */
-    private $floatVal;
+    private $value;
 
-    /**
-     * {@inheritdoc}
-     */
-    public static function fromNative($nativeValue): ValueObjectInterface
+    public static function fromNative($nativeValue): self
     {
-        return $nativeValue ? new static($nativeValue) : self::makeEmpty();
+        Assertion::nullOrFloat($nativeValue, "Trying to create value from invalid value.");
+        return is_float($nativeValue) ? new static($nativeValue) : new self;
     }
 
-    /**
-     * {@inheritdoc}
-     */
-    public static function makeEmpty(): ValueObjectInterface
-    {
-        return new static(self::NIL);
-    }
-
-    /**
-     * {@inheritdoc}
-     */
-    public function equals(ValueObjectInterface $otherValue): bool
-    {
-        Assertion::isInstanceOf($otherValue, Decimal::class);
-        return $this->toNative() === $otherValue->toNative();
-    }
-
-    /**
-     * {@inheritdoc}
-     */
-    public function isEmpty(): bool
-    {
-        return $this->floatVal === self::NIL;
-    }
-
-    /**
-     * @return null|float
-     */
     public function toNative(): ?float
     {
-        return $this->floatVal;
+        return $this->value;
     }
 
-    /**
-     * @return string
-     */
+    public function equals(ValueObjectInterface $otherValue): bool
+    {
+        return $otherValue instanceof self && $this->toNative() === $otherValue->toNative();
+    }
+
     public function __toString(): string
     {
-        return $this->isEmpty() ? "null" : (string)$this->floatVal;
+        return $this->value ? (string)$this->value : "null";
     }
 
-    /**
-     * @param float|null $floatVal
-     */
-    private function __construct(?float $floatVal)
+    private function __construct(?float $value = null)
     {
-        Assertion::nullOrFloat($floatVal, "Trying to create floatVal from invalid floatVal.");
-        $this->floatVal = $floatVal;
+        $this->value = $value;
     }
 }

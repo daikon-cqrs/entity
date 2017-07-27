@@ -2,9 +2,9 @@
 
 namespace Daikon\Tests\Entity\EntityType\Path;
 
-use Daikon\Tests\Entity\TestCase;
 use Daikon\Entity\EntityType\Path\TypePath;
 use Daikon\Entity\EntityType\Path\TypePathParser;
+use Daikon\Tests\Entity\TestCase;
 
 class TypePathParserTest extends TestCase
 {
@@ -26,7 +26,7 @@ class TypePathParserTest extends TestCase
      */
     public function testMissingType(): void
     {
-        TypePathParser::create()->parse("paragraphs.paragraph..");
+        TypePathParser::create()->parse("paragraphs.Paragraph..");
     } // @codeCoverageIgnore
 
 
@@ -43,7 +43,7 @@ class TypePathParserTest extends TestCase
      */
     public function testMissingAttribute(): void
     {
-        TypePathParser::create()->parse("paragraphs.paragraph");
+        TypePathParser::create()->parse("paragraphs.Paragraph");
     } // @codeCoverageIgnore
 
     /**
@@ -58,11 +58,11 @@ class TypePathParserTest extends TestCase
                 "expectedLength" => 1
             ],
             [
-                "pathExpression" => "paragraphs.paragraph-title",
+                "pathExpression" => "paragraphs.Paragraph-title",
                 "expectedLength" => 2
             ],
             [
-                "pathExpression" => "slideshows.teaser_slideshow-teasers.gallery_teaser-images",
+                "pathExpression" => "slideshows.TeaserSlideshow-teasers.GalleryTeaser-images",
                 "expectedLength" => 3
             ]
         ];

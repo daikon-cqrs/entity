@@ -2,16 +2,11 @@
 
 namespace Daikon\Entity\EntityType;
 
-use Daikon\Entity\Error\InvalidType;
 use Daikon\Entity\EntityType\Path\TypePathParser;
+use Daikon\Entity\Error\InvalidType;
 
 abstract class EntityType implements EntityTypeInterface
 {
-    /**
-     * @var string
-     */
-    private $name;
-
     /**
      * @var AttributeInterface
      */
@@ -23,48 +18,17 @@ abstract class EntityType implements EntityTypeInterface
     private $attributeMap;
 
     /**
-     * @var string $prefix
-     */
-    private $prefix;
-
-    /**
      * @var TypePathParser
      */
     private $pathParser;
 
-    /**
-     * @param string $name
-     * @param AttributeInterface[] $attributes
-     * @param AttributeInterface $parentAttribute
-     */
-    public function __construct(string $name, array $attributes, AttributeInterface $parentAttribute = null)
+    public function __construct(array $attributes, AttributeInterface $parentAttribute = null)
     {
-        $this->name = $name;
         $this->parentAttribute = $parentAttribute;
         $this->pathParser = TypePathParser::create();
         $this->attributeMap = new AttributeMap($attributes);
-        $this->prefix = mb_strtolower(preg_replace("/(.)([A-Z])/", "$1_$2", $name));
     }
 
-    /**
-     * {@inheritdoc}
-     */
-    public function getName(): string
-    {
-        return $this->name;
-    }
-
-    /**
-     * {@inheritdoc}
-     */
-    public function getPrefix(): string
-    {
-        return $this->prefix;
-    }
-
-    /**
-     * {@inheritdoc}
-     */
     public function getRoot(): EntityTypeInterface
     {
         $root = $this;
@@ -76,41 +40,26 @@ abstract class EntityType implements EntityTypeInterface
         return $root;
     }
 
-    /**
-     * {@inheritdoc}
-     */
     public function getParentAttribute(): ?AttributeInterface
     {
         return $this->parentAttribute;
     }
 
-    /**
-     * {@inheritdoc}
-     */
     public function getParent(): ?EntityTypeInterface
     {
         return $this->hasParent() ? $this->getParentAttribute()->getEntityType() : null;
     }
 
-    /**
-     * {@inheritdoc}
-     */
     public function hasParent(): bool
     {
         return !is_null($this->getParentAttribute());
     }
 
-    /**
-     * {@inheritdoc}
-     */
     public function isRoot(): bool
     {
         return !$this->hasParent();
     }
 
-    /**
-     * {@inheritdoc}
-     */
     public function hasAttribute(string $typePath): bool
     {
         if (mb_strpos($typePath, ".")) {
@@ -119,9 +68,6 @@ abstract class EntityType implements EntityTypeInterface
         return $this->attributeMap->has($typePath);
     }
 
-    /**
-     * {@inheritdoc}
-     */
     public function getAttribute(string $typePath): AttributeInterface
     {
         if (mb_strpos($typePath, ".")) {
@@ -133,9 +79,6 @@ abstract class EntityType implements EntityTypeInterface
         return $this->attributeMap->get($typePath);
     }
 
-    /**
-     * {@inheritdoc}
-     */
     public function getAttributes(array $typePaths = []): AttributeMap
     {
         $attributes = [];
@@ -145,16 +88,12 @@ abstract class EntityType implements EntityTypeInterface
         return empty($typePaths) ? $this->attributeMap : new AttributeMap($attributes);
     }
 
-    /**
-     * @param string $typePath
-     * @return AttributeInterface
-     */
     private function evaluatePath(string $typePath): AttributeInterface
     {
         $attribute = null;
         $entityType = $this;
         foreach ($this->pathParser->parse($typePath) as $pathPart) {
-            /* @var \Daikon\Entity\EntityType\Attribute\NestedEntityListAttribute $attribute */
+            /* @var NestedEntityListAttribute $attribute */
             $attribute = $entityType->getAttribute($pathPart->getAttributeName());
             if ($pathPart->hasType()) {
                 $entityType = $attribute->getValueType()->get($pathPart->getType());

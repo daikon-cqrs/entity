@@ -3,6 +3,7 @@
 namespace Daikon\Entity\ValueObject;
 
 use Daikon\Entity\Assert\Assertion;
+use DateTimeImmutable;
 
 final class Date implements ValueObjectInterface
 {
@@ -17,100 +18,48 @@ final class Date implements ValueObjectInterface
     private const NIL = null;
 
     /**
-     * @var string
+     * @var DateTimeImmutable|null
      */
-    private $dateVal;
+    private $value;
 
-    /**
-     * @var string
-     */
-    private $originalFormat;
-
-    /**
-     * {@inheritdoc}
-     */
-    public static function fromNative($nativeValue): ValueObjectInterface
+    public static function today(): self
     {
-        return $nativeValue !== self::NIL
-            ? self::createFromString($nativeValue)
-            : self::makeEmpty();
+        return new static(new DateTimeImmutable);
+    }
+
+    public static function createFromString(string $value, string $format = self::NATIVE_FORMAT): self
+    {
+        Assertion::date($value, $format);
+        return new self(DateTimeImmutable::createFromFormat($format, $value));
     }
 
     /**
-     * {@inheritdoc}
+     * @param string|null $nativeValue
+     * @return self
      */
-    public static function makeEmpty(): ValueObjectInterface
+    public static function fromNative($nativeValue): self
     {
-        return new static();
+        Assertion::nullOrString($nativeValue);
+        return empty($nativeValue) ? new self : self::createFromString($nativeValue);
     }
 
-    /**
-     * @return Date
-     */
-    public static function today(): Date
-    {
-        return new static(new \DateTimeImmutable);
-    }
-
-    /**
-     * @param string $dateVal
-     * @param string $format
-     * @return Date
-     */
-    public static function createFromString(string $dateVal, string $format = self::NATIVE_FORMAT): Date
-    {
-        Assertion::date($dateVal, $format);
-        return new Date((\DateTimeImmutable::createFromFormat($format, $dateVal)), $format);
-    }
-
-    /**
-     * {@inheritdoc}
-     */
-    public function equals(ValueObjectInterface $otherValue): bool
-    {
-        Assertion::isInstanceOf($otherValue, Date::class);
-        return $this->toNative() === $otherValue->toNative();
-    }
-
-    /**
-     * {@inheritdoc}
-     */
-    public function isEmpty(): bool
-    {
-        return $this->dateVal === self::NIL;
-    }
-
-    /**
-     * @return null|string
-     */
     public function toNative(): ?string
     {
-        return !$this->isEmpty() ? $this->dateVal->format(self::NATIVE_FORMAT) : self::NIL;
+        return $this->value === self::NIL ? self::NIL : $this->value->format(self::NATIVE_FORMAT);
     }
 
-    /**
-     * @return string
-     */
-    public function getOriginalFormat(): string
+    public function equals(ValueObjectInterface $otherValue): bool
     {
-        return $this->originalFormat;
+        return $otherValue instanceof self && $this->toNative() === $otherValue->toNative();
     }
 
-    /**
-     * @return string
-     */
     public function __toString(): string
     {
-        return !$this->isEmpty() ? $this->dateVal->format($this->originalFormat) : "";
+        return $this->toNative() ?? '';
     }
 
-    /**
-     * @param \DateTimeImmutable|null $dateVal
-     * @param string $originalFormat
-     */
-    private function __construct(\DateTimeImmutable $dateVal = self::NIL, string $originalFormat = self::NATIVE_FORMAT)
+    private function __construct(DateTimeImmutable $value = self::NIL)
     {
-        $this->dateVal = $dateVal ? $dateVal->setTime(0, 0, 0) : $dateVal;
-        $this->originalFormat = $originalFormat;
+        $this->value = $value ? $value->setTime(0, 0, 0) : $value;
     }
 }

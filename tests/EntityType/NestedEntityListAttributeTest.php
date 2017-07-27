@@ -2,11 +2,10 @@
 
 namespace Daikon\Tests\Entity\EntityType;
 
-use Daikon\Entity\EntityType\EntityTypeInterface;
-use Daikon\Entity\EntityType\NestedEntityListAttribute;
-use Daikon\Entity\Entity\EntityInterface;
 use Daikon\Entity\Entity\NestedEntityList;
 use Daikon\Entity\Entity\TypedEntityInterface;
+use Daikon\Entity\EntityType\EntityTypeInterface;
+use Daikon\Entity\EntityType\NestedEntityListAttribute;
 use Daikon\Tests\Entity\Fixture\Location;
 use Daikon\Tests\Entity\Fixture\LocationType;
 use Daikon\Tests\Entity\TestCase;
@@ -14,7 +13,7 @@ use Daikon\Tests\Entity\TestCase;
 final class NestedEntityListAttributeTest extends TestCase
 {
     private const FIXED_DATA = [ [
-        "@type" => "location",
+        "@type" => "Location",
         "id" => 42,
         "name" => "my poi",
         "street" => "fleetstreet 23",
@@ -38,11 +37,11 @@ final class NestedEntityListAttributeTest extends TestCase
     public function testMakeValueFromObject(): void
     {
         $parent = $this->getMockBuilder(TypedEntityInterface::class)->getMock();
-        $locationType = $this->attribute->getValueType()->get("location");
+        $locationType = $this->attribute->getValueType()->get("Location");
         $locationState = self::FIXED_DATA[0];
         $locationState["@type"] = $locationType;
         $locationState["@parent"] = $parent;
-        $locations = new NestedEntityList([ Location::fromNative($locationState) ], $parent);
+        $locations = NestedEntityList::wrap([ Location::fromNative($locationState) ], $parent);
         $this->assertEquals(self::FIXED_DATA, $this->attribute->makeValue($locations)->toNative());
     }
 

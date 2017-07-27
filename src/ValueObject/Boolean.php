@@ -9,88 +9,52 @@ final class Boolean implements ValueObjectInterface
     /**
      * @var bool
      */
-    private $boolVal;
+    private $value;
 
     /**
-     * {@inheritdoc}
+     * @param bool $nativeValue
+     * @return self
      */
-    public static function fromNative($nativeValue): ValueObjectInterface
+    public static function fromNative($nativeValue): self
     {
-        return new static($nativeValue);
+        Assertion::boolean($nativeValue);
+        return new self($nativeValue);
     }
 
-    /**
-     * {@inheritdoc}
-     */
-    public static function makeEmpty(): ValueObjectInterface
-    {
-        return new static(false);
-    }
-
-    /**
-     * {@inheritdoc}
-     */
-    public function equals(ValueObjectInterface $otherValue): bool
-    {
-        Assertion::isInstanceOf($otherValue, Boolean::class);
-        return $this->toNative() === $otherValue->toNative();
-    }
-
-    /**
-     * {@inheritdoc}
-     */
-    public function isEmpty(): bool
-    {
-        return $this->isFalse();
-    }
-
-    /**
-     * @return bool
-     */
     public function toNative(): bool
     {
-        return $this->boolVal;
+        return $this->value;
     }
 
-    /**
-     * @return bool
-     */
+    public function equals(ValueObjectInterface $otherValue): bool
+    {
+        return $otherValue instanceof self && $this->toNative() === $otherValue->toNative();
+    }
+
+    public function __toString(): string
+    {
+        return $this->value ? "true" : "false";
+    }
+
     public function isTrue(): bool
     {
-        return $this->boolVal === true;
+        return $this->value === true;
     }
 
-    /**
-     * @return bool
-     */
     public function isFalse(): bool
     {
-        return $this->boolVal === false;
+        return $this->value === false;
     }
 
-    /**
-     * @return Boolean
-     */
-    public function negate(): Boolean
+    public function negate(): self
     {
         $clone = clone $this;
-        $clone->boolVal = !$this->boolVal;
+        $clone->value = !$this->value;
         return $clone;
     }
 
-    /**
-     * @return string
-     */
-    public function __toString(): string
+    private function __construct(bool $value)
     {
-        return $this->boolVal ? "true" : "false";
-    }
-
-    /**
-     * @param bool $boolVal
-     */
-    private function __construct(bool $boolVal)
-    {
-        $this->boolVal = $boolVal;
+        $this->value = $value;
     }
 }

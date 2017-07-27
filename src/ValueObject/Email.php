@@ -22,83 +22,51 @@ final class Email implements ValueObjectInterface
     private $domain;
 
     /**
-     * {@inheritdoc}
+     * @param string|null $nativeValue
+     * @return self
      */
-    public static function fromNative($nativeValue): ValueObjectInterface
+    public static function fromNative($nativeValue): self
     {
-        return $nativeValue ? new static($nativeValue) : self::makeEmpty();
+        Assertion::nullOrString($nativeValue);
+        if (empty($nativeValue)) {
+            return new self(Text::fromNative(self::NIL), Text::fromNative(self::NIL));
+        }
+        Assertion::email($nativeValue, "Trying to create email from invalid string.");
+        $parts = explode("@", $nativeValue);
+        return new self(Text::fromNative($parts[0]), Text::fromNative(trim($parts[1], "[]")));
     }
 
-    /**
-     * {@inheritdoc}
-     */
-    public static function makeEmpty(): ValueObjectInterface
-    {
-        return new static(self::NIL);
-    }
-
-    /**
-     * {@inheritdoc}
-     */
-    public function equals(ValueObjectInterface $otherValue): bool
-    {
-        Assertion::isInstanceOf($otherValue, Email::class);
-        return $this->toNative() === $otherValue->toNative();
-    }
-
-    /**
-     * {@inheritdoc}
-     */
-    public function isEmpty(): bool
-    {
-        return $this->localPart->isEmpty() || $this->domain->isEmpty();
-    }
-
-    /**
-     * @return string
-     */
     public function toNative(): string
     {
-        return $this->isEmpty() ? self::NIL : $this->localPart->toNative()."@".$this->domain->toNative();
+        if ($this->localPart->isEmpty() && $this->domain->isEmpty()) {
+            return self::NIL;
+        }
+        return $this->localPart->toNative()."@".$this->domain->toNative();
     }
 
-    /**
-     * @return Text
-     */
-    public function getLocalPart(): Text
+    public function equals(ValueObjectInterface $otherValue): bool
     {
-        return $this->localPart;
+        return $otherValue instanceof self && $this->toNative() === $otherValue->toNative();
     }
 
-    /**
-     * @return Text
-     */
-    public function getDomain(): Text
-    {
-        return $this->domain;
-    }
-
-    /**
-     * @return string
-     */
     public function __toString(): string
     {
         return $this->toNative();
     }
 
-    /**
-     * @param string $email
-     */
-    private function __construct(string $email)
+    public function getLocalPart(): Text
     {
-        if ($email !== self::NIL) {
-            Assertion::email($email, "Trying to create email from invalid string.");
-            $parts = explode("@", $email);
-            $this->localPart = Text::fromNative($parts[0]);
-            $this->domain = Text::fromNative(trim($parts[1], "[]"));
-        } else {
-            $this->localPart = Text::makeEmpty();
-            $this->domain = Text::makeEmpty();
-        }
+        return $this->localPart;
+    }
+
+    public function getDomain(): Text
+    {
+        return $this->domain;
+    }
+
+    private function __construct(Text $localPart, Text $domain)
+    {
+        $this->localPart = $localPart;
+        $this->domain = $domain;
     }
 }

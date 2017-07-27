@@ -6,76 +6,53 @@ use Daikon\Entity\Assert\Assertion;
 
 final class Text implements ValueObjectInterface
 {
+    /**
+     * @var string
+     */
     private const NIL = "";
 
     /**
-     * @var stringVal
+     * @var string
      */
-    private $stringVal;
+    private $value;
 
     /**
-     * {@inheritdoc}
+     * @param string|null $nativeValue
+     * @return self
      */
-    public static function fromNative($nativeValue): ValueObjectInterface
+    public static function fromNative($nativeValue): self
     {
         Assertion::nullOrString($nativeValue);
-        return $nativeValue ? new static($nativeValue) : self::makeEmpty();
+        return is_null($nativeValue) ? new self : new self($nativeValue);
     }
 
-    /**
-     * {@inheritdoc}
-     */
-    public static function makeEmpty(): ValueObjectInterface
-    {
-        return new static(self::NIL);
-    }
-
-    /**
-     * {@inheritdoc}
-     */
     public function equals(ValueObjectInterface $otherValue): bool
     {
-        Assertion::isInstanceOf($otherValue, Text::class);
-        return $this->toNative() === $otherValue->toNative();
+        return $otherValue instanceof self && $this->toNative() === $otherValue->toNative();
     }
 
-    /**
-     * {@inheritdoc}
-     */
-    public function isEmpty(): bool
-    {
-        return $this->stringVal === self::NIL;
-    }
-
-    /**
-     * @return string
-     */
     public function toNative(): string
     {
-        return $this->stringVal;
+        return $this->value;
     }
 
-    /**
-     * @return int
-     */
-    public function getLength(): int
-    {
-        return strlen($this->stringVal);
-    }
-
-    /**
-     * @return string
-     */
     public function __toString(): string
     {
         return $this->toNative();
     }
 
-    /**
-     * @param string $stringVal
-     */
-    private function __construct(string $stringVal)
+    public function isEmpty(): bool
     {
-        $this->stringVal = $stringVal;
+        return $this->value === self::NIL;
+    }
+
+    public function getLength(): int
+    {
+        return strlen($this->value);
+    }
+
+    private function __construct(string $value = self::NIL)
+    {
+        $this->value = $value;
     }
 }

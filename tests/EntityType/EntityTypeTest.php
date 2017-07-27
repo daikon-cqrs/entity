@@ -4,9 +4,9 @@ namespace Daikon\Tests\Entity\EntityType;
 
 use Daikon\Entity\EntityType\Attribute;
 use Daikon\Entity\EntityType\Path\TypePath;
+use Daikon\Entity\ValueObject\Text;
 use Daikon\Tests\Entity\Fixture\ArticleType;
 use Daikon\Tests\Entity\TestCase;
-use Daikon\Entity\ValueObject\Text;
 
 class EntityTypeTest extends TestCase
 {
@@ -20,15 +20,10 @@ class EntityTypeTest extends TestCase
         $this->assertEquals("Article", $this->entityType->getName());
     }
 
-    public function testGetPrefix(): void
-    {
-        $this->assertEquals("article", $this->entityType->getPrefix());
-    }
-
     public function testToTypePath(): void
     {
-        $kickerAttr = $this->entityType->getAttribute("paragraphs.paragraph-kicker");
-        $this->assertEquals("paragraphs.paragraph-kicker", (string)TypePath::fromAttribute($kickerAttr));
+        $kickerAttr = $this->entityType->getAttribute("paragraphs.Paragraph-kicker");
+        $this->assertEquals("paragraphs.Paragraph-kicker", (string)TypePath::fromAttribute($kickerAttr));
     }
 
     public function testGetAttribute(): void
@@ -45,7 +40,7 @@ class EntityTypeTest extends TestCase
 
     public function testGetParent(): void
     {
-        $paragraphKicker = $this->entityType->getAttribute("paragraphs.paragraph-kicker");
+        $paragraphKicker = $this->entityType->getAttribute("paragraphs.Paragraph-kicker");
         $paragraphType = $paragraphKicker->getEntityType();
         $this->assertEquals($this->entityType, $paragraphType->getRoot());
         $this->assertEquals($this->entityType, $paragraphType->getParent());
@@ -58,7 +53,7 @@ class EntityTypeTest extends TestCase
     public function testHasAttribute(): void
     {
         $this->assertTrue($this->entityType->hasAttribute("title"));
-        $this->assertTrue($this->entityType->hasAttribute("paragraphs.paragraph-kicker"));
+        $this->assertTrue($this->entityType->hasAttribute("paragraphs.Paragraph-kicker"));
     }
 
     public function testMakeEntity(): void

@@ -2,10 +2,7 @@
 
 namespace Daikon\Entity\EntityType;
 
-use Ds\Vector;
-use Daikon\Entity\Assert\Assert;
 use Daikon\Entity\Assert\Assertion;
-use Daikon\Entity\EntityType\EntityTypeMap;
 use Daikon\Entity\Entity\EntityInterface;
 use Daikon\Entity\Entity\NestedEntity;
 use Daikon\Entity\Entity\TypedEntityInterface;
@@ -17,16 +14,21 @@ use Daikon\Entity\ValueObject\ValueObjectInterface;
 
 class NestedEntityAttribute implements AttributeInterface
 {
-    use AttributeTrait;
+    /**
+     * @var string
+     */
+    private $name;
 
     /**
-     * @var EntityTypeMap $allowedTypes
+     * @var EntityTypeInterface
+     */
+    private $entityType;
+
+    /**
+     * @var EntityTypeMap
      */
     private $allowedTypes;
 
-    /**
-     * {@inheritdoc}
-     */
     public static function define(
         string $name,
         $entityTypeClasses,
@@ -36,17 +38,11 @@ class NestedEntityAttribute implements AttributeInterface
         return new static($name, $entityType, $entityTypeClasses);
     }
 
-    /**
-     * @return EntityTypeMap
-     */
     public function getValueType(): EntityTypeMap
     {
         return $this->allowedTypes;
     }
 
-    /**
-     * {@inheritdoc}
-     */
     public function makeValue($value = null, EntityInterface $parent = null): ValueObjectInterface
     {
         if ($value instanceof NestedEntity) {
@@ -57,15 +53,25 @@ class NestedEntityAttribute implements AttributeInterface
             }
             throw new UnexpectedValue("Given entity-type is not allowed for attribute ".$this->getName());
         }
-        Assert::that($value)->nullOr()->isArray();
-        return is_null($value) ? Nil::makeEmpty() : $this->makeEntity($value, $parent);
+        Assertion::nullOrisArray($value);
+        return is_array($value) ? $this->makeEntity($value, $parent) : Nil::fromNative($value);
     }
 
-    /**
-     * @param string $name
-     * @param EntityTypeInterface $entityType
-     * @param string[] $allowedTypeClasses
-     */
+    public function getName(): string
+    {
+        return $this->name;
+    }
+
+    public function getEntityType(): EntityTypeInterface
+    {
+        return $this->entityType;
+    }
+
+    public function getParent(): ?AttributeInterface
+    {
+        return $this->getEntityType()->getParentAttribute();
+    }
+
     protected function __construct(string $name, EntityTypeInterface $entityType, array $allowedTypeClasses)
     {
         $this->name = $name;
@@ -78,11 +84,6 @@ class NestedEntityAttribute implements AttributeInterface
         }, $allowedTypeClasses));
     }
 
-    /**
-     * @param array $entityValues
-     * @param TypedEntityInterface $parentEntity
-     * @return NestedEntity
-     */
     private function makeEntity(array $entityValues, TypedEntityInterface $parentEntity = null): NestedEntity
     {
         Assertion::keyExists($entityValues, TypedEntityInterface::ENTITY_TYPE);

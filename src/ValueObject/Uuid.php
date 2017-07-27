@@ -2,7 +2,7 @@
 
 namespace Daikon\Entity\ValueObject;
 
-use Assert\Assertion;
+use Daikon\Entity\Assert\Assertion;
 use Ramsey\Uuid\Uuid as RamseyUuid;
 
 final class Uuid implements ValueObjectInterface
@@ -13,73 +13,42 @@ final class Uuid implements ValueObjectInterface
     private const NIL = null;
 
     /**
-     * @var RamseyUuid
+     * @var RamseyUuid|null
      */
-    private $uuid;
+    private $value;
 
-    /**
-     * {@inheritdoc}
-     */
-    public static function fromNative($nativeValue): ValueObjectInterface
+    public static function generate(): self
     {
-        return $nativeValue ? new static(RamseyUuid::fromString($nativeValue)) : self::makeEmpty();
+        return new self(RamseyUuid::uuid4());
     }
 
     /**
-     * {@inheritdoc}
+     * @param string|null $nativeValue
+     * @return self
      */
-    public static function makeEmpty(): ValueObjectInterface
+    public static function fromNative($nativeValue): self
     {
-        return new static(self::NIL);
+        Assertion::nullOrString($nativeValue);
+        return empty($nativeValue) ? new self : new self(RamseyUuid::fromString($nativeValue));
     }
 
-    /**
-     * @return Uuid
-     */
-    public static function generate(): Uuid
-    {
-        return new static(RamseyUuid::uuid4());
-    }
-
-    /**
-     * @param ValueObjectInterface $otherValue
-     *
-     * @return bool
-     */
     public function equals(ValueObjectInterface $otherValue): bool
     {
-        return $this->toNative() === $otherValue->toNative();
+        return $otherValue instanceof self && $this->toNative() === $otherValue->toNative();
     }
 
-    /**
-     * @return bool
-     */
-    public function isEmpty(): bool
-    {
-        return $this->uuid === self::NIL;
-    }
-
-    /**
-     * @return null|string
-     */
     public function toNative(): ?string
     {
-        return $this->isEmpty() ? $this->uuid : $this->uuid->toString();
+        return $this->value ? $this->value->toString() : $this->value;
     }
 
-    /**
-     * @return string
-     */
     public function __toString(): string
     {
-        return $this->isEmpty() ? "null" : $this->uuid->toString();
+        return $this->value ? $this->value->toString() : "null";
     }
 
-    /**
-     * @param RamseyUuid|null $uuid
-     */
-    private function __construct(RamseyUuid $uuid = null)
+    private function __construct(RamseyUuid $value = null)
     {
-        $this->uuid = $uuid;
+        $this->value = $value;
     }
 }

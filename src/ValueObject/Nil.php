@@ -2,50 +2,35 @@
 
 namespace Daikon\Entity\ValueObject;
 
+use Daikon\Entity\Assert\Assertion;
+
 final class Nil implements ValueObjectInterface
 {
-    public static function fromNative($nativeValue): ValueObjectInterface
-    {
-        return new static;
-    }
-
-    public static function makeEmpty(): ValueObjectInterface
-    {
-        return new static;
-    }
-
     /**
-     * @param ValueObjectInterface $otherValue
-     *
-     * @return bool
+     * @param null $nativeValue
+     * @return self
      */
-    public function equals(ValueObjectInterface $otherValue): bool
+    public static function fromNative($nativeValue): self
     {
-        return $otherValue instanceof Nil;
+        Assertion::null($nativeValue);
+        return new self;
     }
 
     /**
-     * @return bool
-     */
-    public function isEmpty(): bool
-    {
-        return true;
-    }
-
-    /**
-     * @return mixed
+     * @return null
      */
     public function toNative()
     {
         return null;
     }
 
+    public function equals(ValueObjectInterface $otherValue): bool
+    {
+        return $otherValue instanceof Nil;
+    }
+
     public function __toString(): string
     {
         return "null";
-    }
-
-    private function __construct()
-    {
     }
 }

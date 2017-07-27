@@ -2,8 +2,8 @@
 
 namespace Daikon\Tests\Entity\ValueObject;
 
-use Daikon\Tests\Entity\TestCase;
 use Daikon\Entity\ValueObject\Url;
+use Daikon\Tests\Entity\TestCase;
 
 final class UrlTest extends TestCase
 {
@@ -17,19 +17,13 @@ final class UrlTest extends TestCase
     public function testToNative(): void
     {
         $this->assertEquals(self::FIXED_URL, $this->url->toNative());
-        $this->assertEquals("", Url::makeEmpty()->toNative());
+        $this->assertEquals("", Url::fromNative(null)->toNative());
     }
 
     public function testEquals(): void
     {
         $this->assertTrue($this->url->equals(Url::fromNative(self::FIXED_URL)));
         $this->assertFalse($this->url->equals(Url::fromNative("http://example.com")));
-    }
-
-    public function testIsEmpty(): void
-    {
-        $this->assertTrue(Url::makeEmpty()->isEmpty());
-        $this->assertFalse($this->url->isEmpty());
     }
 
     public function testToString(): void

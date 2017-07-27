@@ -4,15 +4,15 @@ namespace Daikon\Tests\Entity\EntityType;
 
 use Daikon\Entity\EntityType\EntityTypeInterface;
 use Daikon\Entity\EntityType\NestedEntityAttribute;
+use Daikon\Entity\ValueObject\Nil;
 use Daikon\Tests\Entity\Fixture\Location;
 use Daikon\Tests\Entity\Fixture\LocationType;
 use Daikon\Tests\Entity\TestCase;
-use Daikon\Entity\ValueObject\Nil;
 
 final class NestedEntityAttributeTest extends TestCase
 {
     private const FIXED_DATA = [
-        "@type" => "location",
+        "@type" => "Location",
         "id" => 42,
         "name" => "my poi",
         "street" => "fleetstreet 23",
@@ -34,7 +34,7 @@ final class NestedEntityAttributeTest extends TestCase
 
     public function testMakeValueFromObject(): void
     {
-        $locationType = $this->attribute->getValueType()->get("location");
+        $locationType = $this->attribute->getValueType()->get("Location");
         $locationState = self::FIXED_DATA;
         $locationState["@type"] = $locationType;
         $location = Location::fromNative($locationState);

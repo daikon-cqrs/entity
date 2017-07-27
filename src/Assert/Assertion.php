@@ -3,7 +3,6 @@
 namespace Daikon\Entity\Assert;
 
 use Assert\Assertion as BaseAssertion;
-use Daikon\Entity\EntityType\AttributeInterface;
 use Daikon\Entity\EntityTypeInterface;
 use Daikon\Entity\Error\AssertionFailed;
 
@@ -13,14 +12,6 @@ final class Assertion extends BaseAssertion
 
     protected static $exceptionClass = AssertionFailed::class;
 
-    /**
-     * @param EntityTypeInterface|AttributeInterface $paramContainer
-     * @param string $paramName
-     * @param string|null $message
-     * @param string|null $propertyPath
-     *
-     * @return bool
-     */
     public static function hasParam(
         $paramContainer,
         string $paramName,
@@ -33,14 +24,6 @@ final class Assertion extends BaseAssertion
         return true;
     }
 
-    /**
-     * @param $paramContainer
-     * @param string $paramName
-     * @param string|null $message
-     * @param string|null $propertyPath
-     *
-     * @return bool
-     */
     public static function hasArrayParam(
         $paramContainer,
         string $paramName,
@@ -52,14 +35,7 @@ final class Assertion extends BaseAssertion
         return true;
     }
 
-    /**
-     * Make a string version of a value.
-     *
-     * @param mixed $value
-     *
-     * @return string
-     */
-    protected static function stringify($value)
+    protected static function stringify($value): string
     {
         return parent::stringify($value);
     }

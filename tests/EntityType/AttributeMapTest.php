@@ -5,10 +5,10 @@ namespace Daikon\Tests\Entity\EntityType;
 use Daikon\Entity\EntityType\Attribute;
 use Daikon\Entity\EntityType\AttributeMap;
 use Daikon\Entity\EntityType\EntityTypeInterface;
-use Daikon\Tests\Entity\TestCase;
 use Daikon\Entity\ValueObject\GeoPoint;
 use Daikon\Entity\ValueObject\Integer;
 use Daikon\Entity\ValueObject\Text;
+use Daikon\Tests\Entity\TestCase;
 
 final class AttributeMapTest extends TestCase
 {

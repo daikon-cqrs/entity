@@ -2,9 +2,9 @@
 
 namespace Daikon\Entity\EntityType\Path;
 
+use Daikon\Entity\Error\InvalidTypePath;
 use JMS\Parser\AbstractParser;
 use JMS\Parser\SimpleLexer;
-use Daikon\Entity\Error\InvalidTypePath;
 
 final class TypePathParser extends AbstractParser
 {
@@ -19,7 +19,7 @@ final class TypePathParser extends AbstractParser
     private const TOKEN_REGEX = <<<REGEX
 /
     # type identifier which refers to either an attribute or entity-type
-    ([a-z_]+)
+    ([a-zA-Z_]+)
 
     # path-part-component separator, the two components of a type-path-part being attribute and entity-type.
     |(\.)
@@ -30,25 +30,22 @@ final class TypePathParser extends AbstractParser
 REGEX;
 
     private const TOKEN_MAP = [
-        0 => "T_UNKNOWN",
-        1 => "T_TYPE",
-        2 => "T_COMPONENT_SEP",
-        3 => "T_PART_SEP"
+        0 => 'T_UNKNOWN',
+        1 => 'T_TYPE',
+        2 => 'T_COMPONENT_SEP',
+        3 => 'T_PART_SEP'
     ];
 
-    /**
-     * @return TypePathParser
-     */
     public static function create(): TypePathParser
     {
         $mapToken = function (string $token): array {
             switch ($token) {
-                case ".":
+                case '.':
                     return [ self::T_COMPONENT_SEP, $token ];
-                case "-":
+                case '-':
                     return [ self::T_PART_SEP, $token ];
                 default:
-                    return preg_match("/[a-z_]+/", $token)
+                    return preg_match('/[a-z_]+/', $token)
                         ? [ self::T_TYPE, $token ]
                         : [ self::T_UNKNOWN, $token ];
             }
@@ -57,19 +54,11 @@ REGEX;
         return new TypePathParser($lexer);
     }
 
-    /**
-     * @param string $path
-     * @param string $context
-     * @return TypePath
-     */
     public function parse($path, $context = null): TypePath
     {
         return parent::parse($path, $context);
     }
 
-    /**
-     * @return TypePath
-     */
     public function parseInternal(): TypePath
     {
         $typePathParts = [];
@@ -79,9 +68,6 @@ REGEX;
         return new TypePath($typePathParts);
     }
 
-    /**
-     * @return null|TypePathPart
-     */
     private function consumePathPart(): ?TypePathPart
     {
         if ($this->lexer->isNext(self::T_PART_SEP)) {
@@ -89,18 +75,18 @@ REGEX;
         }
         if (!$this->lexer->isNext(self::T_TYPE)) {
             if ($this->lexer->next !== null) {
-                throw new InvalidTypePath("Expecting T_TYPE at the beginning of a new path-part.");
+                throw new InvalidTypePath('Expecting T_TYPE at the beginning of a new path-part.');
             }
             return null;
         }
         $attribute = $this->match(self::T_TYPE);
-        $type = "";
+        $type = '';
         if ($this->lexer->isNext(self::T_COMPONENT_SEP)) {
             $this->match(self::T_COMPONENT_SEP);
             $type = $this->match(self::T_TYPE);
             if ($this->lexer->next === null) {
                 throw new InvalidTypePath(
-                    "Unexpected T_TYPE at the end of type-path. Type-paths must end pointing towards an attribute."
+                    'Unexpected T_TYPE at the end of type-path. Type-paths must end pointing towards an attribute.'
                 );
             }
         }

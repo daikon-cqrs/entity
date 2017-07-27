@@ -3,16 +3,17 @@
 namespace Daikon\Entity\Entity;
 
 use Daikon\DataStructure\TypedListTrait;
+use Daikon\Entity\Assert\Assertion;
 use Daikon\Entity\ValueObject\ValueObjectInterface;
 use Daikon\Entity\ValueObject\ValueObjectListInterface;
 
-final class NestedEntityList implements ValueObjectListInterface
+final class RelatedEntityList implements ValueObjectListInterface
 {
     use TypedListTrait;
 
     public static function makeEmpty(): self
     {
-        return new self;
+        return new static;
     }
 
     public static function wrap($entities): self
@@ -34,9 +35,7 @@ final class NestedEntityList implements ValueObjectListInterface
 
     public function equals(ValueObjectInterface $otherList): bool
     {
-        if (!$otherList instanceof self) {
-            return false;
-        }
+        Assertion::isInstanceOf($otherList, static::class);
         if (count($this) !== count($otherList)) {
             return false;
         }
@@ -78,6 +77,6 @@ final class NestedEntityList implements ValueObjectListInterface
 
     private function __construct(array $entities = [])
     {
-        $this->init($entities, TypedEntityInterface::class);
+        $this->init($entities, EntityRelationInterface::class);
     }
 }

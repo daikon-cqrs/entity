@@ -3,6 +3,8 @@
 namespace Daikon\Entity\ValueObject;
 
 use Daikon\Entity\Assert\Assertion;
+use DateTimeImmutable;
+use DateTimeZone;
 
 final class Timestamp implements ValueObjectInterface
 {
@@ -17,98 +19,48 @@ final class Timestamp implements ValueObjectInterface
     private const NIL = null;
 
     /**
-     * @var string
+     * @var DateTimeImmutable|null
      */
-    private $timestamp;
+    private $value;
 
-    /**
-     * @var string
-     */
-    private $originalFormat;
-
-    /**
-     * {@inheritdoc}
-     */
-    public static function fromNative($nativeValue): ValueObjectInterface
+    public static function now(): self
     {
-        return $nativeValue ? self::createFromString($nativeValue) : self::makeEmpty();
+        return new Timestamp(new DateTimeImmutable);
     }
 
-    /**
-     * {@inheritdoc}
-     */
-    public static function makeEmpty(): ValueObjectInterface
-    {
-        return new static(self::NIL);
-    }
-
-    /**
-     * @return Timestamp
-     */
-    public static function now(): Timestamp
-    {
-        return new Timestamp(new \DateTimeImmutable);
-    }
-
-    /**
-     * @param string $date
-     * @param string $format
-     * @return Timestamp
-     */
-    public static function createFromString(string $date, string $format = self::NATIVE_FORMAT): Timestamp
+    public static function createFromString(string $date, string $format = self::NATIVE_FORMAT): self
     {
         Assertion::date($date, $format);
-        return new Timestamp(\DateTimeImmutable::createFromFormat($format, $date), $format);
+        return new self(DateTimeImmutable::createFromFormat($format, $date));
     }
 
     /**
-     * {@inheritdoc}
+     * @param string|null $nativeValue
+     * @return self
      */
-    public function equals(ValueObjectInterface $otherValue): bool
+    public static function fromNative($nativeValue): self
     {
-        Assertion::isInstanceOf($otherValue, Timestamp::class);
-        return $this->toNative() === $otherValue->toNative();
+        Assertion::nullOrString($nativeValue);
+        return empty($nativeValue) ? new self : self::createFromString($nativeValue);
     }
 
-    /**
-     * {@inheritdoc}
-     */
-    public function isEmpty(): bool
-    {
-        return $this->timestamp === self::NIL;
-    }
-
-    /**
-     * @return null|string
-     */
     public function toNative(): ?string
     {
-        return !$this->isEmpty() ? $this->timestamp->format(self::NATIVE_FORMAT) : self::NIL;
+        return $this->value === self::NIL ? self::NIL : $this->value->format(self::NATIVE_FORMAT);
     }
 
-    /**
-     * @return string
-     */
-    public function getOriginalFormat(): string
+    public function equals(ValueObjectInterface $otherValue): bool
     {
-        return $this->originalFormat;
+        return $otherValue instanceof self && $this->toNative() === $otherValue->toNative();
     }
 
-    /**
-     * @return string
-     */
     public function __toString(): string
     {
-        return $this->isEmpty() ? "null" : $this->toNative();
+        return $this->value ? $this->toNative() : "null";
     }
 
-    /**
-     * @param \DateTimeImmutable|null $timestamp
-     * @param string $format
-     */
-    private function __construct(\DateTimeImmutable $timestamp = null, string $format = self::NATIVE_FORMAT)
+    private function __construct(DateTimeImmutable $value = null)
     {
-        $this->timestamp = $timestamp ? $timestamp->setTimezone(new \DateTimeZone("UTC")) : $timestamp;
-        $this->originalFormat = $format;
+        $this->value = $value ? $value->setTimezone(new DateTimeZone("UTC")) : $value;
     }
 }

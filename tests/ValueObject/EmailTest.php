@@ -2,8 +2,8 @@
 
 namespace Daikon\Tests\Entity\ValueObject;
 
-use Daikon\Tests\Entity\TestCase;
 use Daikon\Entity\ValueObject\Email;
+use Daikon\Tests\Entity\TestCase;
 
 final class EmailTest extends TestCase
 {
@@ -17,7 +17,7 @@ final class EmailTest extends TestCase
     public function testToNative(): void
     {
         $this->assertEquals(self::EMAIL, $this->email->toNative());
-        $this->assertEquals("", Email::makeEmpty()->toNative());
+        $this->assertEquals("", Email::fromNative(null)->toNative());
     }
 
     public function testEquals(): void
@@ -28,12 +28,6 @@ final class EmailTest extends TestCase
         $this->assertFalse($this->email->equals($differentEmail));
     }
 
-    public function testIsEmpty(): void
-    {
-        $this->assertTrue(Email::makeEmpty()->isEmpty());
-        $this->assertFalse($this->email->isEmpty());
-    }
-
     public function testToString(): void
     {
         $this->assertEquals(self::EMAIL, (string)$this->email);
@@ -41,12 +35,12 @@ final class EmailTest extends TestCase
 
     public function testGetLocalPart(): void
     {
-        $this->assertEquals("peter.parker", $this->email->getLocalPart());
+        $this->assertEquals("peter.parker", (string)$this->email->getLocalPart());
     }
 
     public function testGetDomain(): void
     {
-        $this->assertEquals("example.com", $this->email->getDomain());
+        $this->assertEquals("example.com", (string)$this->email->getDomain());
     }
 
     protected function setUp(): void

@@ -3,7 +3,6 @@
 namespace Daikon\Entity\EntityType;
 
 use Daikon\Entity\Assert\Assert;
-use Daikon\Entity\Assert\Assertion;
 use Daikon\Entity\Entity\EntityInterface;
 use Daikon\Entity\Entity\NestedEntityList;
 use Daikon\Entity\Entity\TypedEntityInterface;
@@ -11,9 +10,6 @@ use Daikon\Entity\ValueObject\ValueObjectInterface;
 
 class NestedEntityListAttribute extends NestedEntityAttribute
 {
-    /**
-     * {@inheritdoc}
-     */
     public function makeValue($value = null, EntityInterface $parent = null): ValueObjectInterface
     {
         if ($value instanceof NestedEntityList) {
@@ -23,17 +19,12 @@ class NestedEntityListAttribute extends NestedEntityAttribute
             return $value;
         }
         Assert::that($value)->nullOr()->isArray();
-        return is_null($value) ? new NestedEntityList : $this->makeEntityList($value, $parent);
+        return is_null($value) ? NestedEntityList::makeEmpty() : $this->makeEntityList($value, $parent);
     }
 
-    /**
-     * @param array $values
-     * @param TypedEntityInterface $parentEntity
-     * @return Vector
-     */
     private function makeEntityList(array $values, TypedEntityInterface $parentEntity = null): NestedEntityList
     {
-        return new NestedEntityList(
+        return NestedEntityList::wrap(
             array_map(function (array $entityValues) use ($parentEntity) {
                 return parent::makeValue($entityValues, $parentEntity);
             }, $values)

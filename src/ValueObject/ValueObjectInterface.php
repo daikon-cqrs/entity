@@ -2,33 +2,12 @@
 
 namespace Daikon\Entity\ValueObject;
 
-interface ValueObjectInterface
+use Daikon\Interop\FromNativeInterface;
+use Daikon\Interop\ToNativeInterface;
+
+interface ValueObjectInterface extends FromNativeInterface, ToNativeInterface
 {
-    /**
-     * @param mixed $nativeValue
-     * @return ValueObjectInterface
-     */
-    public static function fromNative($nativeValue): ValueObjectInterface;
-
-    /**
-     * @return mixed
-     */
-    public function toNative();
-
-    /**
-     * @return ValueObjectInterface
-     */
-    public static function makeEmpty(): ValueObjectInterface;
-
-    /**
-     * @param ValueObjectInterface $otherValue
-     *
-     * @return bool
-     */
     public function equals(ValueObjectInterface $otherValue): bool;
 
-    /**
-     * @return bool
-     */
-    public function isEmpty(): bool;
+    public function __toString(): string;
 }

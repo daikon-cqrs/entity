@@ -8,21 +8,14 @@ final class EntityTypeMap implements \IteratorAggregate, \Countable
 {
     use TypedMapTrait;
 
-    /**
-     * @param EntityTypeInterface[] $entityTypes
-     */
     public function __construct(array $entityTypes = [])
     {
         $this->init(array_reduce($entityTypes, function (array $carry, EntityTypeInterface $entityType) {
-            $carry[$entityType->getPrefix()] = $entityType; // enforce consistent attribute keys
+            $carry[$entityType->getName()] = $entityType; // enforce consistent attribute keys
             return $carry;
         }, []), EntityTypeInterface::class);
     }
 
-    /**
-     * @param string $name
-     * @return null|EntityTypeInterface
-     */
     public function byName(string $name): ?EntityTypeInterface
     {
         foreach ($this as $type) {
@@ -33,10 +26,6 @@ final class EntityTypeMap implements \IteratorAggregate, \Countable
         return null;
     }
 
-    /**
-     * @param string $className
-     * @return null|EntityTypeInterface
-     */
     public function byClassName(string $className): ?EntityTypeInterface
     {
         foreach ($this as $type) {

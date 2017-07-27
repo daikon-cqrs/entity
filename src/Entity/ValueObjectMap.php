@@ -3,6 +3,7 @@
 namespace Daikon\Entity\Entity;
 
 use Daikon\DataStructure\TypedMapTrait;
+use Daikon\Entity\ValueObject\Nil;
 use Daikon\Entity\ValueObject\ValueObjectInterface;
 
 final class ValueObjectMap implements \IteratorAggregate, \Countable
@@ -14,21 +15,11 @@ final class ValueObjectMap implements \IteratorAggregate, \Countable
      */
     private $entity;
 
-    /**
-     * @param TypedEntityInterface $entity
-     * @param array $entityState
-     * @return ValueObjectMap
-     */
     public static function forEntity(TypedEntityInterface $entity, array $entityState = []): self
     {
         return new static($entity, $entityState);
     }
 
-    /**
-     * @param string $attrName
-     * @param mixed $value
-     * @return self
-     */
     public function withValue(string $attrName, $value): self
     {
         $clonedMap = clone $this;
@@ -37,10 +28,6 @@ final class ValueObjectMap implements \IteratorAggregate, \Countable
         return $clonedMap;
     }
 
-    /**
-     * @param mixed[] $values
-     * @return self
-     */
     public function withValues(array $values): self
     {
         $clonedMap = clone $this;
@@ -51,9 +38,6 @@ final class ValueObjectMap implements \IteratorAggregate, \Countable
         return $clonedMap;
     }
 
-    /**
-     * @return mixed[]
-     */
     public function toArray(): array
     {
         $array = [];
@@ -63,10 +47,6 @@ final class ValueObjectMap implements \IteratorAggregate, \Countable
         return $array;
     }
 
-    /**
-     * @param ValueObjectMap $valueMap
-     * @return ValueObjectMap
-     */
     public function diff(ValueObjectMap $valueMap): ValueObjectMap
     {
         $clonedMap = clone $this;
@@ -78,16 +58,16 @@ final class ValueObjectMap implements \IteratorAggregate, \Countable
         return $clonedMap;
     }
 
-    /**
-     * @param TypedEntityInterface $entity
-     * @param mixed[] $values
-     */
     private function __construct(TypedEntityInterface $entity, array $values = [])
     {
         $this->entity = $entity;
         $valueObjects = [];
         foreach ($entity->getEntityType()->getAttributes() as $attrName => $attribute) {
-            $valueObjects[$attrName] = $attribute->makeValue($values[$attrName] ?? null, $this->entity);
+            if (array_key_exists($attrName, $values)) {
+                $valueObjects[$attrName] = $attribute->makeValue($values[$attrName], $this->entity);
+            } else {
+                $valueObjects[$attrName] = Nil::fromNative(null);
+            }
         }
         $this->init($valueObjects, ValueObjectInterface::class);
     }

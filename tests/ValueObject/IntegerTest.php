@@ -2,8 +2,8 @@
 
 namespace Daikon\Tests\Entity\ValueObject;
 
-use Daikon\Tests\Entity\TestCase;
 use Daikon\Entity\ValueObject\Integer;
+use Daikon\Tests\Entity\TestCase;
 
 final class IntegerTest extends TestCase
 {
@@ -17,7 +17,7 @@ final class IntegerTest extends TestCase
     public function testToNative(): void
     {
         $this->assertEquals(self::FIXED_NUM, $this->integer->toNative());
-        $this->assertNull(Integer::makeEmpty()->toNative());
+        $this->assertNull(Integer::fromNative(null)->toNative());
     }
 
     public function testEquals(): void
@@ -26,12 +26,6 @@ final class IntegerTest extends TestCase
         $this->assertTrue($this->integer->equals($sameNumber));
         $differentNumber = Integer::fromNative(42);
         $this->assertFalse($this->integer->equals($differentNumber));
-    }
-
-    public function testIsEmpty(): void
-    {
-        $this->assertTrue(Integer::makeEmpty()->isEmpty());
-        $this->assertFalse($this->integer->isEmpty());
     }
 
     public function testToString(): void

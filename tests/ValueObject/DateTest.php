@@ -2,8 +2,8 @@
 
 namespace Daikon\Tests\Entity\ValueObject;
 
-use Daikon\Tests\Entity\TestCase;
 use Daikon\Entity\ValueObject\Date;
+use Daikon\Tests\Entity\TestCase;
 
 final class DateTest extends TestCase
 {
@@ -17,7 +17,7 @@ final class DateTest extends TestCase
     public function testToNative(): void
     {
         $this->assertEquals(self::DATE, $this->date->toNative());
-        $this->assertNull(Date::makeEmpty()->toNative());
+        $this->assertNull(Date::fromNative(null)->toNative());
     }
 
     public function testEquals(): void
@@ -30,25 +30,10 @@ final class DateTest extends TestCase
         $this->assertFalse($this->date->equals($differentDate));
     }
 
-    public function testIsEmpty(): void
-    {
-        $this->assertTrue(Date::makeEmpty()->isEmpty());
-        $this->assertFalse($this->date->isEmpty());
-    }
-
     public function testToString(): void
     {
         $this->assertEquals(self::DATE, (string)$this->date);
-        $this->assertEquals("", (string)Date::makeEmpty());
-    }
-
-    public function testGetOriginalFormat(): void
-    {
-        $this->assertEquals(Date::NATIVE_FORMAT, $this->date->getOriginalFormat());
-        $this->assertEquals(
-            "Y-m-d\\TH:i:s",
-            Date::createFromString("2016-07-04T19:27:07", "Y-m-d\\TH:i:s")->getOriginalFormat()
-        );
+        $this->assertEquals("", (string)Date::fromNative(null));
     }
 
     protected function setUp(): void

@@ -35,37 +35,17 @@ final class NestedEntityTest extends TestCase
         $this->assertFalse($this->nestedEntity->equals($unequalEntity));
     }
 
-    public function testIsEmpty(): void
-    {
-        $this->assertTrue($this->nestedEntityType->makeEntity()->isEmpty());
-        $this->assertFalse($this->nestedEntity->isEmpty());
-    }
-
     public function testToString(): void
     {
         $this->assertEquals("Paragraph:42", (string)$this->nestedEntity);
     }
-
-    /**
-     * @expectedException \Daikon\Entity\Error\AssertionFailed
-     */
-    public function testInvalidTypeComparison(): void
-    {
-        /* @var NestedEntity $differentEntity */
-        $differentEntity = (new ArticleType)
-            ->getAttribute("workshop_location")
-            ->getValueType()
-            ->get("location")
-            ->makeEntity([ "id" => 23, "name" => "My POI"]);
-        $this->nestedEntity->equals($differentEntity);
-    } // @codeCoverageIgnore
 
     protected function setUp(): void
     {
         $articleType = new ArticleType;
         $this->nestedEntityType = $articleType->getAttribute("paragraphs")
             ->getValueType()
-            ->get("paragraph");
+            ->get("Paragraph");
         $this->nestedEntity = $this->nestedEntityType->makeEntity(self::FIXED_DATA);
     }
 }

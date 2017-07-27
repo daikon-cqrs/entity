@@ -4,7 +4,6 @@ namespace Daikon\Tests\Entity\Fixture;
 
 use Daikon\Entity\Entity\Entity;
 use Daikon\Entity\Entity\NestedEntityList;
-use Daikon\Entity\ValueObject\Integer;
 use Daikon\Entity\ValueObject\Text;
 use Daikon\Entity\ValueObject\Url;
 use Daikon\Entity\ValueObject\Uuid;

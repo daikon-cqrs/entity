@@ -2,8 +2,8 @@
 
 namespace Daikon\Tests\Entity\ValueObject;
 
-use Daikon\Tests\Entity\TestCase;
 use Daikon\Entity\ValueObject\GeoPoint;
+use Daikon\Tests\Entity\TestCase;
 
 final class GeoPointTest extends TestCase
 {
@@ -19,7 +19,7 @@ final class GeoPointTest extends TestCase
 
     public function testToNative(): void
     {
-        $this->assertEquals(GeoPoint::NULL_ISLAND, GeoPoint::makeEmpty()->toNative());
+        $this->assertEquals(GeoPoint::NULL_ISLAND, GeoPoint::fromNative(null)->toNative());
         $this->assertEquals(self::COORDS, $this->geoPoint->toNative());
     }
 
@@ -29,12 +29,6 @@ final class GeoPointTest extends TestCase
         $this->assertTrue($this->geoPoint->equals($samePoint));
         $differentPoint = GeoPoint::fromNative([ "lon" => 12.11716, "lat" => 49.248 ]);
         $this->assertFalse($this->geoPoint->equals($differentPoint));
-    }
-
-    public function testIsEmpty(): void
-    {
-        $this->assertFalse($this->geoPoint->isEmpty());
-        $this->assertTrue(GeoPoint::makeEmpty()->isEmpty());
     }
 
     public function testGetLon()

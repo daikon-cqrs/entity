@@ -2,9 +2,9 @@
 
 namespace Daikon\Entity\Entity\Path;
 
+use Daikon\Entity\Error\InvalidValuePath;
 use JMS\Parser\AbstractParser;
 use JMS\Parser\SimpleLexer;
-use Daikon\Entity\Error\InvalidValuePath;
 
 final class ValuePathParser extends AbstractParser
 {
@@ -34,7 +34,7 @@ final class ValuePathParser extends AbstractParser
     private const TOKEN_REGEX = <<<REGEX
 /
     # type identifier which refers to an attribute
-    ([a-z_]+)
+    ([a-zA-Z_]+)
 
     # value position
     |(\d+)

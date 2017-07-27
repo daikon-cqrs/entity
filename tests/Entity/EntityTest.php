@@ -2,8 +2,8 @@
 
 namespace Daikon\Tests\Entity\Entity;
 
-use Daikon\Entity\EntityType\Attribute\NestedEntityListAttribute;
 use Daikon\Entity\Entity\Path\ValuePath;
+use Daikon\Entity\EntityType\Attribute\NestedEntityListAttribute;
 use Daikon\Tests\Entity\Fixture\Article;
 use Daikon\Tests\Entity\Fixture\ArticleType;
 use Daikon\Tests\Entity\Fixture\CategoryRelation;
@@ -16,7 +16,7 @@ class EntityTest extends TestCase
     private const FIXED_UUID = "941b4e51-e524-4e5d-8c17-1ef96585abc3";
 
     private const FIXED_INPUT = [
-        "@type" => "article",
+        "@type" => "Article",
         "id" => "525b4e51-e524-4e5d-8c17-1ef96585cbd3",
         "created" => "2017-04-02T23:42:05.000000+00:00",
         "title" => "hello world!",
@@ -24,14 +24,14 @@ class EntityTest extends TestCase
         "feedback_mail" => "info@example.com",
         "average_voting" => 23.42,
         "workshop_location" => [
-            "@type" => "location",
+            "@type" => "Location",
             "id" => 42,
             "coords" => [ "lat" => 52.5119, "lon" => 13.3084 ]
         ],
         "workshop_date" => "2017-05-23",
         "workshop_cancelled" => true,
         "paragraphs" => [[
-            "@type" => "paragraph",
+            "@type" => "Paragraph",
             "id" => 23,
             "kicker" => "this is the kicker baby!",
             "content" => "hell yeah!"
@@ -39,7 +39,7 @@ class EntityTest extends TestCase
     ];
 
     private const EXPECTED_OUTPUT = [
-        "@type" => "article",
+        "@type" => "Article",
         "id" => "525b4e51-e524-4e5d-8c17-1ef96585cbd3",
         "created" => "2017-04-02T23:42:05.000000+00:00",
         "title" => "hello world!",
@@ -47,7 +47,7 @@ class EntityTest extends TestCase
         "feedback_mail" => "info@example.com",
         "average_voting" => 23.42,
         "workshop_location" => [
-            "@type" => "location",
+            "@type" => "Location",
             "id" => 42,
             "coords" => [ "lat" => 52.5119, "lon" => 13.3084 ],
             "name" => "",
@@ -59,7 +59,7 @@ class EntityTest extends TestCase
         "workshop_date" => "2017-05-23",
         "workshop_cancelled" => true,
         "paragraphs" => [[
-            "@type" => "paragraph",
+            "@type" => "Paragraph",
             "id" => 23,
             "kicker" => "this is the kicker baby!",
             "content" => "hell yeah!"
@@ -76,7 +76,7 @@ class EntityTest extends TestCase
         $articleType = $this->entity->getEntityType();
         /* @var NestedEntityListAttribute $paragraphs */
         $paragraphs = $articleType->getAttribute("paragraphs");
-        $kickerAttr = $paragraphs->getValueType()->get("paragraph")->getAttribute("kicker");
+        $kickerAttr = $paragraphs->getValueType()->get("Paragraph")->getAttribute("kicker");
         $this->assertEquals($articleType, $kickerAttr->getParent()->getEntityType());
     }
 
@@ -116,7 +116,7 @@ class EntityTest extends TestCase
         $diffData = [
             "title" => "This is different",
             "paragraphs" => [[
-                "@type" => "paragraph",
+                "@type" => "Paragraph",
                 "id" => 42,
                 "kicker" => "hey ho!",
                 "content" => "this is the content!"
@@ -150,9 +150,9 @@ class EntityTest extends TestCase
         );
     }
 
-    public function testToArray(): void
+    public function testToNative(): void
     {
-        $this->assertEquals(self::EXPECTED_OUTPUT, $this->entity->toArray());
+        $this->assertEquals(self::EXPECTED_OUTPUT, $this->entity->toNative());
     }
 
     public function testRoot(): void
@@ -163,7 +163,7 @@ class EntityTest extends TestCase
             "title" => "Hello world!",
             "id" => self::FIXED_UUID,
             "paragraphs" => [ [
-                "@type" => "paragraph",
+                "@type" => "Paragraph",
                 "id" => 42,
                 "kicker" => "hey ho!",
                 "content" => "this is the content!"
@@ -182,7 +182,7 @@ class EntityTest extends TestCase
             "title" => "Hello world!",
             "id" => self::FIXED_UUID,
             "paragraphs" => [[
-                "@type" => "paragraph",
+                "@type" => "Paragraph",
                 "id" => 42,
                 "kicker" => "hey ho!",
                 "content" => "this is the content!"

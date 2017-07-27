@@ -2,8 +2,8 @@
 
 namespace Daikon\Tests\Entity\ValueObject;
 
-use Daikon\Tests\Entity\TestCase;
 use Daikon\Entity\ValueObject\Timestamp;
+use Daikon\Tests\Entity\TestCase;
 
 final class TimestampTest extends TestCase
 {
@@ -19,7 +19,7 @@ final class TimestampTest extends TestCase
     public function testToNative(): void
     {
         $this->assertEquals(self::FIXED_TIMESTAMP_UTC, $this->timestamp->toNative());
-        $this->assertEquals(null, Timestamp::makeEmpty()->toNative());
+        $this->assertEquals(null, Timestamp::fromNative(null)->toNative());
     }
 
     public function testEquals(): void
@@ -28,18 +28,6 @@ final class TimestampTest extends TestCase
         $this->assertTrue($this->timestamp->equals($equalTs));
         $differentTs = Timestamp::createFromString("2017-08-04T17:27:07", "Y-m-d\\TH:i:s");
         $this->assertFalse($this->timestamp->equals($differentTs));
-    }
-
-    public function testIsEmpty(): void
-    {
-        $this->assertTrue(Timestamp::makeEmpty()->isEmpty());
-        $this->assertFalse($this->timestamp->isEmpty());
-    }
-
-    public function testGetOriginalFormat(): void
-    {
-        $format = Timestamp::createFromString("2017-08-04T19:27:07", "Y-m-d\\TH:i:s")->getOriginalFormat();
-        $this->assertEquals("Y-m-d\\TH:i:s", $format);
     }
 
     public function testToString()

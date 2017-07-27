@@ -2,8 +2,8 @@
 
 namespace Daikon\Tests\Entity\ValueObject;
 
-use Daikon\Tests\Entity\TestCase;
 use Daikon\Entity\ValueObject\Uuid;
+use Daikon\Tests\Entity\TestCase;
 
 final class UuidTest extends TestCase
 {
@@ -16,7 +16,7 @@ final class UuidTest extends TestCase
 
     public function testToNative(): void
     {
-        $this->assertEquals(null, Uuid::makeEmpty()->toNative());
+        $this->assertEquals(null, Uuid::fromNative(null)->toNative());
         $this->assertEquals(self::FIXED_UUID, $this->uuid->toNative());
     }
 
@@ -24,13 +24,7 @@ final class UuidTest extends TestCase
     {
         $this->assertTrue($this->uuid->equals(Uuid::fromNative(self::FIXED_UUID)));
         $this->assertFalse($this->uuid->equals(Uuid::generate()));
-        $this->assertFalse($this->uuid->equals(Uuid::makeEmpty()));
-    }
-
-    public function testIsEmpty(): void
-    {
-        $this->assertFalse($this->uuid->isEmpty());
-        $this->assertTrue(Uuid::makeEmpty()->isEmpty());
+        $this->assertFalse($this->uuid->equals(Uuid::fromNative(null)));
     }
 
     public function testString(): void

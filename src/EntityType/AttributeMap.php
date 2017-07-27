@@ -8,9 +8,6 @@ final class AttributeMap implements \IteratorAggregate, \Countable
 {
     use TypedMapTrait;
 
-    /**
-     * @param AttributeInterface[] $attributes
-     */
     public function __construct(array $attributes = [])
     {
         $this->init(array_reduce($attributes, function (array $carry, AttributeInterface $attribute) {
@@ -19,11 +16,6 @@ final class AttributeMap implements \IteratorAggregate, \Countable
         }, []), AttributeInterface::class);
     }
 
-    /**
-     * Returns the type"s attribute collection filter by a set of attribute classes-names.
-     * @param string[] $classNames A list of attribute-classes to filter for.
-     * @return self
-     */
     public function byClassNames(array $classNames = []): self
     {
         $clonedMap = clone $this;

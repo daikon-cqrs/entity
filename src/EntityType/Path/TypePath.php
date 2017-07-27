@@ -2,8 +2,8 @@
 
 namespace Daikon\Entity\EntityType\Path;
 
-use Ds\Vector;
 use Daikon\Entity\EntityType\AttributeInterface;
+use Ds\Vector;
 
 final class TypePath implements \IteratorAggregate, \Countable
 {
@@ -26,7 +26,7 @@ final class TypePath implements \IteratorAggregate, \Countable
         $pathLeaf = new TypePathPart($attribute->getName());
         $typePath = new TypePath([ $pathLeaf ]);
         while ($currentAttribute) {
-            $pathPart = new TypePathPart($currentAttribute->getName(), $currentType->getPrefix());
+            $pathPart = new TypePathPart($currentAttribute->getName(), $currentType->getName());
             $typePath = $typePath->push($pathPart);
             $currentAttribute = $currentAttribute->getParent();
             if ($currentAttribute) {
@@ -36,9 +36,6 @@ final class TypePath implements \IteratorAggregate, \Countable
         return $typePath->reverse();
     }
 
-    /**
-     * @param iterable|TypePathPart[] $pathParts
-     */
     public function __construct(iterable $pathParts = null)
     {
         $this->internalVector = new Vector(
@@ -48,10 +45,6 @@ final class TypePath implements \IteratorAggregate, \Countable
         );
     }
 
-    /**
-     * @param TypePathPart $pathPart
-     * @return TypePath
-     */
     public function push(TypePathPart $pathPart): TypePath
     {
         $clonedPath = clone $this;
@@ -59,9 +52,6 @@ final class TypePath implements \IteratorAggregate, \Countable
         return $clonedPath;
     }
 
-    /**
-     * @return TypePath
-     */
     public function reverse(): TypePath
     {
         $clonedPath = clone $this;
@@ -69,25 +59,16 @@ final class TypePath implements \IteratorAggregate, \Countable
         return $clonedPath;
     }
 
-    /**
-     * @return int
-     */
     public function count(): int
     {
         return count($this->internalVector);
     }
 
-    /**
-     * @return \Iterator
-     */
     public function getIterator(): \Iterator
     {
         return $this->internalVector->getIterator();
     }
 
-    /**
-     * @return string
-     */
     public function __toString(): string
     {
         $flattenPath = function (string $path, TypePathPart $pathPart): string {
