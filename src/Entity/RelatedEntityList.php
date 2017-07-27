@@ -28,14 +28,17 @@ final class RelatedEntityList implements ValueObjectListInterface
 
     public function toNative(): array
     {
-        return $this->compositeVector->map(static function (ValueObjectInterface $entity): array {
+        return $this->compositeVector->map(function (ValueObjectInterface $entity): array {
             return $entity->toNative();
         })->toArray();
     }
 
     public function equals(ValueObjectInterface $otherList): bool
     {
-        Assertion::isInstanceOf($otherList, static::class);
+        /** RelatedEntityList $otherList */
+        if (!$otherList instanceof self) {
+            return false;
+        }
         if (count($this) !== count($otherList)) {
             return false;
         }

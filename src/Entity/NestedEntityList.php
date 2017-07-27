@@ -34,6 +34,7 @@ final class NestedEntityList implements ValueObjectListInterface
 
     public function equals(ValueObjectInterface $otherList): bool
     {
+        /** NestedEntityList $otherList */
         if (!$otherList instanceof self) {
             return false;
         }
