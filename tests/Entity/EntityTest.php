@@ -49,12 +49,7 @@ class EntityTest extends TestCase
         "workshop_location" => [
             "@type" => "Location",
             "id" => 42,
-            "coords" => [ "lat" => 52.5119, "lon" => 13.3084 ],
-            "name" => "",
-            "street" => "",
-            "postal_code" => "",
-            "city" => "",
-            "country" => ""
+            "coords" => [ "lat" => 52.5119, "lon" => 13.3084 ]
         ],
         "workshop_date" => "2017-05-23",
         "workshop_cancelled" => true,

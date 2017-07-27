@@ -16,7 +16,7 @@ interface EntityInterface extends FromNativeInterface, ToNativeInterface
 
     public function withValues(array $values): EntityInterface;
 
-    public function get(string $valuePath): ValueObjectInterface;
+    public function get(string $valuePath): ?ValueObjectInterface;
 
     public function has(string $attributeName): bool;
 }

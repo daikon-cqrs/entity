@@ -78,21 +78,21 @@ abstract class Entity implements TypedEntityInterface
 
     public function has(string $attributeName): bool
     {
-        if (!$this->valueObjectMap->has($attributeName)) {
+        if (!$this->type->hasAttribute($attributeName)) {
             throw new UnknownAttribute("Attribute '$attributeName' is not known to the entity's value-map. ");
         }
-        return !$this->valueObjectMap->get($attributeName) instanceof Nil;
+        return $this->valueObjectMap->has($attributeName);
     }
 
-    public function get(string $valuePath): ValueObjectInterface
+    public function get(string $valuePath): ?ValueObjectInterface
     {
         if (mb_strpos($valuePath, ".")) {
             return $this->evaluatePath($valuePath);
         }
-        if (!$this->valueObjectMap->has($valuePath)) {
+        if (!$this->type->hasAttribute($valuePath)) {
             throw new UnknownAttribute("Attribute '$valuePath' is unknown by type ".$this->getEntityType()->getName());
         }
-        return $this->valueObjectMap->get($valuePath);
+        return $this->valueObjectMap->has($valuePath) ? $this->valueObjectMap->get($valuePath) : null;
     }
 
     public function getEntityRoot(): TypedEntityInterface
@@ -124,7 +124,7 @@ abstract class Entity implements TypedEntityInterface
         $this->pathParser = ValuePathParser::create();
     }
 
-    private function evaluatePath($valuePath): ValueObjectInterface
+    private function evaluatePath($valuePath): ?ValueObjectInterface
     {
         $value = null;
         $entity = $this;

@@ -52,7 +52,7 @@ final class ValueObjectMap implements \IteratorAggregate, \Countable
         $clonedMap = clone $this;
         $clonedMap->compositeMap = $this->compositeMap->filter(
             function (string $attrName, ValueObjectInterface $value) use ($valueMap): bool {
-                return !$value->equals($valueMap->get($attrName));
+                return !$valueMap->has($attrName) || !$value->equals($valueMap->get($attrName));
             }
         );
         return $clonedMap;
@@ -65,8 +65,6 @@ final class ValueObjectMap implements \IteratorAggregate, \Countable
         foreach ($entity->getEntityType()->getAttributes() as $attrName => $attribute) {
             if (array_key_exists($attrName, $values)) {
                 $valueObjects[$attrName] = $attribute->makeValue($values[$attrName], $this->entity);
-            } else {
-                $valueObjects[$attrName] = Nil::fromNative(null);
             }
         }
         $this->init($valueObjects, ValueObjectInterface::class);
