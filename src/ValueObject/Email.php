@@ -23,9 +23,9 @@ final class Email implements ValueObjectInterface
 
     /**
      * @param string|null $nativeValue
-     * @return self
+     * @return Email
      */
-    public static function fromNative($nativeValue): self
+    public static function fromNative($nativeValue): Email
     {
         Assertion::nullOrString($nativeValue);
         if (empty($nativeValue)) {
@@ -46,7 +46,7 @@ final class Email implements ValueObjectInterface
 
     public function equals(ValueObjectInterface $otherValue): bool
     {
-        return $otherValue instanceof self && $this->toNative() === $otherValue->toNative();
+        return $otherValue instanceof Email && $this->toNative() === $otherValue->toNative();
     }
 
     public function __toString(): string

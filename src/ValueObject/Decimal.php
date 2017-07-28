@@ -16,10 +16,10 @@ final class Decimal implements ValueObjectInterface
      */
     private $value;
 
-    public static function fromNative($nativeValue): self
+    public static function fromNative($nativeValue): Decimal
     {
         Assertion::nullOrFloat($nativeValue, "Trying to create value from invalid value.");
-        return is_float($nativeValue) ? new static($nativeValue) : new self;
+        return is_float($nativeValue) ? new Decimal($nativeValue) : new Decimal;
     }
 
     public function toNative(): ?float
@@ -29,7 +29,7 @@ final class Decimal implements ValueObjectInterface
 
     public function equals(ValueObjectInterface $otherValue): bool
     {
-        return $otherValue instanceof self && $this->toNative() === $otherValue->toNative();
+        return $otherValue instanceof Decimal && $this->toNative() === $otherValue->toNative();
     }
 
     public function __toString(): string

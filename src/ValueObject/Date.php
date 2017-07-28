@@ -22,7 +22,7 @@ final class Date implements ValueObjectInterface
      */
     private $value;
 
-    public static function today(): self
+    public static function today(): Date
     {
         return new static(new DateTimeImmutable);
     }
@@ -30,14 +30,14 @@ final class Date implements ValueObjectInterface
     public static function createFromString(string $value, string $format = self::NATIVE_FORMAT): self
     {
         Assertion::date($value, $format);
-        return new self(DateTimeImmutable::createFromFormat($format, $value));
+        return new Date(DateTimeImmutable::createFromFormat($format, $value));
     }
 
     /**
      * @param string|null $nativeValue
      * @return self
      */
-    public static function fromNative($nativeValue): self
+    public static function fromNative($nativeValue): Date
     {
         Assertion::nullOrString($nativeValue);
         return empty($nativeValue) ? new self : self::createFromString($nativeValue);
@@ -50,7 +50,7 @@ final class Date implements ValueObjectInterface
 
     public function equals(ValueObjectInterface $otherValue): bool
     {
-        return $otherValue instanceof self && $this->toNative() === $otherValue->toNative();
+        return $otherValue instanceof Date && $this->toNative() === $otherValue->toNative();
     }
 
     public function __toString(): string

@@ -17,24 +17,24 @@ final class Uuid implements ValueObjectInterface
      */
     private $value;
 
-    public static function generate(): self
+    public static function generate(): Uuid
     {
-        return new self(RamseyUuid::uuid4());
+        return new Uuid(RamseyUuid::uuid4());
     }
 
     /**
      * @param string|null $nativeValue
-     * @return self
+     * @return Uuid
      */
-    public static function fromNative($nativeValue): self
+    public static function fromNative($nativeValue): Uuid
     {
         Assertion::nullOrString($nativeValue);
-        return empty($nativeValue) ? new self : new self(RamseyUuid::fromString($nativeValue));
+        return empty($nativeValue) ? new Uuid : new Uuid(RamseyUuid::fromString($nativeValue));
     }
 
     public function equals(ValueObjectInterface $otherValue): bool
     {
-        return $otherValue instanceof self && $this->toNative() === $otherValue->toNative();
+        return $otherValue instanceof Uuid && $this->toNative() === $otherValue->toNative();
     }
 
     public function toNative(): ?string

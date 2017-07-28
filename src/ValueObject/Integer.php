@@ -18,12 +18,12 @@ final class Integer implements ValueObjectInterface
 
     /**
      * @param int|null $nativeValue
-     * @return self
+     * @return Integer
      */
-    public static function fromNative($nativeValue): self
+    public static function fromNative($nativeValue): Integer
     {
         Assertion::nullOrInteger($nativeValue);
-        return new self($nativeValue);
+        return new Integer($nativeValue);
     }
 
     public function toNative(): ?int
@@ -33,7 +33,7 @@ final class Integer implements ValueObjectInterface
 
     public function equals(ValueObjectInterface $otherValue): bool
     {
-        return $otherValue instanceof self && $this->toNative() === $otherValue->toNative();
+        return $otherValue instanceof Integer && $this->toNative() === $otherValue->toNative();
     }
 
     public function __toString(): string

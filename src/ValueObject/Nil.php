@@ -8,12 +8,12 @@ final class Nil implements ValueObjectInterface
 {
     /**
      * @param null $nativeValue
-     * @return self
+     * @return Nil
      */
-    public static function fromNative($nativeValue): self
+    public static function fromNative($nativeValue): Nil
     {
         Assertion::null($nativeValue);
-        return new self;
+        return new Nil;
     }
 
     /**

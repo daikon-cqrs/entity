@@ -28,18 +28,18 @@ final class GeoPoint implements ValueObjectInterface
      * @param float[] $point
      * @return GeoPoint
      */
-    public static function fromArray(array $point): self
+    public static function fromArray(array $point): GeoPoint
     {
         Assertion::keyExists($point, "lon");
         Assertion::keyExists($point, "lat");
-        return new self(Decimal::fromNative($point['lon']), Decimal::fromNative($point['lat']));
+        return new GeoPoint(Decimal::fromNative($point['lon']), Decimal::fromNative($point['lat']));
     }
 
     /**
      * @param null|float[] $nativeValue
      * @return GeoPoint
      */
-    public static function fromNative($nativeValue): self
+    public static function fromNative($nativeValue): GeoPoint
     {
         Assertion::nullOrIsArray($nativeValue);
         return is_array($nativeValue) ? self::fromArray($nativeValue) : self::fromArray(self::NULL_ISLAND);
@@ -55,7 +55,7 @@ final class GeoPoint implements ValueObjectInterface
 
     public function equals(ValueObjectInterface $otherValue): bool
     {
-        return $otherValue instanceof self && $this->toNative() == $otherValue->toNative();
+        return $otherValue instanceof GeoPoint && $this->toNative() == $otherValue->toNative();
     }
 
     public function __toString(): string

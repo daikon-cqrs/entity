@@ -23,25 +23,25 @@ final class Timestamp implements ValueObjectInterface
      */
     private $value;
 
-    public static function now(): self
+    public static function now(): Timestamp
     {
         return new Timestamp(new DateTimeImmutable);
     }
 
-    public static function createFromString(string $date, string $format = self::NATIVE_FORMAT): self
+    public static function createFromString(string $date, string $format = self::NATIVE_FORMAT): Timestamp
     {
         Assertion::date($date, $format);
-        return new self(DateTimeImmutable::createFromFormat($format, $date));
+        return new Timestamp(DateTimeImmutable::createFromFormat($format, $date));
     }
 
     /**
      * @param string|null $nativeValue
-     * @return self
+     * @return Timestamp
      */
-    public static function fromNative($nativeValue): self
+    public static function fromNative($nativeValue): Timestamp
     {
         Assertion::nullOrString($nativeValue);
-        return empty($nativeValue) ? new self : self::createFromString($nativeValue);
+        return empty($nativeValue) ? new Timestamp : self::createFromString($nativeValue);
     }
 
     public function toNative(): ?string

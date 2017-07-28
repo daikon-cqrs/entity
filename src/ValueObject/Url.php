@@ -48,12 +48,12 @@ final class Url implements ValueObjectInterface
 
     /**
      * @param string|null $nativeValue
-     * @return self
+     * @return Url
      */
-    public static function fromNative($nativeValue): self
+    public static function fromNative($nativeValue): Url
     {
-        Assertion::nullOrString($nativeValue);
-        return empty($nativeValue) ? new self : new self($nativeValue);
+        Assertion::nullOrUrl($nativeValue);
+        return empty($nativeValue) ? new Url : new Url($nativeValue);
     }
 
     public function toNative(): string
@@ -74,7 +74,7 @@ final class Url implements ValueObjectInterface
 
     public function equals(ValueObjectInterface $otherValue): bool
     {
-        return $otherValue instanceof self && $otherValue->toNative() === $this->toNative();
+        return $otherValue instanceof Url && $otherValue->toNative() === $this->toNative();
     }
 
     public function __toString(): string
@@ -114,11 +114,11 @@ final class Url implements ValueObjectInterface
 
     private function __construct(string $url = self::NIL)
     {
-        $this->host = Text::fromNative(parse_url($url, PHP_URL_HOST));
-        $this->scheme = Text::fromNative(parse_url($url, PHP_URL_SCHEME));
-        $this->query = Text::fromNative(parse_url($url, PHP_URL_QUERY));
-        $this->port = Integer::fromNative(parse_url($url, PHP_URL_PORT));
-        $this->fragment = Text::fromNative(parse_url($url, PHP_URL_FRAGMENT));
+        $this->host = Text::fromNative(parse_url($url, PHP_URL_HOST) ?: self::NIL);
+        $this->scheme = Text::fromNative(parse_url($url, PHP_URL_SCHEME) ?: self::NIL);
+        $this->query = Text::fromNative(parse_url($url, PHP_URL_QUERY) ?: self::NIL);
+        $this->port = Integer::fromNative(parse_url($url, PHP_URL_PORT) ?: null);
+        $this->fragment = Text::fromNative(parse_url($url, PHP_URL_FRAGMENT) ?: self::NIL);
         $this->path = Text::fromNative(parse_url($url, PHP_URL_PATH) ?? self::DEFAULT_PATH);
     }
 }

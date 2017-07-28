@@ -15,10 +15,10 @@ final class Boolean implements ValueObjectInterface
      * @param bool $nativeValue
      * @return self
      */
-    public static function fromNative($nativeValue): self
+    public static function fromNative($nativeValue): Boolean
     {
         Assertion::boolean($nativeValue);
-        return new self($nativeValue);
+        return new Boolean($nativeValue);
     }
 
     public function toNative(): bool
@@ -28,7 +28,7 @@ final class Boolean implements ValueObjectInterface
 
     public function equals(ValueObjectInterface $otherValue): bool
     {
-        return $otherValue instanceof self && $this->toNative() === $otherValue->toNative();
+        return $otherValue instanceof Boolean && $this->toNative() === $otherValue->toNative();
     }
 
     public function __toString(): string
@@ -46,7 +46,7 @@ final class Boolean implements ValueObjectInterface
         return $this->value === false;
     }
 
-    public function negate(): self
+    public function negate(): Boolean
     {
         $clone = clone $this;
         $clone->value = !$this->value;

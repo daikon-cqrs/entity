@@ -18,17 +18,17 @@ final class Text implements ValueObjectInterface
 
     /**
      * @param string|null $nativeValue
-     * @return self
+     * @return Text
      */
-    public static function fromNative($nativeValue): self
+    public static function fromNative($nativeValue): Text
     {
         Assertion::nullOrString($nativeValue);
-        return is_null($nativeValue) ? new self : new self($nativeValue);
+        return is_null($nativeValue) ? new Text : new Text($nativeValue);
     }
 
     public function equals(ValueObjectInterface $otherValue): bool
     {
-        return $otherValue instanceof self && $this->toNative() === $otherValue->toNative();
+        return $otherValue instanceof Text && $this->toNative() === $otherValue->toNative();
     }
 
     public function toNative(): string
