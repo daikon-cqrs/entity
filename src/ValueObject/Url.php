@@ -65,10 +65,10 @@ final class Url implements ValueObjectInterface
             '%s://%s%s%s%s%s',
             $this->scheme,
             $this->host,
-            $this->port->toNative() ? ':'.$this->port : '',
+            $this->formatPort(),
             $this->path,
-            $this->query->isEmpty() ? '' : '?'.$this->query,
-            $this->fragment->isEmpty() ? '' : '#'.$this->fragment
+            $this->formatQuery(),
+            $this->formatFragment()
         );
     }
 
@@ -114,11 +114,66 @@ final class Url implements ValueObjectInterface
 
     private function __construct(string $url = self::NIL)
     {
-        $this->host = Text::fromNative(parse_url($url, PHP_URL_HOST) ?: self::NIL);
-        $this->scheme = Text::fromNative(parse_url($url, PHP_URL_SCHEME) ?: self::NIL);
-        $this->query = Text::fromNative(parse_url($url, PHP_URL_QUERY) ?: self::NIL);
-        $this->port = Integer::fromNative(parse_url($url, PHP_URL_PORT) ?: null);
-        $this->fragment = Text::fromNative(parse_url($url, PHP_URL_FRAGMENT) ?: self::NIL);
-        $this->path = Text::fromNative(parse_url($url, PHP_URL_PATH) ?? self::DEFAULT_PATH);
+        $this->host = $this->parseHost($url);
+        $this->scheme = $this->parseScheme($url);
+        $this->query = $this->parseQuery($url);
+        $this->port = $this->parsePort($url);
+        $this->fragment = $this->parseFragment($url);
+        $this->path = $this->parsePath($url);
+    }
+
+    private function parseHost(string $url): Text
+    {
+        return Text::fromNative(parse_url($url, PHP_URL_HOST) ?: self::NIL);
+    }
+
+    private function parseScheme(string $url): Text
+    {
+        return Text::fromNative(parse_url($url, PHP_URL_SCHEME) ?: self::NIL);
+    }
+
+    private function parseQuery(string $url): Text
+    {
+        return Text::fromNative(parse_url($url, PHP_URL_QUERY) ?: self::NIL);
+    }
+
+    private function parseFragment(string $url): Text
+    {
+        return Text::fromNative(parse_url($url, PHP_URL_FRAGMENT) ?: self::NIL);
+    }
+
+    private function parsePath(string $url): Text
+    {
+        return Text::fromNative(parse_url($url, PHP_URL_PATH) ?: self::DEFAULT_PATH);
+    }
+
+    private function parsePort(string $url): Integer
+    {
+        return Integer::fromNative(parse_url($url, PHP_URL_PORT) ?: null);
+    }
+
+    private function formatPort(): string
+    {
+        $port = $this->port->toNative();
+        if (is_null($port)) {
+            return '';
+        }
+        return ':'.$port;
+    }
+
+    private function formatQuery(): string
+    {
+        if ($this->query->isEmpty()) {
+            return (string)$this->query;
+        }
+        return '?'.$this->query;
+    }
+
+    private function formatFragment(): string
+    {
+        if ($this->fragment->isEmpty()) {
+            return (string)$this->fragment;
+        }
+        return '#'.$this->fragment;
     }
 }
