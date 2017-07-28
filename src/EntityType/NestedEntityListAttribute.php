@@ -3,14 +3,13 @@
 namespace Daikon\Entity\EntityType;
 
 use Daikon\Entity\Assert\Assert;
-use Daikon\Entity\Entity\EntityInterface;
 use Daikon\Entity\Entity\NestedEntityList;
 use Daikon\Entity\Entity\TypedEntityInterface;
 use Daikon\Entity\ValueObject\ValueObjectInterface;
 
 class NestedEntityListAttribute extends NestedEntityAttribute
 {
-    public function makeValue($value = null, EntityInterface $parent = null): ValueObjectInterface
+    public function makeValue($value = null, TypedEntityInterface $parent = null): ValueObjectInterface
     {
         if ($value instanceof NestedEntityList) {
             foreach ($value as $entity) {

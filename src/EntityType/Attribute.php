@@ -3,7 +3,7 @@
 namespace Daikon\Entity\EntityType;
 
 use Daikon\Entity\Assert\Assertion;
-use Daikon\Entity\Entity\EntityInterface;
+use Daikon\Entity\Entity\TypedEntityInterface;
 use Daikon\Entity\Error\InvalidType;
 use Daikon\Entity\Error\MissingImplementation;
 use Daikon\Entity\ValueObject\ValueObjectInterface;
@@ -39,7 +39,7 @@ class Attribute implements AttributeInterface
         return new static($name, $entityType, $valueImplementor);
     }
 
-    public function makeValue($value = null, EntityInterface $parent = null): ValueObjectInterface
+    public function makeValue($value = null, TypedEntityInterface $parent = null): ValueObjectInterface
     {
         if (is_object($value)) {
             Assertion::isInstanceOf($value, $this->valueImplementor);

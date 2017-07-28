@@ -3,7 +3,6 @@
 namespace Daikon\Entity\EntityType;
 
 use Daikon\Entity\Assert\Assertion;
-use Daikon\Entity\Entity\EntityInterface;
 use Daikon\Entity\Entity\NestedEntity;
 use Daikon\Entity\Entity\TypedEntityInterface;
 use Daikon\Entity\Error\CorruptValues;
@@ -43,7 +42,7 @@ class NestedEntityAttribute implements AttributeInterface
         return $this->allowedTypes;
     }
 
-    public function makeValue($value = null, EntityInterface $parent = null): ValueObjectInterface
+    public function makeValue($value = null, TypedEntityInterface $parent = null): ValueObjectInterface
     {
         if ($value instanceof NestedEntity) {
             foreach ($this->getValueType() as $type) {

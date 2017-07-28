@@ -2,7 +2,7 @@
 
 namespace Daikon\Entity\EntityType;
 
-use Daikon\Entity\Entity\EntityInterface;
+use Daikon\Entity\Entity\TypedEntityInterface;
 use Daikon\Entity\ValueObject\ValueObjectInterface;
 
 interface AttributeInterface
@@ -13,7 +13,7 @@ interface AttributeInterface
         EntityTypeInterface $entityType
     ): AttributeInterface;
 
-    public function makeValue($value = null, EntityInterface $parent = null): ValueObjectInterface;
+    public function makeValue($value = null, TypedEntityInterface $parent = null): ValueObjectInterface;
 
     public function getName(): string;
 

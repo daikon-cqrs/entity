@@ -114,11 +114,11 @@ final class Url implements ValueObjectInterface
 
     private function __construct(string $url = self::NIL)
     {
-        $this->host = Text::fromNative(parse_url($url, PHP_URL_HOST) ?? self::NIL);
-        $this->scheme = Text::fromNative(parse_url($url, PHP_URL_SCHEME) ?? self::NIL);
-        $this->query = Text::fromNative(parse_url($url, PHP_URL_QUERY) ?? self::NIL);
+        $this->host = Text::fromNative(parse_url($url, PHP_URL_HOST));
+        $this->scheme = Text::fromNative(parse_url($url, PHP_URL_SCHEME));
+        $this->query = Text::fromNative(parse_url($url, PHP_URL_QUERY));
         $this->port = Integer::fromNative(parse_url($url, PHP_URL_PORT));
-        $this->fragment = Text::fromNative(parse_url($url, PHP_URL_FRAGMENT) ?? self::NIL);
+        $this->fragment = Text::fromNative(parse_url($url, PHP_URL_FRAGMENT));
         $this->path = Text::fromNative(parse_url($url, PHP_URL_PATH) ?? self::DEFAULT_PATH);
     }
 }
