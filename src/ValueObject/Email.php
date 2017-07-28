@@ -9,7 +9,7 @@ final class Email implements ValueObjectInterface
     /**
      * @var string
      */
-    private const NIL = "";
+    private const NIL = '';
 
     /**
      * @var Text
@@ -27,13 +27,13 @@ final class Email implements ValueObjectInterface
      */
     public static function fromNative($nativeValue): Email
     {
-        Assertion::nullOrString($nativeValue);
+        Assertion::nullOrString($nativeValue, 'Trying to create Email VO from unsupported value type.');
         if (empty($nativeValue)) {
             return new self(Text::fromNative(self::NIL), Text::fromNative(self::NIL));
         }
-        Assertion::email($nativeValue, "Trying to create email from invalid string.");
-        $parts = explode("@", $nativeValue);
-        return new self(Text::fromNative($parts[0]), Text::fromNative(trim($parts[1], "[]")));
+        Assertion::email($nativeValue, 'Trying to create email from invalid string.');
+        $parts = explode('@', $nativeValue);
+        return new self(Text::fromNative($parts[0]), Text::fromNative(trim($parts[1], '[]')));
     }
 
     public function toNative(): string
@@ -41,7 +41,7 @@ final class Email implements ValueObjectInterface
         if ($this->localPart->isEmpty() && $this->domain->isEmpty()) {
             return self::NIL;
         }
-        return $this->localPart->toNative()."@".$this->domain->toNative();
+        return $this->localPart->toNative().'@'.$this->domain->toNative();
     }
 
     public function equals(ValueObjectInterface $otherValue): bool

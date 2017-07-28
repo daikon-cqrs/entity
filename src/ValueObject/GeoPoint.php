@@ -10,8 +10,8 @@ final class GeoPoint implements ValueObjectInterface
      * @var float[]
      */
     public const NULL_ISLAND = [
-        "lon" => 0.0,
-        "lat" => 0.0
+        'lon' => 0.0,
+        'lat' => 0.0
     ];
 
     /**
@@ -30,8 +30,8 @@ final class GeoPoint implements ValueObjectInterface
      */
     public static function fromArray(array $point): GeoPoint
     {
-        Assertion::keyExists($point, "lon");
-        Assertion::keyExists($point, "lat");
+        Assertion::keyExists($point, 'lon');
+        Assertion::keyExists($point, 'lat');
         return new GeoPoint(Decimal::fromNative($point['lon']), Decimal::fromNative($point['lat']));
     }
 
@@ -41,7 +41,7 @@ final class GeoPoint implements ValueObjectInterface
      */
     public static function fromNative($nativeValue): GeoPoint
     {
-        Assertion::nullOrIsArray($nativeValue);
+        Assertion::nullOrIsArray($nativeValue, 'Trying to create GeoPoint VO from unsupported value type.');
         return is_array($nativeValue) ? self::fromArray($nativeValue) : self::fromArray(self::NULL_ISLAND);
     }
 
@@ -50,7 +50,7 @@ final class GeoPoint implements ValueObjectInterface
      */
     public function toNative(): array
     {
-        return [ "lon" => $this->lon->toNative(), "lat" => $this->lat->toNative() ];
+        return [ 'lon' => $this->lon->toNative(), 'lat' => $this->lat->toNative() ];
     }
 
     public function equals(ValueObjectInterface $otherValue): bool
@@ -60,7 +60,7 @@ final class GeoPoint implements ValueObjectInterface
 
     public function __toString(): string
     {
-        return sprintf("lon: %s, lat: %s", $this->lon, $this->lat);
+        return sprintf('lon: %s, lat: %s', $this->lon, $this->lat);
     }
 
     public function isNullIsland(): bool

@@ -28,7 +28,7 @@ final class Uuid implements ValueObjectInterface
      */
     public static function fromNative($nativeValue): Uuid
     {
-        Assertion::nullOrString($nativeValue);
+        Assertion::nullOrString($nativeValue, 'Trying to create Uuid VO from unsupported value type.');
         return empty($nativeValue) ? new Uuid : new Uuid(RamseyUuid::fromString($nativeValue));
     }
 
@@ -44,7 +44,7 @@ final class Uuid implements ValueObjectInterface
 
     public function __toString(): string
     {
-        return $this->value ? $this->value->toString() : "null";
+        return $this->value ? $this->value->toString() : 'null';
     }
 
     private function __construct(RamseyUuid $value = null)

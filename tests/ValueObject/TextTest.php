@@ -7,7 +7,7 @@ use Daikon\Tests\Entity\TestCase;
 
 final class TextTest extends TestCase
 {
-    private const FIXED_TEXT = "hello world!";
+    private const FIXED_TEXT = 'hello world!';
 
     /**
      * @var Text
@@ -17,20 +17,20 @@ final class TextTest extends TestCase
     public function testToNative(): void
     {
         $this->assertEquals(self::FIXED_TEXT, $this->text->toNative());
-        $this->assertEquals("", Text::fromNative(null)->toNative());
+        $this->assertEquals('', Text::fromNative(null)->toNative());
     }
 
     public function testEquals(): void
     {
         $sameText = Text::fromNative(self::FIXED_TEXT);
         $this->assertTrue($this->text->equals($sameText));
-        $differentText = Text::fromNative("hello universe!");
+        $differentText = Text::fromNative('hello universe!');
         $this->assertFalse($this->text->equals($differentText));
     }
 
     public function testIsEmpty(): void
     {
-        $this->assertTrue(Text::fromNative("")->isEmpty());
+        $this->assertTrue(Text::fromNative('')->isEmpty());
         $this->assertTrue(Text::fromNative(null)->isEmpty());
         $this->assertFalse($this->text->isEmpty());
     }

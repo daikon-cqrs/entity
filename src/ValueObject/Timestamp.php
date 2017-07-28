@@ -11,7 +11,7 @@ final class Timestamp implements ValueObjectInterface
     /**
      * @var string
      */
-    public const NATIVE_FORMAT = "Y-m-d\\TH:i:s.uP";
+    public const NATIVE_FORMAT = 'Y-m-d\TH:i:s.uP';
 
     /**
      * @var null
@@ -40,7 +40,7 @@ final class Timestamp implements ValueObjectInterface
      */
     public static function fromNative($nativeValue): Timestamp
     {
-        Assertion::nullOrString($nativeValue);
+        Assertion::nullOrString($nativeValue, 'Trying to create Timestamp VO from unsupported value type.');
         return empty($nativeValue) ? new Timestamp : self::createFromString($nativeValue);
     }
 
@@ -56,11 +56,11 @@ final class Timestamp implements ValueObjectInterface
 
     public function __toString(): string
     {
-        return $this->value ? $this->toNative() : "null";
+        return $this->value ? $this->toNative() : 'null';
     }
 
     private function __construct(DateTimeImmutable $value = null)
     {
-        $this->value = $value ? $value->setTimezone(new DateTimeZone("UTC")) : $value;
+        $this->value = $value ? $value->setTimezone(new DateTimeZone('UTC')) : $value;
     }
 }

@@ -37,7 +37,7 @@ final class BooleanTest extends TestCase
 
     public function testToString(): void
     {
-        $this->assertEquals("true", (string)Boolean::fromNative(true));
-        $this->assertEquals("false", (string)Boolean::fromNative(false));
+        $this->assertEquals('true', (string)Boolean::fromNative(true));
+        $this->assertEquals('false', (string)Boolean::fromNative(false));
     }
 }

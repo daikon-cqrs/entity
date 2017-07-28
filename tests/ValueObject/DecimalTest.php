@@ -31,7 +31,7 @@ final class DecimalTest extends TestCase
     public function testToString(): void
     {
         $this->assertEquals((string)self::FIXED_DEC, (string)$this->decimal);
-        $this->assertEquals("null", (string)Decimal::fromNative(null));
+        $this->assertEquals('null', (string)Decimal::fromNative(null));
     }
 
     protected function setUp(): void

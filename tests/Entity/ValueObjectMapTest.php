@@ -9,8 +9,8 @@ use Daikon\Tests\Entity\TestCase;
 final class ValueObjectMapTest extends TestCase
 {
     private const FIXED_DATA = [
-        "id" => "525b4e51-e524-4e5d-8c17-1ef96585cbd3",
-        "title" => "hello world!"
+        'id' => '525b4e51-e524-4e5d-8c17-1ef96585cbd3',
+        'title' => 'hello world!'
     ];
 
     /**

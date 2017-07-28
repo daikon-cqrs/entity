@@ -10,7 +10,7 @@ final class Date implements ValueObjectInterface
     /**
      * @var string
      */
-    public const NATIVE_FORMAT = "Y-m-d";
+    public const NATIVE_FORMAT = 'Y-m-d';
 
     /**
      * @var null
@@ -39,7 +39,7 @@ final class Date implements ValueObjectInterface
      */
     public static function fromNative($nativeValue): Date
     {
-        Assertion::nullOrString($nativeValue);
+        Assertion::nullOrString($nativeValue, 'Trying to create Date VO from unsupported value type.');
         return empty($nativeValue) ? new self : self::createFromString($nativeValue);
     }
 

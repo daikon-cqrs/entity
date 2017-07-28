@@ -3,7 +3,7 @@
 namespace Daikon\Tests\Entity\EntityType;
 
 use Daikon\Entity\Entity\NestedEntityList;
-use Daikon\Entity\Entity\TypedEntityInterface;
+use Daikon\Entity\Entity\EntityInterface;
 use Daikon\Entity\EntityType\EntityTypeInterface;
 use Daikon\Entity\EntityType\NestedEntityListAttribute;
 use Daikon\Tests\Entity\Fixture\Location;
@@ -13,14 +13,14 @@ use Daikon\Tests\Entity\TestCase;
 final class NestedEntityListAttributeTest extends TestCase
 {
     private const FIXED_DATA = [ [
-        "@type" => "Location",
-        "id" => 42,
-        "name" => "my poi",
-        "street" => "fleetstreet 23",
-        "postal_code" => "1337",
-        "city" => "codetown",
-        "country" => "Utopia",
-        "coords" => [ "lon" => 0.0, "lat" => 0.0 ]
+        '@type' => 'Location',
+        'id' => 42,
+        'name' => 'my poi',
+        'street' => 'fleetstreet 23',
+        'postal_code' => '1337',
+        'city' => 'codetown',
+        'country' => 'Utopia',
+        'coords' => [ 'lon' => 0.0, 'lat' => 0.0 ]
     ] ];
 
     /**
@@ -36,47 +36,47 @@ final class NestedEntityListAttributeTest extends TestCase
 
     public function testMakeValueFromObject(): void
     {
-        $parent = $this->getMockBuilder(TypedEntityInterface::class)->getMock();
-        $locationType = $this->attribute->getValueType()->get("Location");
+        $parent = $this->getMockBuilder(EntityInterface::class)->getMock();
+        $locationType = $this->attribute->getValueType()->get('Location');
         $locationState = self::FIXED_DATA[0];
-        $locationState["@type"] = $locationType;
-        $locationState["@parent"] = $parent;
+        $locationState['@type'] = $locationType;
+        $locationState['@parent'] = $parent;
         $locations = NestedEntityList::wrap([ Location::fromNative($locationState) ], $parent);
         $this->assertEquals(self::FIXED_DATA, $this->attribute->makeValue($locations)->toNative());
     }
 
     /**
-     * @expectedException \Daikon\Entity\Error\MissingImplementation
+     * @expectedException \Daikon\Entity\Exception\ClassNotExists
      */
     public function testNonExistingTypeClass(): void
     {
         /* @var EntityTypeInterface $entityType */
         $entityType = $this->getMockBuilder(EntityTypeInterface::class)->getMock();
-        NestedEntityListAttribute::define("foo", [ "\\Daikon\Entity\\FooBaR" ], $entityType);
+        NestedEntityListAttribute::define('foo', [ '\\Daikon\Entity\\FooBaR' ], $entityType);
     } // @codeCoverageIgnore
 
     /**
-     * @expectedException \Daikon\Entity\Error\CorruptValues
+     * @expectedException \Daikon\Entity\Exception\UnexpectedType
      */
-    public function testInvalidType(): void
+    public function testUnexpectedType(): void
     {
         $data = self::FIXED_DATA;
-        $data[0]["@type"] = "foobar";
+        $data[0]['@type'] = 'foobar';
         $this->attribute->makeValue($data);
     } // @codeCoverageIgnore
 
     /**
-     * @expectedException \Daikon\Entity\Error\AssertionFailed
+     * @expectedException \Daikon\Entity\Exception\AssertionFailed
      */
     public function testMissingType(): void
     {
         $data = self::FIXED_DATA;
-        unset($data[0]["@type"]);
+        unset($data[0]['@type']);
         $this->attribute->makeValue($data);
     } // @codeCoverageIgnore
 
     /**
-     * @expectedException \Daikon\Entity\Error\AssertionFailed
+     * @expectedException \Daikon\Entity\Exception\AssertionFailed
      */
     public function testUnexpectedValue(): void
     {
@@ -87,6 +87,6 @@ final class NestedEntityListAttributeTest extends TestCase
     {
         /* @var EntityTypeInterface $entityType */
         $entityType = $this->getMockBuilder(EntityTypeInterface::class)->getMock();
-        $this->attribute = NestedEntityListAttribute::define("locations", [ LocationType::class ], $entityType);
+        $this->attribute = NestedEntityListAttribute::define('locations', [ LocationType::class ], $entityType);
     }
 }

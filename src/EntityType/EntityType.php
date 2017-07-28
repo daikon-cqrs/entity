@@ -3,7 +3,7 @@
 namespace Daikon\Entity\EntityType;
 
 use Daikon\Entity\EntityType\Path\TypePathParser;
-use Daikon\Entity\Error\InvalidType;
+use Daikon\Entity\Exception\UnknownAttribute;
 
 abstract class EntityType implements EntityTypeInterface
 {
@@ -62,7 +62,7 @@ abstract class EntityType implements EntityTypeInterface
 
     public function hasAttribute(string $typePath): bool
     {
-        if (mb_strpos($typePath, ".")) {
+        if (mb_strpos($typePath, '.')) {
             return $this->evaluatePath($typePath) !== null;
         }
         return $this->attributeMap->has($typePath);
@@ -70,11 +70,11 @@ abstract class EntityType implements EntityTypeInterface
 
     public function getAttribute(string $typePath): AttributeInterface
     {
-        if (mb_strpos($typePath, ".")) {
+        if (mb_strpos($typePath, '.')) {
             return $this->evaluatePath($typePath);
         }
         if (!$this->attributeMap->has($typePath)) {
-            throw new InvalidType("Attribute '$typePath' does not exist");
+            throw new UnknownAttribute(sprintf('Attribute "%s" does not exist', $typePath));
         }
         return $this->attributeMap->get($typePath);
     }

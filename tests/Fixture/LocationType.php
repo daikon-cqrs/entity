@@ -2,7 +2,7 @@
 
 namespace Daikon\Tests\Entity\Fixture;
 
-use Daikon\Entity\Entity\TypedEntityInterface;
+use Daikon\Entity\Entity\EntityInterface;
 use Daikon\Entity\EntityType\Attribute;
 use Daikon\Entity\EntityType\AttributeInterface;
 use Daikon\Entity\EntityType\EntityType;
@@ -36,7 +36,7 @@ final class LocationType extends EntityType
     /**
      * @inheritDoc
      */
-    public function makeEntity(array $entityState = [], TypedEntityInterface $parent = null): TypedEntityInterface
+    public function makeEntity(array $entityState = [], EntityInterface $parent = null): EntityInterface
     {
         $entityState['@type'] = $this;
         $entityState['@parent'] = $parent;

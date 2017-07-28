@@ -16,19 +16,19 @@ class EntityTypeMapTest extends TestCase
 
     public function testHas(): void
     {
-        $this->assertTrue($this->typeMap->has("Article"));
-        $this->assertFalse($this->typeMap->has("Paragraph"));
+        $this->assertTrue($this->typeMap->has('Article'));
+        $this->assertFalse($this->typeMap->has('Paragraph'));
     }
 
     public function testByName(): void
     {
-        $this->assertInstanceOf(ArticleType::class, $this->typeMap->byName("Article"));
-        $this->assertNull($this->typeMap->byName("Paragraph"));
+        $this->assertInstanceOf(ArticleType::class, $this->typeMap->byName('Article'));
+        $this->assertNull($this->typeMap->byName('Paragraph'));
     }
 
     public function testByPrefix(): void
     {
-        $this->assertInstanceOf(ArticleType::class, $this->typeMap->get("Article"));
+        $this->assertInstanceOf(ArticleType::class, $this->typeMap->get('Article'));
     }
 
     public function testByClass(): void

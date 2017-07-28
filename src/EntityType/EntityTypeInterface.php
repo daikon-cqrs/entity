@@ -2,7 +2,7 @@
 
 namespace Daikon\Entity\EntityType;
 
-use Daikon\Entity\Entity\TypedEntityInterface;
+use Daikon\Entity\Entity\EntityInterface;
 
 interface EntityTypeInterface
 {
@@ -24,5 +24,5 @@ interface EntityTypeInterface
 
     public function getAttributes(array $typePaths = []): AttributeMap;
 
-    public function makeEntity(array $entityState = [], TypedEntityInterface $parent = null): TypedEntityInterface;
+    public function makeEntity(array $entityState = [], EntityInterface $parent = null): EntityInterface;
 }

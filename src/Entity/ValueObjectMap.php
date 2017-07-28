@@ -11,11 +11,11 @@ final class ValueObjectMap implements \IteratorAggregate, \Countable
     use TypedMapTrait;
 
     /**
-     * @var TypedEntityInterface $entity
+     * @var EntityInterface $entity
      */
     private $entity;
 
-    public static function forEntity(TypedEntityInterface $entity, array $entityState = []): self
+    public static function forEntity(EntityInterface $entity, array $entityState = []): self
     {
         return new static($entity, $entityState);
     }
@@ -58,7 +58,7 @@ final class ValueObjectMap implements \IteratorAggregate, \Countable
         return $clonedMap;
     }
 
-    private function __construct(TypedEntityInterface $entity, array $values = [])
+    private function __construct(EntityInterface $entity, array $values = [])
     {
         $this->entity = $entity;
         $valueObjects = [];

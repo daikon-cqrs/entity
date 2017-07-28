@@ -26,7 +26,7 @@ final class NilTest extends TestCase
 
     public function testToString(): void
     {
-        $this->assertEquals("null", (string)$this->nil);
+        $this->assertEquals('null', (string)$this->nil);
     }
 
     protected function setUp(): void

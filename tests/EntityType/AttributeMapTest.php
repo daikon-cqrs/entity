@@ -19,9 +19,9 @@ final class AttributeMapTest extends TestCase
 
     public function testGet()
     {
-        $this->assertInstanceOf(Attribute::class, $this->attributeMap->get("id"));
-        $this->assertInstanceOf(Attribute::class, $this->attributeMap->get("name"));
-        $this->assertInstanceOf(Attribute::class, $this->attributeMap->get("location"));
+        $this->assertInstanceOf(Attribute::class, $this->attributeMap->get('id'));
+        $this->assertInstanceOf(Attribute::class, $this->attributeMap->get('name'));
+        $this->assertInstanceOf(Attribute::class, $this->attributeMap->get('location'));
     }
 
     public function testByClassNames()
@@ -32,10 +32,10 @@ final class AttributeMapTest extends TestCase
 
     public function testHas()
     {
-        $this->assertTrue($this->attributeMap->has("id"));
-        $this->assertTrue($this->attributeMap->has("name"));
-        $this->assertTrue($this->attributeMap->has("location"));
-        $this->assertFalse($this->attributeMap->has("foobar"));
+        $this->assertTrue($this->attributeMap->has('id'));
+        $this->assertTrue($this->attributeMap->has('name'));
+        $this->assertTrue($this->attributeMap->has('location'));
+        $this->assertFalse($this->attributeMap->has('foobar'));
     }
 
     public function testCount()
@@ -48,9 +48,9 @@ final class AttributeMapTest extends TestCase
         /* @var EntityTypeInterface $entityType */
         $entityType = $this->getMockBuilder(EntityTypeInterface::class)->getMock();
         $this->attributeMap = new AttributeMap([
-            Attribute::define("id", Integer::class, $entityType),
-            Attribute::define("name", Text::class, $entityType),
-            Attribute::define("location", GeoPoint::class, $entityType)
+            Attribute::define('id', Integer::class, $entityType),
+            Attribute::define('name', Text::class, $entityType),
+            Attribute::define('location', GeoPoint::class, $entityType)
         ]);
     }
 }

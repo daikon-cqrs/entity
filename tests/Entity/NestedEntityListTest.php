@@ -10,9 +10,9 @@ use Daikon\Tests\Entity\TestCase;
 final class NestedEntityListTest extends TestCase
 {
     private const FIXED_PARAGRAPH = [
-        "id" => 42,
-        "kicker" => "hey ho",
-        "content" => "Foobar"
+        'id' => 42,
+        'kicker' => 'hey ho',
+        'content' => 'Foobar'
     ];
 
     /**
@@ -94,7 +94,7 @@ final class NestedEntityListTest extends TestCase
 
     public function testToString(): void
     {
-        $this->assertEquals("Paragraph:42,\nParagraph:5", (string)$this->entityList);
+        $this->assertEquals('Paragraph:42, Paragraph:5', (string)$this->entityList);
     }
 
     protected function setUp(): void
@@ -102,11 +102,11 @@ final class NestedEntityListTest extends TestCase
         $articleType = new ArticleType;
         $article = $articleType->makeEntity();
         /* @var NestedEntityListAttribute $paragraphs */
-        $paragraphs = $articleType->getAttribute("paragraphs");
+        $paragraphs = $articleType->getAttribute('paragraphs');
         /* @var ParagraphType $paragraphType */
-        $paragraphType = $paragraphs->getValueType()->get("Paragraph");
+        $paragraphType = $paragraphs->getValueType()->get('Paragraph');
         $this->paragraph1 = $paragraphType->makeEntity(self::FIXED_PARAGRAPH, $article);
-        $this->paragraph2 = $this->paragraph1->withValue("kicker", "ho")->withValue("id", 5);
+        $this->paragraph2 = $this->paragraph1->withValue('kicker', 'ho')->withValue('id', 5);
         $this->entityList = NestedEntityList::wrap([$this->paragraph1, $this->paragraph2]);
     }
 }

@@ -12,7 +12,7 @@ final class Nil implements ValueObjectInterface
      */
     public static function fromNative($nativeValue): Nil
     {
-        Assertion::null($nativeValue);
+        Assertion::null($nativeValue, 'Trying to create Nil VO from unsupported value type.');
         return new Nil;
     }
 
@@ -31,6 +31,6 @@ final class Nil implements ValueObjectInterface
 
     public function __toString(): string
     {
-        return "null";
+        return 'null';
     }
 }

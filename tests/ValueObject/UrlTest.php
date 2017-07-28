@@ -7,7 +7,7 @@ use Daikon\Tests\Entity\TestCase;
 
 final class UrlTest extends TestCase
 {
-    private const FIXED_URL = "https://www.example.com:8080/?param=value#q=trellis";
+    private const FIXED_URL = 'https://www.example.com:8080/?param=value#q=trellis';
 
     /**
      * @var Url $url
@@ -17,13 +17,13 @@ final class UrlTest extends TestCase
     public function testToNative(): void
     {
         $this->assertEquals(self::FIXED_URL, $this->url->toNative());
-        $this->assertEquals("", Url::fromNative(null)->toNative());
+        $this->assertEquals('', Url::fromNative(null)->toNative());
     }
 
     public function testEquals(): void
     {
         $this->assertTrue($this->url->equals(Url::fromNative(self::FIXED_URL)));
-        $this->assertFalse($this->url->equals(Url::fromNative("http://example.com")));
+        $this->assertFalse($this->url->equals(Url::fromNative('http://example.com')));
     }
 
     public function testToString(): void
@@ -33,12 +33,12 @@ final class UrlTest extends TestCase
 
     public function testGetScheme(): void
     {
-        $this->assertEquals("https", $this->url->getScheme()->toNative());
+        $this->assertEquals('https', $this->url->getScheme()->toNative());
     }
 
     public function testGetHost(): void
     {
-        $this->assertEquals("www.example.com", $this->url->getHost()->toNative());
+        $this->assertEquals('www.example.com', $this->url->getHost()->toNative());
     }
 
     public function testGetPort(): void
@@ -48,17 +48,17 @@ final class UrlTest extends TestCase
 
     public function testGetPath(): void
     {
-        $this->assertEquals("/", $this->url->getPath()->toNative());
+        $this->assertEquals('/', $this->url->getPath()->toNative());
     }
 
     public function testGetQuery(): void
     {
-        $this->assertEquals("param=value", $this->url->getQuery()->toNative());
+        $this->assertEquals('param=value', $this->url->getQuery()->toNative());
     }
 
     public function testGetFragment(): void
     {
-        $this->assertEquals("q=trellis", $this->url->getFragment()->toNative());
+        $this->assertEquals('q=trellis', $this->url->getFragment()->toNative());
     }
 
     protected function setUp(): void

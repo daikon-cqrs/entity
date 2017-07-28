@@ -22,28 +22,28 @@ class TypePathParserTest extends TestCase
     }
 
     /**
-     * @expectedException \Daikon\Entity\Error\InvalidTypePath
+     * @expectedException \Daikon\Entity\Exception\InvalidPath
      */
     public function testMissingType(): void
     {
-        TypePathParser::create()->parse("paragraphs.Paragraph..");
+        TypePathParser::create()->parse('paragraphs.Paragraph..');
     } // @codeCoverageIgnore
 
 
     /**
-     * @expectedException \Daikon\Entity\Error\InvalidTypePath
+     * @expectedException \Daikon\Entity\Exception\InvalidPath
      */
     public function testInvalidPath(): void
     {
-        TypePathParser::create()->parse("paragraphs~");
+        TypePathParser::create()->parse('paragraphs~');
     } // @codeCoverageIgnore
 
     /**
-     * @expectedException \Daikon\Entity\Error\InvalidTypePath
+     * @expectedException \Daikon\Entity\Exception\InvalidPath
      */
     public function testMissingAttribute(): void
     {
-        TypePathParser::create()->parse("paragraphs.Paragraph");
+        TypePathParser::create()->parse('paragraphs.Paragraph');
     } // @codeCoverageIgnore
 
     /**
@@ -54,16 +54,16 @@ class TypePathParserTest extends TestCase
     {
         return [
             [
-                "pathExpression" => "paragraphs",
-                "expectedLength" => 1
+                'pathExpression' => 'paragraphs',
+                'expectedLength' => 1
             ],
             [
-                "pathExpression" => "paragraphs.Paragraph-title",
-                "expectedLength" => 2
+                'pathExpression' => 'paragraphs.Paragraph-title',
+                'expectedLength' => 2
             ],
             [
-                "pathExpression" => "slideshows.TeaserSlideshow-teasers.GalleryTeaser-images",
-                "expectedLength" => 3
+                'pathExpression' => 'slideshows.TeaserSlideshow-teasers.GalleryTeaser-images',
+                'expectedLength' => 3
             ]
         ];
     }

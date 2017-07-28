@@ -52,7 +52,7 @@ final class Url implements ValueObjectInterface
      */
     public static function fromNative($nativeValue): Url
     {
-        Assertion::nullOrUrl($nativeValue);
+        Assertion::nullOrUrl($nativeValue, 'Trying to create Url VO from unsupported value type.');
         return empty($nativeValue) ? new Url : new Url($nativeValue);
     }
 

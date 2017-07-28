@@ -17,30 +17,30 @@ class EntityTypeTest extends TestCase
 
     public function testGetName(): void
     {
-        $this->assertEquals("Article", $this->entityType->getName());
+        $this->assertEquals('Article', $this->entityType->getName());
     }
 
     public function testToTypePath(): void
     {
-        $kickerAttr = $this->entityType->getAttribute("paragraphs.Paragraph-kicker");
-        $this->assertEquals("paragraphs.Paragraph-kicker", (string)TypePath::fromAttribute($kickerAttr));
+        $kickerAttr = $this->entityType->getAttribute('paragraphs.Paragraph-kicker');
+        $this->assertEquals('paragraphs.Paragraph-kicker', (string)TypePath::fromAttribute($kickerAttr));
     }
 
     public function testGetAttribute(): void
     {
-        $this->assertInstanceOf(Attribute::class, $this->entityType->getAttribute("title"));
-        $this->assertInstanceOf(Attribute::class, $this->entityType->getAttribute("id"));
+        $this->assertInstanceOf(Attribute::class, $this->entityType->getAttribute('title'));
+        $this->assertInstanceOf(Attribute::class, $this->entityType->getAttribute('id'));
     }
 
     public function testGetAttributes(): void
     {
-        $this->assertCount(2, $this->entityType->getAttributes([ "title", "id" ]));
+        $this->assertCount(2, $this->entityType->getAttributes([ 'title', 'id' ]));
         $this->assertCount(10, $this->entityType->getAttributes());
     }
 
     public function testGetParent(): void
     {
-        $paragraphKicker = $this->entityType->getAttribute("paragraphs.Paragraph-kicker");
+        $paragraphKicker = $this->entityType->getAttribute('paragraphs.Paragraph-kicker');
         $paragraphType = $paragraphKicker->getEntityType();
         $this->assertEquals($this->entityType, $paragraphType->getRoot());
         $this->assertEquals($this->entityType, $paragraphType->getParent());
@@ -52,27 +52,27 @@ class EntityTypeTest extends TestCase
 
     public function testHasAttribute(): void
     {
-        $this->assertTrue($this->entityType->hasAttribute("title"));
-        $this->assertTrue($this->entityType->hasAttribute("paragraphs.Paragraph-kicker"));
+        $this->assertTrue($this->entityType->hasAttribute('title'));
+        $this->assertTrue($this->entityType->hasAttribute('paragraphs.Paragraph-kicker'));
     }
 
     public function testMakeEntity(): void
     {
         /* @var Article $article */
         $article = $this->entityType->makeEntity([
-            "title" => "hello world!",
-            "content" => "this is some test content ..."
+            'title' => 'hello world!',
+            'content' => 'this is some test content ...'
         ]);
         $this->assertInstanceOf(Text::class, $article->getTitle());
-        $this->assertEquals("hello world!", $article->getTitle()->toNative());
+        $this->assertEquals('hello world!', $article->getTitle()->toNative());
     }
 
     /**
-     * @expectedException \Daikon\Entity\Error\InvalidType
+     * @expectedException \Daikon\Entity\Exception\UnknownAttribute
      */
     public function testGetAttributeWithNonExistingAttribute(): void
     {
-        $this->entityType->getAttribute("foobar");
+        $this->entityType->getAttribute('foobar');
     } // @codeCoverageIgnore
 
     protected function setUp(): void

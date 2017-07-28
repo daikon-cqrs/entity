@@ -22,7 +22,7 @@ final class Integer implements ValueObjectInterface
      */
     public static function fromNative($nativeValue): Integer
     {
-        Assertion::nullOrInteger($nativeValue);
+        Assertion::nullOrInteger($nativeValue, 'Trying to create Integer VO from unsupported value type.');
         return new Integer($nativeValue);
     }
 
@@ -38,7 +38,7 @@ final class Integer implements ValueObjectInterface
 
     public function __toString(): string
     {
-        return $this->value === self::NIL ? "null" : (string)$this->value;
+        return $this->value === self::NIL ? 'null' : (string)$this->value;
     }
 
     private function __construct(?int $value)

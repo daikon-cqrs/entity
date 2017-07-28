@@ -22,7 +22,7 @@ final class Paragraph extends NestedEntity
      */
     public function getId(): Integer
     {
-        return $this->get("id");
+        return $this->get('id');
     }
 
     /**
@@ -30,7 +30,7 @@ final class Paragraph extends NestedEntity
      */
     public function getKicker(): Text
     {
-        return $this->get("kicker");
+        return $this->get('kicker');
     }
 
     /**
@@ -38,6 +38,6 @@ final class Paragraph extends NestedEntity
      */
     public function getContent(): Text
     {
-        return $this->get("content");
+        return $this->get('content');
     }
 }

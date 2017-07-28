@@ -23,7 +23,7 @@ final class Location extends NestedEntity
      */
     public function getId(): Integer
     {
-        return $this->get("id");
+        return $this->get('id');
     }
 
     /**
@@ -31,7 +31,7 @@ final class Location extends NestedEntity
      */
     public function getName(): Text
     {
-        return $this->get("name");
+        return $this->get('name');
     }
 
     /**
@@ -39,7 +39,7 @@ final class Location extends NestedEntity
      */
     public function getStreet(): Text
     {
-        return $this->get("street");
+        return $this->get('street');
     }
 
     /**
@@ -47,12 +47,12 @@ final class Location extends NestedEntity
      */
     public function getPostalCode(): Text
     {
-        return $this->get("postal_code");
+        return $this->get('postal_code');
     }
 
     public function getCity(): Text
     {
-        return $this->get("city");
+        return $this->get('city');
     }
 
     /**
@@ -60,7 +60,7 @@ final class Location extends NestedEntity
      */
     public function getCountry(): Text
     {
-        return $this->get("country");
+        return $this->get('country');
     }
 
     /**
@@ -68,6 +68,6 @@ final class Location extends NestedEntity
      */
     public function getCoords(): GeoPoint
     {
-        return $this->get("coords");
+        return $this->get('coords');
     }
 }

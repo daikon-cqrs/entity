@@ -5,7 +5,7 @@ namespace Daikon\Entity\Entity\Path;
 use Daikon\Entity\Assert\Assertion;
 use Daikon\Entity\Entity\NestedEntity;
 use Daikon\Entity\Entity\NestedEntityList;
-use Daikon\Entity\Entity\TypedEntityInterface;
+use Daikon\Entity\Entity\EntityInterface;
 use Ds\Vector;
 
 final class ValuePath implements \IteratorAggregate, \Countable
@@ -15,7 +15,7 @@ final class ValuePath implements \IteratorAggregate, \Countable
      */
     private $internalVector;
 
-    public static function fromEntity(TypedEntityInterface $entity): self
+    public static function fromEntity(EntityInterface $entity): self
     {
         $parentEntity = $entity->getEntityParent();
         $currentEntity = $entity;
@@ -70,9 +70,9 @@ final class ValuePath implements \IteratorAggregate, \Countable
     public function __toString(): string
     {
         $flattenPath = function (string $path, ValuePathPart $pathPart): string {
-            return empty($path) ? (string)$pathPart : "$path-$pathPart";
+            return empty($path) ? (string)$pathPart : sprintf('%s-%s', $path, $pathPart);
         };
-        return $this->internalVector->reduce($flattenPath, "");
+        return $this->internalVector->reduce($flattenPath, '');
     }
 
     public function __clone()

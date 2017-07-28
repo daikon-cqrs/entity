@@ -21,6 +21,6 @@ abstract class NestedEntity extends Entity implements ValueObjectInterface
 
     public function __toString(): string
     {
-        return sprintf("%s:%s", $this->getEntityType()->getName(), $this->getIdentity());
+        return sprintf('%s:%s', $this->getEntityType()->getName(), $this->getIdentity());
     }
 }

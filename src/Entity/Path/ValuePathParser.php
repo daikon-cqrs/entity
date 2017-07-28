@@ -2,7 +2,7 @@
 
 namespace Daikon\Entity\Entity\Path;
 
-use Daikon\Entity\Error\InvalidValuePath;
+use Daikon\Entity\Exception\InvalidPath;
 use JMS\Parser\AbstractParser;
 use JMS\Parser\SimpleLexer;
 
@@ -51,10 +51,10 @@ REGEX;
      * @var string[]
      */
     private const TOKEN_MAP = [
-        0 => "T_UNKNOWN",
-        1 => "T_ATTRIBUTE",
-        2 => "T_POSITION",
-        3 => "T_PART_SEP"
+        0 => 'T_UNKNOWN',
+        1 => 'T_ATTRIBUTE',
+        2 => 'T_POSITION',
+        3 => 'T_PART_SEP'
     ];
 
     /**
@@ -64,9 +64,9 @@ REGEX;
     {
         $mapToken = function (string $token): array {
             switch ($token) {
-                case ".":
+                case '.':
                     return [ self::T_COMPONENT_SEP, $token ];
-                case "-":
+                case '-':
                     return [ self::T_PART_SEP, $token ];
                 default:
                     return is_numeric($token)
@@ -111,7 +111,7 @@ REGEX;
         }
         if (!$this->lexer->isNext(self::T_ATTRIBUTE)) {
             if ($this->lexer->next !== null) {
-                throw new InvalidValuePath("Expecting T_TYPE at the beginning of a new path-part.");
+                throw new InvalidPath('Expecting T_TYPE at the beginning of a new path-part.');
             }
             return null;
         }

@@ -17,7 +17,7 @@ final class Boolean implements ValueObjectInterface
      */
     public static function fromNative($nativeValue): Boolean
     {
-        Assertion::boolean($nativeValue);
+        Assertion::boolean($nativeValue, 'Trying to create Boolean VO from unsupported value type.');
         return new Boolean($nativeValue);
     }
 
@@ -33,7 +33,7 @@ final class Boolean implements ValueObjectInterface
 
     public function __toString(): string
     {
-        return $this->value ? "true" : "false";
+        return $this->value ? 'true' : 'false';
     }
 
     public function isTrue(): bool

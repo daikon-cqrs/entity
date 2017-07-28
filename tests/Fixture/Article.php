@@ -24,7 +24,7 @@ final class Article extends Entity
      */
     public function getId(): Uuid
     {
-        return $this->get("id");
+        return $this->get('id');
     }
 
     /**
@@ -32,7 +32,7 @@ final class Article extends Entity
      */
     public function getTitle(): Text
     {
-        return $this->get("title");
+        return $this->get('title');
     }
 
     /**
@@ -40,7 +40,7 @@ final class Article extends Entity
      */
     public function getUrl(): Url
     {
-        return $this->get("url");
+        return $this->get('url');
     }
 
     /**
@@ -48,7 +48,7 @@ final class Article extends Entity
      */
     public function getParagraphs(): NestedEntityList
     {
-        return $this->get("paragraphs");
+        return $this->get('paragraphs');
     }
 
     /**
@@ -56,6 +56,6 @@ final class Article extends Entity
      */
     public function getWorkshopLocation(): Location
     {
-        return $this->get("workshop_location");
+        return $this->get('workshop_location');
     }
 }

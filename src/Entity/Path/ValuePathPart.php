@@ -38,7 +38,7 @@ final class ValuePathPart
     public function __toString(): string
     {
         return $this->hasPosition()
-            ? $this->getAttributeName().".".$this->getPosition()
+            ? $this->getAttributeName().'.'.$this->getPosition()
             : $this->getAttributeName();
     }
 }

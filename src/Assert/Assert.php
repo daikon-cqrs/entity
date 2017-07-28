@@ -3,7 +3,7 @@
 namespace Daikon\Entity\Assert;
 
 use Assert\Assert as BaseAssert;
-use Daikon\Entity\Error\LazyAssertionFailed;
+use Daikon\Entity\Exception\LazyAssertionFailed;
 
 abstract class Assert extends BaseAssert
 {

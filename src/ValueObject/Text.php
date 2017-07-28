@@ -9,7 +9,7 @@ final class Text implements ValueObjectInterface
     /**
      * @var string
      */
-    private const NIL = "";
+    private const NIL = '';
 
     /**
      * @var string
@@ -22,7 +22,7 @@ final class Text implements ValueObjectInterface
      */
     public static function fromNative($nativeValue): Text
     {
-        Assertion::nullOrString($nativeValue);
+        Assertion::nullOrString($nativeValue, 'Trying to create Text VO from unsupported value type.');
         return is_null($nativeValue) ? new Text : new Text($nativeValue);
     }
 

@@ -2,7 +2,7 @@
 
 namespace Daikon\Entity\EntityType\Path;
 
-use Daikon\Entity\Error\InvalidTypePath;
+use Daikon\Entity\Exception\InvalidPath;
 use JMS\Parser\AbstractParser;
 use JMS\Parser\SimpleLexer;
 
@@ -75,7 +75,7 @@ REGEX;
         }
         if (!$this->lexer->isNext(self::T_TYPE)) {
             if ($this->lexer->next !== null) {
-                throw new InvalidTypePath('Expecting T_TYPE at the beginning of a new path-part.');
+                throw new InvalidPath('Expecting T_TYPE at the beginning of a new path-part.');
             }
             return null;
         }
@@ -85,7 +85,7 @@ REGEX;
             $this->match(self::T_COMPONENT_SEP);
             $type = $this->match(self::T_TYPE);
             if ($this->lexer->next === null) {
-                throw new InvalidTypePath(
+                throw new InvalidPath(
                     'Unexpected T_TYPE at the end of type-path. Type-paths must end pointing towards an attribute.'
                 );
             }

@@ -23,11 +23,11 @@ class ValuePathParserTest extends TestCase
     }
 
     /**
-     * @expectedException \Daikon\Entity\Error\InvalidValuePath
+     * @expectedException \Daikon\Entity\Exception\InvalidPath
      */
     public function testInvalidPath(): void
     {
-        ValuePathParser::create()->parse("2-teasers");
+        ValuePathParser::create()->parse('2-teasers');
     } // @codeCoverageIgnore
 
     /**
@@ -38,16 +38,16 @@ class ValuePathParserTest extends TestCase
     {
         return [
             [
-                "pathExpression" => "paragraphs",
-                "expectedLength" => 1
+                'pathExpression' => 'paragraphs',
+                'expectedLength' => 1
             ],
             [
-                "pathExpression" => "paragraphs.1-title",
-                "expectedLength" => 2
+                'pathExpression' => 'paragraphs.1-title',
+                'expectedLength' => 2
             ],
             [
-                "pathExpression" => "slideshows.2-teasers.3-images",
-                "expectedLength" => 3
+                'pathExpression' => 'slideshows.2-teasers.3-images',
+                'expectedLength' => 3
             ]
         ];
     }

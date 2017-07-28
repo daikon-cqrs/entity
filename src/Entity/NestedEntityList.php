@@ -55,19 +55,19 @@ final class NestedEntityList implements ValueObjectListInterface
         foreach ($this as $nestedEntity) {
             $parts[] = (string)$nestedEntity;
         }
-        return implode(",\n", $parts);
+        return implode(', ', $parts);
     }
 
     public function diff(ValueObjectListInterface $otherList): ValueObjectListInterface
     {
         $differentEntities = [];
-        /* @var TypedEntityInterface $entity */
+        /* @var EntityInterface $entity */
         foreach ($this as $pos => $entity) {
             if (!$otherList->has($pos)) {
                 $differentEntities[] = $entity;
                 continue;
             }
-            /* @var TypedEntityInterface $otherEntity */
+            /* @var EntityInterface $otherEntity */
             $otherEntity = $otherList->get($pos);
             $diff = $entity->getValueObjectMap()->diff($otherEntity->getValueObjectMap());
             if (!$diff->isEmpty()) {
@@ -79,6 +79,6 @@ final class NestedEntityList implements ValueObjectListInterface
 
     private function __construct(array $entities = [])
     {
-        $this->init($entities, TypedEntityInterface::class);
+        $this->init($entities, EntityInterface::class);
     }
 }
