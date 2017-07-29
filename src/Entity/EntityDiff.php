@@ -7,35 +7,45 @@ use Daikon\Entity\Exception\UnexpectedType;
 
 final class EntityDiff
 {
-    public function __invoke(EntityInterface $leftEntity, EntityInterface $rightEntity): ValueObjectMap
+    public function __invoke(EntityInterface $left, EntityInterface $right): ValueObjectMap
     {
-        $this->assertComparabiliy($leftEntity, $rightEntity);
-        return $this->generateDiff($leftEntity, $rightEntity);
-    }
-
-    private function assertComparabiliy(EntityInterface $leftEntity, EntityInterface $rightEntity)
-    {
-        if ($leftEntity->getEntityType() !== $rightEntity->getEntityType()) {
-            throw new UnexpectedType('Comparing entities of different types is not supported.');
-        }
-    }
-
-    private function generateDiff(EntityInterface $leftEntity, EntityInterface $rightEntity): ValueObjectMap
-    {
-        return ValueObjectMap::forEntity($leftEntity, array_reduce(
-            $leftEntity->getEntityType()->getAttributes()->toArray(),
-            function (array $diff, AttributeInterface $attribute) use ($leftEntity, $rightEntity): array {
-                $attrName = $attribute->getName();
-                if ($rightEntity->has($attrName) && $leftEntity->has($attrName)) {
-                    if (!$leftEntity->get($attrName)->equals($rightEntity->get($attrName))) {
-                        $diff[$attrName] = $leftEntity->get($attrName);
-                    }
-                } elseif ($leftEntity->has($attrName)) {
-                    $diff[$attrName] = $leftEntity->get($attrName);
+        $this->assertComparabiliy($left, $right);
+        return ValueObjectMap::forEntity($left, array_reduce(
+            $this->listAtrributeNames($left),
+            function (array $diff, string $attribute) use ($left, $right): array {
+                if ($this->bothEntitesHaveValueSet($attribute, $left, $right)) {
+                    $diff = $this->addValueIfDifferent($diff, $attribute, $left, $right);
+                } elseif ($left->has($attribute)) {
+                    $diff[$attribute] = $left->get($attribute);
                 }
                 return $diff;
             },
             []
         ));
+    }
+
+    private function assertComparabiliy(EntityInterface $left, EntityInterface $right)
+    {
+        if ($left->getEntityType() !== $right->getEntityType()) {
+            throw new UnexpectedType('Comparing entities of different types is not supported.');
+        }
+    }
+
+    private function listAtrributeNames(EntityInterface $entity): array
+    {
+        return array_keys($entity->getEntityType()->getAttributes()->toArray());
+    }
+
+    private function bothEntitesHaveValueSet(string $attribute, EntityInterface $left, EntityInterface $right): bool
+    {
+        return $left->has($attribute) && $right->has($attribute);
+    }
+
+    private function addValueIfDifferent(array $diff, string $attribute, EntityInterface $left, $right): array
+    {
+        if (!$left->get($attribute)->equals($right->get($attribute))) {
+            $diff[$attribute] = $left->get($attribute);
+        }
+        return $diff;
     }
 }
