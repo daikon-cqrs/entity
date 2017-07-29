@@ -6,17 +6,12 @@ use Daikon\Entity\ValueObject\ValueObjectInterface;
 
 abstract class NestedEntity extends Entity implements ValueObjectInterface
 {
-    public function equals(ValueObjectInterface $otherValue): bool
+    public function equals(ValueObjectInterface $entity): bool
     {
-        if (!$otherValue instanceof self) {
+        if (!$entity instanceof static) {
             return false;
         }
-        foreach ($this->getValueObjectMap() as $attrName => $value) {
-            if (!$value->equals($otherValue->get($attrName))) {
-                return false;
-            }
-        }
-        return true;
+        return (new EntityDiff)($this, $entity)->isEmpty();
     }
 
     public function __toString(): string

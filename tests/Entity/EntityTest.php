@@ -2,8 +2,9 @@
 
 namespace Daikon\Tests\Entity\Entity;
 
-use Daikon\Entity\Entity\Path\ValuePath;
 use Daikon\Entity\EntityType\Attribute\NestedEntityListAttribute;
+use Daikon\Entity\Entity\EntityDiff;
+use Daikon\Entity\Entity\Path\ValuePath;
 use Daikon\Tests\Entity\Fixture\Article;
 use Daikon\Tests\Entity\Fixture\ArticleType;
 use Daikon\Tests\Entity\Fixture\CategoryRelation;
@@ -117,9 +118,8 @@ class EntityTest extends TestCase
                 'content' => 'this is the content!'
             ]]
         ];
-        $newArticle = $article->withValues($diffData);
-        $calculatedDiff = $newArticle->getValueObjectMap()->diff($article->getValueObjectMap());
-        $this->assertEquals($diffData, $calculatedDiff->toArray());
+        $calculatedDiff = (new EntityDiff)($article->withValues($diffData), $article);
+        $this->assertEquals($diffData, $calculatedDiff->toNative());
     }
 
     public function testIsSameAs(): void

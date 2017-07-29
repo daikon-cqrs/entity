@@ -26,9 +26,9 @@ final class Text implements ValueObjectInterface
         return is_null($nativeValue) ? new Text : new Text($nativeValue);
     }
 
-    public function equals(ValueObjectInterface $otherValue): bool
+    public function equals(ValueObjectInterface $value): bool
     {
-        return $otherValue instanceof Text && $this->toNative() === $otherValue->toNative();
+        return $value instanceof Text && $this->toNative() === $value->toNative();
     }
 
     public function toNative(): string

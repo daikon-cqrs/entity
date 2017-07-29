@@ -44,9 +44,9 @@ final class Email implements ValueObjectInterface
         return $this->localPart->toNative().'@'.$this->domain->toNative();
     }
 
-    public function equals(ValueObjectInterface $otherValue): bool
+    public function equals(ValueObjectInterface $value): bool
     {
-        return $otherValue instanceof Email && $this->toNative() === $otherValue->toNative();
+        return $value instanceof Email && $this->toNative() === $value->toNative();
     }
 
     public function __toString(): string

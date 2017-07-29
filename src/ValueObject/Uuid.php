@@ -32,9 +32,9 @@ final class Uuid implements ValueObjectInterface
         return empty($nativeValue) ? new Uuid : new Uuid(RamseyUuid::fromString($nativeValue));
     }
 
-    public function equals(ValueObjectInterface $otherValue): bool
+    public function equals(ValueObjectInterface $value): bool
     {
-        return $otherValue instanceof Uuid && $this->toNative() === $otherValue->toNative();
+        return $value instanceof Uuid && $this->toNative() === $value->toNative();
     }
 
     public function toNative(): ?string

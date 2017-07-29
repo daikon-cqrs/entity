@@ -9,10 +9,7 @@ final class GeoPoint implements ValueObjectInterface
     /**
      * @var float[]
      */
-    public const NULL_ISLAND = [
-        'lon' => 0.0,
-        'lat' => 0.0
-    ];
+    public const NULL_ISLAND = [ 'lon' => 0.0, 'lat' => 0.0 ];
 
     /**
      * @var Decimal
@@ -53,9 +50,9 @@ final class GeoPoint implements ValueObjectInterface
         return [ 'lon' => $this->lon->toNative(), 'lat' => $this->lat->toNative() ];
     }
 
-    public function equals(ValueObjectInterface $otherValue): bool
+    public function equals(ValueObjectInterface $value): bool
     {
-        return $otherValue instanceof GeoPoint && $this->toNative() == $otherValue->toNative();
+        return $value instanceof GeoPoint && $this->toNative() == $value->toNative();
     }
 
     public function __toString(): string

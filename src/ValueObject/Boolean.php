@@ -26,9 +26,9 @@ final class Boolean implements ValueObjectInterface
         return $this->value;
     }
 
-    public function equals(ValueObjectInterface $otherValue): bool
+    public function equals(ValueObjectInterface $value): bool
     {
-        return $otherValue instanceof Boolean && $this->toNative() === $otherValue->toNative();
+        return $value instanceof Boolean && $this->toNative() === $value->toNative();
     }
 
     public function __toString(): string

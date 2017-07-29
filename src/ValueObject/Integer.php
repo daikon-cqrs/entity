@@ -31,9 +31,9 @@ final class Integer implements ValueObjectInterface
         return $this->value;
     }
 
-    public function equals(ValueObjectInterface $otherValue): bool
+    public function equals(ValueObjectInterface $value): bool
     {
-        return $otherValue instanceof Integer && $this->toNative() === $otherValue->toNative();
+        return $value instanceof Integer && $this->toNative() === $value->toNative();
     }
 
     public function __toString(): string

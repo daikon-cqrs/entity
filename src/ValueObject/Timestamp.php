@@ -49,9 +49,9 @@ final class Timestamp implements ValueObjectInterface
         return $this->value === self::NIL ? self::NIL : $this->value->format(self::NATIVE_FORMAT);
     }
 
-    public function equals(ValueObjectInterface $otherValue): bool
+    public function equals(ValueObjectInterface $value): bool
     {
-        return $otherValue instanceof self && $this->toNative() === $otherValue->toNative();
+        return $value instanceof self && $this->toNative() === $value->toNative();
     }
 
     public function __toString(): string

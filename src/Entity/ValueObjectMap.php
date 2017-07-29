@@ -2,11 +2,14 @@
 
 namespace Daikon\Entity\Entity;
 
+use Countable;
 use Daikon\DataStructure\TypedMapTrait;
 use Daikon\Entity\ValueObject\Nil;
 use Daikon\Entity\ValueObject\ValueObjectInterface;
+use Daikon\Interop\ToNativeInterface;
+use IteratorAggregate;
 
-final class ValueObjectMap implements \IteratorAggregate, \Countable
+final class ValueObjectMap implements ToNativeInterface, IteratorAggregate, Countable
 {
     use TypedMapTrait;
 
@@ -38,24 +41,13 @@ final class ValueObjectMap implements \IteratorAggregate, \Countable
         return $clonedMap;
     }
 
-    public function toArray(): array
+    public function toNative(): array
     {
         $array = [];
         foreach ($this as $attributeName => $valueObject) {
             $array[$attributeName] = $valueObject->toNative();
         }
         return $array;
-    }
-
-    public function diff(ValueObjectMap $valueMap): ValueObjectMap
-    {
-        $clonedMap = clone $this;
-        $clonedMap->compositeMap = $this->compositeMap->filter(
-            function (string $attrName, ValueObjectInterface $value) use ($valueMap): bool {
-                return !$valueMap->has($attrName) || !$value->equals($valueMap->get($attrName));
-            }
-        );
-        return $clonedMap;
     }
 
     private function __construct(EntityInterface $entity, array $values = [])

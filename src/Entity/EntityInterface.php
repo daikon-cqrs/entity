@@ -31,8 +31,6 @@ interface EntityInterface extends FromNativeInterface, ToNativeInterface
 
     public function has(string $attributeName): bool;
 
-    public function getValueObjectMap(): ValueObjectMap;
-
     public function getEntityRoot(): EntityInterface;
 
     public function getEntityParent(): ?EntityInterface;

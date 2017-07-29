@@ -27,9 +27,9 @@ final class Decimal implements ValueObjectInterface
         return $this->value;
     }
 
-    public function equals(ValueObjectInterface $otherValue): bool
+    public function equals(ValueObjectInterface $value): bool
     {
-        return $otherValue instanceof Decimal && $this->toNative() === $otherValue->toNative();
+        return $value instanceof Decimal && $this->toNative() === $value->toNative();
     }
 
     public function __toString(): string

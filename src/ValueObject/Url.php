@@ -62,19 +62,21 @@ final class Url implements ValueObjectInterface
             return self::NIL;
         }
         return sprintf(
-            '%s://%s%s%s%s%s',
+            '%s://%s',
             $this->scheme,
-            $this->host,
-            $this->formatPort(),
-            $this->path,
-            $this->formatQuery(),
-            $this->formatFragment()
+            implode('', [
+                $this->host,
+                $this->formatPort(),
+                $this->path,
+                $this->formatQuery(),
+                $this->formatFragment()
+            ])
         );
     }
 
-    public function equals(ValueObjectInterface $otherValue): bool
+    public function equals(ValueObjectInterface $value): bool
     {
-        return $otherValue instanceof Url && $otherValue->toNative() === $this->toNative();
+        return $value instanceof Url && $value->toNative() === $this->toNative();
     }
 
     public function __toString(): string

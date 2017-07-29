@@ -24,9 +24,9 @@ final class Nil implements ValueObjectInterface
         return null;
     }
 
-    public function equals(ValueObjectInterface $otherValue): bool
+    public function equals(ValueObjectInterface $value): bool
     {
-        return $otherValue instanceof Nil;
+        return $value instanceof Nil;
     }
 
     public function __toString(): string

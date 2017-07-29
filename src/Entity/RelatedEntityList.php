@@ -70,7 +70,7 @@ final class RelatedEntityList implements ValueObjectListInterface
             }
             /* @var EntityInterface $otherEntity */
             $otherEntity = $otherList->get($pos);
-            $diff = $entity->getValueObjectMap()->diff($otherEntity->getValueObjectMap());
+            $diff = (new EntityDiff)($entity, $otherEntity);
             if (!$diff->isEmpty()) {
                 $differentEntities[] = $entity;
             }

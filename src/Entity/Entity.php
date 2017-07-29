@@ -5,6 +5,7 @@ namespace Daikon\Entity\Entity;
 use Daikon\Entity\Assert\Assertion;
 use Daikon\Entity\EntityType\EntityTypeInterface;
 use Daikon\Entity\Entity\Path\ValuePathParser;
+use Daikon\Entity\Exception\UnexpectedType;
 use Daikon\Entity\Exception\UnknownAttribute;
 use Daikon\Entity\ValueObject\Nil;
 use Daikon\Entity\ValueObject\ValueObjectInterface;
@@ -50,7 +51,7 @@ abstract class Entity implements EntityInterface
 
     public function toNative(): array
     {
-        $entityState = $this->valueObjectMap->toArray();
+        $entityState = $this->valueObjectMap->toNative();
         $entityState[self::TYPE_KEY] = $this->getEntityType()->getName();
         return $entityState;
     }
@@ -73,11 +74,6 @@ abstract class Entity implements EntityInterface
         $copy = clone $this;
         $copy->valueObjectMap = $this->valueObjectMap->withValues($values);
         return $copy;
-    }
-
-    public function getValueObjectMap(): ValueObjectMap
-    {
-        return $this->valueObjectMap;
     }
 
     public function has(string $attributeName): bool
