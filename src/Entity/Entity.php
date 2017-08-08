@@ -104,7 +104,7 @@ abstract class Entity implements EntityInterface
         return sprintf('%s:%s', static::class, $this->getIdentity());
     }
 
-    private function __construct(array $values = [])
+    protected function __construct(array $values = [])
     {
         $this->valueObjectMap = ValueObjectMap::forEntity($this, $values);
         $this->pathParser = ValuePathParser::create();
