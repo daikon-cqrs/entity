@@ -1,4 +1,12 @@
 <?php
+/**
+ * This file is part of the daikon-cqrs/entity project.
+ *
+ * For the full copyright and license information, please view the LICENSE
+ * file that was distributed with this source code.
+ */
+
+declare(strict_types=1);
 
 namespace Daikon\Entity\ValueObject;
 
@@ -14,24 +22,19 @@ final class Timestamp implements ValueObjectInterface
     public const NATIVE_FORMAT = 'Y-m-d\TH:i:s.uP';
 
     /**
-     * @var null
-     */
-    private const NIL = null;
-
-    /**
      * @var DateTimeImmutable|null
      */
     private $value;
 
     public static function now(): Timestamp
     {
-        return new Timestamp(new DateTimeImmutable);
+        return new static(new DateTimeImmutable);
     }
 
     public static function createFromString(string $date, string $format = self::NATIVE_FORMAT): Timestamp
     {
         Assertion::date($date, $format);
-        return new Timestamp(DateTimeImmutable::createFromFormat($format, $date));
+        return new static(DateTimeImmutable::createFromFormat($format, $date));
     }
 
     /**
@@ -41,22 +44,22 @@ final class Timestamp implements ValueObjectInterface
     public static function fromNative($nativeValue): Timestamp
     {
         Assertion::nullOrString($nativeValue, 'Trying to create Timestamp VO from unsupported value type.');
-        return empty($nativeValue) ? new Timestamp : self::createFromString($nativeValue);
+        return empty($nativeValue) ? new static : static::createFromString($nativeValue);
     }
 
     public function toNative(): ?string
     {
-        return $this->value === self::NIL ? self::NIL : $this->value->format(self::NATIVE_FORMAT);
+        return is_null($this->value) ? null : $this->value->format(static::NATIVE_FORMAT);
     }
 
     public function equals(ValueObjectInterface $value): bool
     {
-        return $value instanceof self && $this->toNative() === $value->toNative();
+        return $value instanceof static && $this->toNative() === $value->toNative();
     }
 
     public function __toString(): string
     {
-        return $this->value ? $this->toNative() : 'null';
+        return $this->toNative() ?? 'null';
     }
 
     private function __construct(DateTimeImmutable $value = null)

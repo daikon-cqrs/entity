@@ -1,4 +1,12 @@
 <?php
+/**
+ * This file is part of the daikon-cqrs/entity project.
+ *
+ * For the full copyright and license information, please view the LICENSE
+ * file that was distributed with this source code.
+ */
+
+declare(strict_types=1);
 
 namespace Daikon\Entity\ValueObject;
 
@@ -6,11 +14,6 @@ use Daikon\Entity\Assert\Assertion;
 
 final class Text implements ValueObjectInterface
 {
-    /**
-     * @var string
-     */
-    private const NIL = '';
-
     /**
      * @var string
      */
@@ -23,12 +26,12 @@ final class Text implements ValueObjectInterface
     public static function fromNative($nativeValue): Text
     {
         Assertion::nullOrString($nativeValue, 'Trying to create Text VO from unsupported value type.');
-        return is_null($nativeValue) ? new Text : new Text($nativeValue);
+        return is_null($nativeValue) ? new static : new static($nativeValue);
     }
 
     public function equals(ValueObjectInterface $value): bool
     {
-        return $value instanceof Text && $this->toNative() === $value->toNative();
+        return $value instanceof static && $this->toNative() === $value->toNative();
     }
 
     public function toNative(): string
@@ -43,7 +46,7 @@ final class Text implements ValueObjectInterface
 
     public function isEmpty(): bool
     {
-        return $this->value === self::NIL;
+        return empty($this->value);
     }
 
     public function getLength(): int
@@ -51,7 +54,7 @@ final class Text implements ValueObjectInterface
         return strlen($this->value);
     }
 
-    private function __construct(string $value = self::NIL)
+    private function __construct(string $value = '')
     {
         $this->value = $value;
     }

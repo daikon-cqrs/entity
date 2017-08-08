@@ -1,4 +1,12 @@
 <?php
+/**
+ * This file is part of the daikon-cqrs/entity project.
+ *
+ * For the full copyright and license information, please view the LICENSE
+ * file that was distributed with this source code.
+ */
+
+declare(strict_types=1);
 
 namespace Daikon\Entity\ValueObject;
 
@@ -12,12 +20,12 @@ final class GeoPoint implements ValueObjectInterface
     public const NULL_ISLAND = [ 'lon' => 0.0, 'lat' => 0.0 ];
 
     /**
-     * @var Decimal
+     * @var FloatValue
      */
     private $lon;
 
     /**
-     * @var Decimal
+     * @var FloatValue
      */
     private $lat;
 
@@ -29,17 +37,17 @@ final class GeoPoint implements ValueObjectInterface
     {
         Assertion::keyExists($point, 'lon');
         Assertion::keyExists($point, 'lat');
-        return new GeoPoint(Decimal::fromNative($point['lon']), Decimal::fromNative($point['lat']));
+        return new GeoPoint(FloatValue::fromNative($point['lon']), FloatValue::fromNative($point['lat']));
     }
 
     /**
-     * @param null|float[] $nativeValue
+     * @param float[]|null $nativeValue
      * @return GeoPoint
      */
     public static function fromNative($nativeValue): GeoPoint
     {
         Assertion::nullOrIsArray($nativeValue, 'Trying to create GeoPoint VO from unsupported value type.');
-        return is_array($nativeValue) ? self::fromArray($nativeValue) : self::fromArray(self::NULL_ISLAND);
+        return is_array($nativeValue) ? static::fromArray($nativeValue) : static::fromArray(static::NULL_ISLAND);
     }
 
     /**
@@ -52,7 +60,7 @@ final class GeoPoint implements ValueObjectInterface
 
     public function equals(ValueObjectInterface $value): bool
     {
-        return $value instanceof GeoPoint && $this->toNative() == $value->toNative();
+        return $value instanceof static && $this->toNative() == $value->toNative();
     }
 
     public function __toString(): string
@@ -62,20 +70,20 @@ final class GeoPoint implements ValueObjectInterface
 
     public function isNullIsland(): bool
     {
-        return $this->toNative() == self::NULL_ISLAND;
+        return $this->toNative() == static::NULL_ISLAND;
     }
 
-    public function getLon(): Decimal
+    public function getLon(): FloatValue
     {
         return $this->lon;
     }
 
-    public function getLat(): Decimal
+    public function getLat(): FloatValue
     {
         return $this->lat;
     }
 
-    private function __construct(Decimal $lon, Decimal $lat)
+    private function __construct(FloatValue $lon, FloatValue $lat)
     {
         $this->lon = $lon;
         $this->lat = $lat;

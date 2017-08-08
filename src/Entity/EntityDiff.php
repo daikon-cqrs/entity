@@ -1,11 +1,16 @@
 <?php
+/**
+ * This file is part of the daikon-cqrs/entity project.
+ *
+ * For the full copyright and license information, please view the LICENSE
+ * file that was distributed with this source code.
+ */
+
+declare(strict_types=1);
 
 namespace Daikon\Entity\Entity;
 
 use Daikon\Entity\Assert\Assertion;
-use Daikon\Entity\EntityType\AttributeInterface;
-use Daikon\Entity\EntityType\EntityTypeInterface;
-use Daikon\Entity\Exception\UnexpectedType;
 
 final class EntityDiff
 {
@@ -13,7 +18,7 @@ final class EntityDiff
     {
         $this->assertComparabiliy($left, $right);
         return ValueObjectMap::forEntity($left, array_reduce(
-            $this->listAtrributeNames($left->getEntityType()),
+            $this->listAtrributeNames($left),
             function (array $diff, string $attribute) use ($left, $right): array {
                 if ($this->bothEntitesHaveValueSet($attribute, $left, $right)) {
                     $diff = $this->addValueIfDifferent($diff, $attribute, $left, $right);
@@ -29,15 +34,15 @@ final class EntityDiff
     private function assertComparabiliy(EntityInterface $left, EntityInterface $right)
     {
         Assertion::isInstanceOf(
-            $right->getEntityType(),
-            get_class($left->getEntityType()),
+            $right,
+            get_class($left),
             'Comparing entities of different types is not supported.'
         );
     }
 
-    private function listAtrributeNames(EntityTypeInterface $entityType): array
+    private function listAtrributeNames(EntityInterface $entity): array
     {
-        return array_keys($entityType->getAttributes()->toArray());
+        return array_keys($entity->getAttributeMap()->toArray());
     }
 
     private function bothEntitesHaveValueSet(string $attribute, EntityInterface $left, EntityInterface $right): bool
@@ -45,8 +50,12 @@ final class EntityDiff
         return $left->has($attribute) && $right->has($attribute);
     }
 
-    private function addValueIfDifferent(array $diff, string $attribute, EntityInterface $left, $right): array
-    {
+    private function addValueIfDifferent(
+        array $diff,
+        string $attribute,
+        EntityInterface $left,
+        EntityInterface $right
+    ): array {
         if (!$left->get($attribute)->equals($right->get($attribute))) {
             $diff[$attribute] = $left->get($attribute);
         }

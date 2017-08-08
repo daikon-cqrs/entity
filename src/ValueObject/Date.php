@@ -1,4 +1,12 @@
 <?php
+/**
+ * This file is part of the daikon-cqrs/entity project.
+ *
+ * For the full copyright and license information, please view the LICENSE
+ * file that was distributed with this source code.
+ */
+
+declare(strict_types=1);
 
 namespace Daikon\Entity\ValueObject;
 
@@ -13,11 +21,6 @@ final class Date implements ValueObjectInterface
     public const NATIVE_FORMAT = 'Y-m-d';
 
     /**
-     * @var null
-     */
-    private const NIL = null;
-
-    /**
      * @var DateTimeImmutable|null
      */
     private $value;
@@ -30,27 +33,27 @@ final class Date implements ValueObjectInterface
     public static function createFromString(string $value, string $format = self::NATIVE_FORMAT): self
     {
         Assertion::date($value, $format);
-        return new Date(DateTimeImmutable::createFromFormat($format, $value));
+        return new static(DateTimeImmutable::createFromFormat($format, $value));
     }
 
     /**
      * @param string|null $nativeValue
-     * @return self
+     * @return Date
      */
     public static function fromNative($nativeValue): Date
     {
         Assertion::nullOrString($nativeValue, 'Trying to create Date VO from unsupported value type.');
-        return empty($nativeValue) ? new self : self::createFromString($nativeValue);
+        return empty($nativeValue) ? new static : static::createFromString($nativeValue);
     }
 
     public function toNative(): ?string
     {
-        return $this->value === self::NIL ? self::NIL : $this->value->format(self::NATIVE_FORMAT);
+        return is_null($this->value) ? null : $this->value->format(static::NATIVE_FORMAT);
     }
 
     public function equals(ValueObjectInterface $value): bool
     {
-        return $value instanceof Date && $this->toNative() === $value->toNative();
+        return $value instanceof static && $this->toNative() === $value->toNative();
     }
 
     public function __toString(): string
@@ -58,7 +61,7 @@ final class Date implements ValueObjectInterface
         return $this->toNative() ?? '';
     }
 
-    private function __construct(DateTimeImmutable $value = self::NIL)
+    private function __construct(DateTimeImmutable $value = null)
     {
         $this->value = $value ? $value->setTime(0, 0, 0) : $value;
     }

@@ -1,4 +1,12 @@
 <?php
+/**
+ * This file is part of the daikon-cqrs/entity project.
+ *
+ * For the full copyright and license information, please view the LICENSE
+ * file that was distributed with this source code.
+ */
+
+declare(strict_types=1);
 
 namespace Daikon\Entity\Entity\Path;
 
@@ -95,7 +103,7 @@ REGEX;
     public function parseInternal(): ValuePath
     {
         $valuePathParts = [];
-        while ($valuePathPart = $this->consumeValuePathPart()) {
+        while ($valuePathPart = $this->consume()) {
             $valuePathParts[] = $valuePathPart;
         }
         return new ValuePath($valuePathParts);
@@ -104,23 +112,40 @@ REGEX;
     /**
      * @return null|ValuePathPart
      */
-    private function consumeValuePathPart(): ?ValuePathPart
+    private function consume(): ?ValuePathPart
+    {
+        $this->eatSeparator();
+        $attribute = $this->parseAttribute();
+        if (is_null($attribute)) {
+            return null;
+        }
+        return new ValuePathPart($attribute, $this->parsePosition());
+    }
+
+    private function eatSeparator()
     {
         if ($this->lexer->isNext(self::T_PART_SEP)) {
             $this->match(self::T_PART_SEP);
         }
+    }
+
+    private function parseAttribute(): ?string
+    {
         if (!$this->lexer->isNext(self::T_ATTRIBUTE)) {
             if ($this->lexer->next !== null) {
                 throw new InvalidPath('Expecting T_TYPE at the beginning of a new path-part.');
             }
             return null;
         }
-        $attribute = $this->match(self::T_ATTRIBUTE);
-        $position = -1;
+        return $this->match(self::T_ATTRIBUTE);
+    }
+
+    private function parsePosition(): int
+    {
         if ($this->lexer->isNext(self::T_COMPONENT_SEP)) {
             $this->match(self::T_COMPONENT_SEP);
-            $position = $this->match(self::T_POSITION);
+            return $this->match(self::T_POSITION);
         }
-        return new ValuePathPart($attribute, $position);
+        return -1;
     }
 }

@@ -1,23 +1,25 @@
 <?php
+/**
+ * This file is part of the daikon-cqrs/entity project.
+ *
+ * For the full copyright and license information, please view the LICENSE
+ * file that was distributed with this source code.
+ */
+
+declare(strict_types=1);
 
 namespace Daikon\Entity\Entity;
 
-use Daikon\Entity\EntityType\EntityTypeInterface;
 use Daikon\Entity\ValueObject\ValueObjectInterface;
-use Daikon\Interop\FromNativeInterface;
-use Daikon\Interop\ToNativeInterface;
 
-interface EntityInterface extends FromNativeInterface, ToNativeInterface
+interface EntityInterface extends ValueObjectInterface
 {
     /**
      * @var string
      */
     public const TYPE_KEY = '@type';
 
-    /**
-     * @var string
-     */
-    public const PARENT_KEY = '@parent';
+    public static function getAttributeMap(): AttributeMap;
 
     public function getIdentity(): ValueObjectInterface;
 
@@ -30,10 +32,4 @@ interface EntityInterface extends FromNativeInterface, ToNativeInterface
     public function get(string $valuePath): ?ValueObjectInterface;
 
     public function has(string $attributeName): bool;
-
-    public function getEntityRoot(): EntityInterface;
-
-    public function getEntityParent(): ?EntityInterface;
-
-    public function getEntityType(): EntityTypeInterface;
 }

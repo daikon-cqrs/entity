@@ -1,10 +1,17 @@
 <?php
+/**
+ * This file is part of the daikon-cqrs/entity project.
+ *
+ * For the full copyright and license information, please view the LICENSE
+ * file that was distributed with this source code.
+ */
+
+declare(strict_types=1);
 
 namespace Daikon\Entity\Entity;
 
 use Countable;
 use Daikon\DataStructure\TypedMapTrait;
-use Daikon\Entity\ValueObject\Nil;
 use Daikon\Entity\ValueObject\ValueObjectInterface;
 use Daikon\Interop\ToNativeInterface;
 use IteratorAggregate;
@@ -26,7 +33,7 @@ final class ValueObjectMap implements ToNativeInterface, IteratorAggregate, Coun
     public function withValue(string $attrName, $value): self
     {
         $clonedMap = clone $this;
-        $attribute = $this->entity->getEntityType()->getAttribute($attrName);
+        $attribute = $this->entity->getAttributeMap()->get($attrName);
         $clonedMap->compositeMap[$attrName] = $attribute->makeValue($value, $clonedMap->entity);
         return $clonedMap;
     }
@@ -35,7 +42,7 @@ final class ValueObjectMap implements ToNativeInterface, IteratorAggregate, Coun
     {
         $clonedMap = clone $this;
         foreach ($values as $attrName => $value) {
-            $attribute = $clonedMap->entity->getEntityType()->getAttribute($attrName);
+            $attribute = $clonedMap->entity->getAttributeMap()->get($attrName);
             $clonedMap->compositeMap[$attrName] = $attribute->makeValue($value, $clonedMap->entity);
         }
         return $clonedMap;
@@ -54,7 +61,7 @@ final class ValueObjectMap implements ToNativeInterface, IteratorAggregate, Coun
     {
         $this->entity = $entity;
         $valueObjects = [];
-        foreach ($entity->getEntityType()->getAttributes() as $attrName => $attribute) {
+        foreach ($entity->getAttributeMap() as $attrName => $attribute) {
             if (array_key_exists($attrName, $values)) {
                 $valueObjects[$attrName] = $attribute->makeValue($values[$attrName], $this->entity);
             }

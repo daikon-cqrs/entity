@@ -1,10 +1,18 @@
 <?php
+/**
+ * This file is part of the daikon-cqrs/entity project.
+ *
+ * For the full copyright and license information, please view the LICENSE
+ * file that was distributed with this source code.
+ */
+
+declare(strict_types=1);
 
 namespace Daikon\Entity\ValueObject;
 
 use Daikon\Entity\Assert\Assertion;
 
-final class Boolean implements ValueObjectInterface
+final class BoolValue implements ValueObjectInterface
 {
     /**
      * @var bool
@@ -13,12 +21,12 @@ final class Boolean implements ValueObjectInterface
 
     /**
      * @param bool $nativeValue
-     * @return self
+     * @return BoolValue
      */
-    public static function fromNative($nativeValue): Boolean
+    public static function fromNative($nativeValue): BoolValue
     {
-        Assertion::boolean($nativeValue, 'Trying to create Boolean VO from unsupported value type.');
-        return new Boolean($nativeValue);
+        Assertion::boolean($nativeValue, 'Trying to create BoolValue VO from unsupported value type.');
+        return new static($nativeValue);
     }
 
     public function toNative(): bool
@@ -28,7 +36,7 @@ final class Boolean implements ValueObjectInterface
 
     public function equals(ValueObjectInterface $value): bool
     {
-        return $value instanceof Boolean && $this->toNative() === $value->toNative();
+        return $value instanceof static && $this->toNative() === $value->toNative();
     }
 
     public function __toString(): string
@@ -46,10 +54,11 @@ final class Boolean implements ValueObjectInterface
         return $this->value === false;
     }
 
-    public function negate(): Boolean
+    public function negate(): BoolValue
     {
         $clone = clone $this;
         $clone->value = !$this->value;
+        /** @noinspection PhpStrictTypeCheckingInspection */
         return $clone;
     }
 

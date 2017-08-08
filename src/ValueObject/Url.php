@@ -1,4 +1,12 @@
 <?php
+/**
+ * This file is part of the daikon-cqrs/entity project.
+ *
+ * For the full copyright and license information, please view the LICENSE
+ * file that was distributed with this source code.
+ */
+
+declare(strict_types=1);
 
 namespace Daikon\Entity\ValueObject;
 
@@ -9,7 +17,7 @@ final class Url implements ValueObjectInterface
     /**
      * @var string
      */
-    private const NIL = '';
+    private const EMPTY = '';
 
     /**
      * @var string
@@ -37,7 +45,7 @@ final class Url implements ValueObjectInterface
     private $query;
 
     /**
-     * @var Integer
+     * @var IntValue
      */
     private $port;
 
@@ -53,13 +61,13 @@ final class Url implements ValueObjectInterface
     public static function fromNative($nativeValue): Url
     {
         Assertion::nullOrUrl($nativeValue, 'Trying to create Url VO from unsupported value type.');
-        return empty($nativeValue) ? new Url : new Url($nativeValue);
+        return empty($nativeValue) ? new static(static::EMPTY) : new static($nativeValue);
     }
 
     public function toNative(): string
     {
         if ($this->host->isEmpty()) {
-            return self::NIL;
+            return static::EMPTY;
         }
         return sprintf(
             '%s://%s',
@@ -76,7 +84,7 @@ final class Url implements ValueObjectInterface
 
     public function equals(ValueObjectInterface $value): bool
     {
-        return $value instanceof Url && $value->toNative() === $this->toNative();
+        return $value instanceof static && $value->toNative() === $this->toNative();
     }
 
     public function __toString(): string
@@ -89,7 +97,7 @@ final class Url implements ValueObjectInterface
         return $this->path;
     }
 
-    public function getPort(): Integer
+    public function getPort(): IntValue
     {
         return $this->port;
     }
@@ -114,7 +122,7 @@ final class Url implements ValueObjectInterface
         return $this->scheme;
     }
 
-    private function __construct(string $url = self::NIL)
+    private function __construct(string $url)
     {
         $this->host = $this->parseHost($url);
         $this->scheme = $this->parseScheme($url);
@@ -126,32 +134,32 @@ final class Url implements ValueObjectInterface
 
     private function parseHost(string $url): Text
     {
-        return Text::fromNative(parse_url($url, PHP_URL_HOST) ?: self::NIL);
+        return Text::fromNative(parse_url($url, PHP_URL_HOST) ?: static::EMPTY);
     }
 
     private function parseScheme(string $url): Text
     {
-        return Text::fromNative(parse_url($url, PHP_URL_SCHEME) ?: self::NIL);
+        return Text::fromNative(parse_url($url, PHP_URL_SCHEME) ?: static::EMPTY);
     }
 
     private function parseQuery(string $url): Text
     {
-        return Text::fromNative(parse_url($url, PHP_URL_QUERY) ?: self::NIL);
+        return Text::fromNative(parse_url($url, PHP_URL_QUERY) ?: static::EMPTY);
     }
 
     private function parseFragment(string $url): Text
     {
-        return Text::fromNative(parse_url($url, PHP_URL_FRAGMENT) ?: self::NIL);
+        return Text::fromNative(parse_url($url, PHP_URL_FRAGMENT) ?: static::EMPTY);
     }
 
     private function parsePath(string $url): Text
     {
-        return Text::fromNative(parse_url($url, PHP_URL_PATH) ?: self::DEFAULT_PATH);
+        return Text::fromNative(parse_url($url, PHP_URL_PATH) ?: static::DEFAULT_PATH);
     }
 
-    private function parsePort(string $url): Integer
+    private function parsePort(string $url): IntValue
     {
-        return Integer::fromNative(parse_url($url, PHP_URL_PORT) ?: null);
+        return IntValue::fromNative(parse_url($url, PHP_URL_PORT) ?: null);
     }
 
     private function formatPort(): string

@@ -1,27 +1,23 @@
 <?php
+/**
+ * This file is part of the daikon-cqrs/entity project.
+ *
+ * For the full copyright and license information, please view the LICENSE
+ * file that was distributed with this source code.
+ */
+
+declare(strict_types=1);
 
 namespace Daikon\Entity\Entity;
 
 use Daikon\Entity\Assert\Assertion;
-use Daikon\Entity\EntityType\EntityTypeInterface;
 use Daikon\Entity\Entity\Path\ValuePathParser;
-use Daikon\Entity\Exception\UnexpectedType;
+use Daikon\Entity\Exception\InvalidPath;
 use Daikon\Entity\Exception\UnknownAttribute;
-use Daikon\Entity\ValueObject\Nil;
 use Daikon\Entity\ValueObject\ValueObjectInterface;
 
 abstract class Entity implements EntityInterface
 {
-    /**
-     * @var EntityTypeInterface
-     */
-    private $type;
-
-    /**
-     * @var EntityInterface
-     */
-    private $parent;
-
     /**
      * @var ValueObjectMap
      */
@@ -38,21 +34,13 @@ abstract class Entity implements EntityInterface
      */
     public static function fromNative($nativeState): EntityInterface
     {
-        $entityType = $nativeState[self::TYPE_KEY];
-        Assertion::isInstanceOf($entityType, EntityTypeInterface::class);
-        $parent = null;
-        if (isset($nativeState[self::PARENT_KEY])) {
-            $parent = $nativeState[self::PARENT_KEY];
-            Assertion::isInstanceOf($parent, EntityInterface::class);
-            unset($nativeState[self::PARENT_KEY]);
-        }
-        return new static($entityType, $nativeState, $parent);
+        return new static($nativeState);
     }
 
     public function toNative(): array
     {
         $entityState = $this->valueObjectMap->toNative();
-        $entityState[self::TYPE_KEY] = $this->getEntityType()->getName();
+        $entityState[self::TYPE_KEY] = static::class;
         return $entityState;
     }
 
@@ -78,8 +66,12 @@ abstract class Entity implements EntityInterface
 
     public function has(string $attributeName): bool
     {
-        if (!$this->type->hasAttribute($attributeName)) {
-            throw new UnknownAttribute(sprintf('Attribute "%s" is not known to the entity value-map.', $attributeName));
+        if (!$this->getAttributeMap()->has($attributeName)) {
+            throw new UnknownAttribute(sprintf(
+                'Attribute "%s" is not known to the entity %s',
+                $attributeName,
+                static::class
+            ));
         }
         return $this->valueObjectMap->has($attributeName);
     }
@@ -89,41 +81,31 @@ abstract class Entity implements EntityInterface
         if (mb_strpos($valuePath, '.')) {
             return $this->evaluatePath($valuePath);
         }
-        if (!$this->type->hasAttribute($valuePath)) {
+        if (!$this->getAttributeMap()->has($valuePath)) {
             throw new UnknownAttribute(sprintf(
-                'Attribute "%s" is unknown to type "%s"',
+                'Attribute "%s" is unknown to entity "%s"',
                 $valuePath,
-                $this->getEntityType()->getName()
+                static::class
             ));
         }
         return $this->valueObjectMap->has($valuePath) ? $this->valueObjectMap->get($valuePath) : null;
     }
 
-    public function getEntityRoot(): EntityInterface
+    public function equals(ValueObjectInterface $entity): bool
     {
-        $tmpParent = $this->getEntityParent();
-        $root = $tmpParent;
-        while ($tmpParent) {
-            $root = $tmpParent;
-            $tmpParent = $tmpParent->getEntityParent();
+        if (!$entity instanceof static) {
+            return false;
         }
-        return $root ?? $this;
+        return (new EntityDiff)($this, $entity)->isEmpty();
     }
 
-    public function getEntityParent(): ?EntityInterface
+    public function __toString(): string
     {
-        return $this->parent;
+        return sprintf('%s:%s', static::class, $this->getIdentity());
     }
 
-    public function getEntityType(): EntityTypeInterface
+    private function __construct(array $values = [])
     {
-        return $this->type;
-    }
-
-    protected function __construct(EntityTypeInterface $type, array $values = [], EntityInterface $parent = null)
-    {
-        $this->type = $type;
-        $this->parent = $parent;
         $this->valueObjectMap = ValueObjectMap::forEntity($this, $values);
         $this->pathParser = ValuePathParser::create();
     }
@@ -133,9 +115,11 @@ abstract class Entity implements EntityInterface
         $value = null;
         $entity = $this;
         foreach ($this->pathParser->parse($valuePath) as $pathPart) {
-            /* @var EntityInterface $value */
             $value = $entity->get($pathPart->getAttributeName());
-            if ($pathPart->hasPosition()) {
+            if ($value && $pathPart->hasPosition()) {
+                if (!$value instanceof EntityListInterface) {
+                    throw new InvalidPath('Trying to traverse non-entity value');
+                }
                 $entity = $value->get($pathPart->getPosition());
                 $value = $entity;
             }

@@ -1,14 +1,21 @@
 <?php
+/**
+ * This file is part of the daikon-cqrs/entity project.
+ *
+ * For the full copyright and license information, please view the LICENSE
+ * file that was distributed with this source code.
+ */
 
-namespace Daikon\Entity\EntityType;
+declare(strict_types=1);
+
+namespace Daikon\Entity\Entity;
 
 use Daikon\Entity\Assert\Assertion;
-use Daikon\Entity\Entity\EntityInterface;
-use Daikon\Entity\Exception\UnexpectedType;
 use Daikon\Entity\Exception\ClassNotExists;
+use Daikon\Entity\Exception\UnexpectedType;
 use Daikon\Entity\ValueObject\ValueObjectInterface;
 
-class Attribute implements AttributeInterface
+final class Attribute implements AttributeInterface
 {
     /**
      * @var string
@@ -16,20 +23,12 @@ class Attribute implements AttributeInterface
     private $name;
 
     /**
-     * @var EntityTypeInterface
-     */
-    private $entityType;
-
-    /**
      * @var string
      */
     private $valueImplementor;
 
-    public static function define(
-        string $name,
-        $valueImplementor,
-        EntityTypeInterface $entityType
-    ): AttributeInterface {
+    public static function define(string $name, $valueImplementor): AttributeInterface
+    {
         if (!class_exists($valueImplementor)) {
             throw new ClassNotExists(sprintf('Unable to load VO class "%s"', $valueImplementor));
         }
@@ -40,7 +39,7 @@ class Attribute implements AttributeInterface
                 ValueObjectInterface::class
             ));
         }
-        return new static($name, $entityType, $valueImplementor);
+        return new static($name, $valueImplementor);
     }
 
     public function makeValue($value = null, EntityInterface $parent = null): ValueObjectInterface
@@ -62,20 +61,9 @@ class Attribute implements AttributeInterface
         return $this->name;
     }
 
-    public function getEntityType(): EntityTypeInterface
-    {
-        return $this->entityType;
-    }
-
-    public function getParent(): ?AttributeInterface
-    {
-        return $this->getEntityType()->getParentAttribute();
-    }
-
-    protected function __construct(string $name, EntityTypeInterface $entityType, string $valueImplementor)
+    private function __construct(string $name, string $valueImplementor)
     {
         $this->name = $name;
         $this->valueImplementor = $valueImplementor;
-        $this->entityType = $entityType;
     }
 }

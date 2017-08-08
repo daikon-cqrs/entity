@@ -1,4 +1,12 @@
 <?php
+/**
+ * This file is part of the daikon-cqrs/entity project.
+ *
+ * For the full copyright and license information, please view the LICENSE
+ * file that was distributed with this source code.
+ */
+
+declare(strict_types=1);
 
 namespace Daikon\Entity\ValueObject;
 
@@ -8,18 +16,13 @@ use Ramsey\Uuid\Uuid as RamseyUuid;
 final class Uuid implements ValueObjectInterface
 {
     /**
-     * @var null
-     */
-    private const NIL = null;
-
-    /**
      * @var RamseyUuid|null
      */
     private $value;
 
     public static function generate(): Uuid
     {
-        return new Uuid(RamseyUuid::uuid4());
+        return new static(RamseyUuid::uuid4());
     }
 
     /**
@@ -29,12 +32,12 @@ final class Uuid implements ValueObjectInterface
     public static function fromNative($nativeValue): Uuid
     {
         Assertion::nullOrString($nativeValue, 'Trying to create Uuid VO from unsupported value type.');
-        return empty($nativeValue) ? new Uuid : new Uuid(RamseyUuid::fromString($nativeValue));
+        return empty($nativeValue) ? new static : new static(RamseyUuid::fromString($nativeValue));
     }
 
     public function equals(ValueObjectInterface $value): bool
     {
-        return $value instanceof Uuid && $this->toNative() === $value->toNative();
+        return $value instanceof static && $this->toNative() === $value->toNative();
     }
 
     public function toNative(): ?string
