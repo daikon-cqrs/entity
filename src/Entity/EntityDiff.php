@@ -16,7 +16,7 @@ final class EntityDiff
 {
     public function __invoke(EntityInterface $left, EntityInterface $right): ValueObjectMap
     {
-        $this->assertComparabiliy($left, $right);
+        $this->assertComparibility($left, $right);
         return ValueObjectMap::forEntity($left, array_reduce(
             $this->listAtrributeNames($left),
             function (array $diff, string $attribute) use ($left, $right): array {
@@ -31,7 +31,7 @@ final class EntityDiff
         ));
     }
 
-    private function assertComparabiliy(EntityInterface $left, EntityInterface $right)
+    private function assertComparibility(EntityInterface $left, EntityInterface $right)
     {
         Assertion::isInstanceOf(
             $right,
