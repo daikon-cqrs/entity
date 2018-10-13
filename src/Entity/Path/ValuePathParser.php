@@ -122,7 +122,7 @@ REGEX;
         return new ValuePathPart($attribute, $this->parsePosition());
     }
 
-    private function eatSeparator()
+    private function eatSeparator(): void
     {
         if ($this->lexer->isNext(self::T_PART_SEP)) {
             $this->match(self::T_PART_SEP);

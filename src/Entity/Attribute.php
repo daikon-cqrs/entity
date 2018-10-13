@@ -27,7 +27,7 @@ final class Attribute implements AttributeInterface
      */
     private $valueImplementor;
 
-    public static function define(string $name, $valueImplementor): AttributeInterface
+    public static function define(string $name, string $valueImplementor): AttributeInterface
     {
         if (!class_exists($valueImplementor)) {
             throw new ClassNotExists(sprintf('Unable to load VO class "%s"', $valueImplementor));
@@ -42,9 +42,15 @@ final class Attribute implements AttributeInterface
         return new static($name, $valueImplementor);
     }
 
+    /**
+     * @param mixed $value
+     * @param EntityInterface $parent
+     *
+     * @return ValueObjectInterface
+     */
     public function makeValue($value = null, EntityInterface $parent = null): ValueObjectInterface
     {
-        if (is_object($value)) {
+        if ($value instanceof ValueObjectInterface) {
             Assertion::isInstanceOf($value, $this->valueImplementor);
             return $value;
         }

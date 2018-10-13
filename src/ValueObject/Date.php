@@ -33,7 +33,10 @@ final class Date implements ValueObjectInterface
     public static function createFromString(string $value, string $format = self::NATIVE_FORMAT): self
     {
         Assertion::date($value, $format);
-        return new static(DateTimeImmutable::createFromFormat($format, $value));
+        if (!$date = DateTimeImmutable::createFromFormat($format, $value)) {
+            throw new \RuntimeException("Invalid date string given to " . self::class);
+        }
+        return new static($date);
     }
 
     /**

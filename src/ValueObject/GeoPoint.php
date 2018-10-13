@@ -51,7 +51,7 @@ final class GeoPoint implements ValueObjectInterface
     }
 
     /**
-     * @return float[]
+     * @return array{lon:float|null, lat:float|null}
      */
     public function toNative(): array
     {

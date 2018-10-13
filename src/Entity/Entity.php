@@ -29,7 +29,7 @@ abstract class Entity implements EntityInterface
     private $pathParser;
 
     /**
-     * @param mixed[] array
+     * @param mixed[] $nativeState
      * @return EntityInterface
      */
     public static function fromNative($nativeState): EntityInterface
@@ -50,6 +50,12 @@ abstract class Entity implements EntityInterface
         return $this->getIdentity()->equals($entity->getIdentity());
     }
 
+    /**
+     * @param string $attributeName
+     * @param mixed $value
+     *
+     * @return EntityInterface
+     */
     public function withValue(string $attributeName, $value): EntityInterface
     {
         $copy = clone $this;
@@ -110,7 +116,7 @@ abstract class Entity implements EntityInterface
         $this->pathParser = ValuePathParser::create();
     }
 
-    private function evaluatePath($valuePath): ?ValueObjectInterface
+    private function evaluatePath(string $valuePath): ?ValueObjectInterface
     {
         $value = null;
         $entity = $this;

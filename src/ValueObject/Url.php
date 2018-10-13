@@ -34,7 +34,7 @@ final class Url implements ValueObjectInterface
      */
     private $host;
 
-    /*
+    /**
      * @var Text
      */
     private $scheme;

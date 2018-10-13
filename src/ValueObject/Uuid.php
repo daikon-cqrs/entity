@@ -12,11 +12,12 @@ namespace Daikon\Entity\ValueObject;
 
 use Daikon\Entity\Assert\Assertion;
 use Ramsey\Uuid\Uuid as RamseyUuid;
+use Ramsey\Uuid\UuidInterface;
 
 final class Uuid implements ValueObjectInterface
 {
     /**
-     * @var RamseyUuid|null
+     * @var UuidInterface|null
      */
     private $value;
 
@@ -50,7 +51,7 @@ final class Uuid implements ValueObjectInterface
         return $this->value ? $this->value->toString() : 'null';
     }
 
-    private function __construct(RamseyUuid $value = null)
+    private function __construct(UuidInterface $value = null)
     {
         $this->value = $value;
     }

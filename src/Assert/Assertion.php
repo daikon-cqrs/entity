@@ -15,5 +15,6 @@ use Daikon\Entity\Exception\AssertionFailed;
 
 final class Assertion extends BaseAssertion
 {
+    /** @var string */
     protected static $exceptionClass = AssertionFailed::class;
 }

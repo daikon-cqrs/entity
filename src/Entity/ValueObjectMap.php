@@ -30,6 +30,12 @@ final class ValueObjectMap implements ToNativeInterface, IteratorAggregate, Coun
         return new static($entity, $entityState);
     }
 
+    /**
+     * @param string $attrName
+     * @param mixed $value
+     *
+     * @return self
+     */
     public function withValue(string $attrName, $value): self
     {
         $clonedMap = clone $this;

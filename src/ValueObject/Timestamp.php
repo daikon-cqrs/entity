@@ -34,7 +34,10 @@ final class Timestamp implements ValueObjectInterface
     public static function createFromString(string $date, string $format = self::NATIVE_FORMAT): Timestamp
     {
         Assertion::date($date, $format);
-        return new static(DateTimeImmutable::createFromFormat($format, $date));
+        if (!$timestamp = DateTimeImmutable::createFromFormat($format, $date)) {
+            throw new \RuntimeException("Invalid date string given to " . self::class);
+        }
+        return new static($timestamp);
     }
 
     /**

@@ -18,7 +18,7 @@ final class AttributeMap implements \IteratorAggregate, \Countable
 
     public function __construct(array $attributes = [])
     {
-        $this->init(array_reduce($attributes, function (array $carry, AttributeInterface $attribute) {
+        $this->init(array_reduce($attributes, function (array $carry, AttributeInterface $attribute): array {
             $carry[$attribute->getName()] = $attribute; // enforce consistent attribute keys
             return $carry;
         }, []), AttributeInterface::class);
