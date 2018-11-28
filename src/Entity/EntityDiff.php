@@ -42,7 +42,7 @@ final class EntityDiff
 
     private function listAtrributeNames(EntityInterface $entity): array
     {
-        return array_keys($entity->getAttributeMap()->toArray());
+        return array_keys($entity->getAttributeMap()->toNative());
     }
 
     private function bothEntitesHaveValueSet(string $attribute, EntityInterface $left, EntityInterface $right): bool

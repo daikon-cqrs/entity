@@ -43,7 +43,7 @@ interface EntityListInterface extends ValueObjectInterface
 
     public function getLast();
 
-    public function toArray(): array;
+    public function unwrap(): array;
 
     public function getIterator(): Iterator;
 }

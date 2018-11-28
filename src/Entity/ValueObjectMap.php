@@ -10,13 +10,11 @@ declare(strict_types=1);
 
 namespace Daikon\Entity\Entity;
 
-use Countable;
 use Daikon\DataStructure\TypedMapTrait;
 use Daikon\Entity\ValueObject\ValueObjectInterface;
 use Daikon\Interop\ToNativeInterface;
-use IteratorAggregate;
 
-final class ValueObjectMap implements ToNativeInterface, IteratorAggregate, Countable
+final class ValueObjectMap implements \IteratorAggregate, \Countable, ToNativeInterface
 {
     use TypedMapTrait;
 

@@ -25,8 +25,8 @@ final class IntValue implements ValueObjectInterface
      */
     public static function fromNative($nativeValue): IntValue
     {
-        Assertion::integerish($nativeValue, 'Trying to create IntValue VO from unsupported value type.');
-        return new static((int)$nativeValue);
+        Assertion::nullOrIntegerish($nativeValue, 'Trying to create IntValue VO from unsupported value type.');
+        return new static($nativeValue);
     }
 
     public function toNative(): ?int

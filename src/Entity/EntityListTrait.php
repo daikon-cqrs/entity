@@ -153,7 +153,7 @@ trait EntityListTrait
         return $this->compositeVector->last();
     }
 
-    public function toArray(): array
+    public function unwrap(): array
     {
         return $this->compositeVector->toArray();
     }
