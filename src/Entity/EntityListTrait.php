@@ -32,17 +32,17 @@ trait EntityListTrait
         return new self($entities);
     }
 
-    public static function fromNative($nativeValue): self
+    public static function fromNative($payload): self
     {
-        Assertion::nullOrIsArray($nativeValue);
-        if (is_null($nativeValue)) {
+        Assertion::nullOrIsArray($payload);
+        if (is_null($payload)) {
             return self::makeEmpty();
         }
         $entities = [];
-        foreach ($nativeValue as $nativeEntityState) {
-            Assertion::keyExists($nativeEntityState, EntityInterface::TYPE_KEY);
-            $entityFqcn = $nativeEntityState[EntityInterface::TYPE_KEY];
-            $entities[] = call_user_func([ $entityFqcn, 'fromNative' ], $nativeEntityState);
+        foreach ($payload as $entity) {
+            Assertion::keyExists($entity, EntityInterface::TYPE_KEY);
+            $entityFqcn = $entity[EntityInterface::TYPE_KEY];
+            $entities[] = call_user_func([ $entityFqcn, 'fromNative' ], $entity);
         }
         return self::wrap($entities);
     }

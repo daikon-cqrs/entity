@@ -17,14 +17,10 @@ use Daikon\Entity\ValueObject\ValueObjectInterface;
 
 final class Attribute implements AttributeInterface
 {
-    /**
-     * @var string
-     */
+    /** @var string */
     private $name;
 
-    /**
-     * @var string
-     */
+    /** @var string */
     private $valueImplementor;
 
     public static function define(string $name, string $valueImplementor): AttributeInterface
@@ -39,15 +35,10 @@ final class Attribute implements AttributeInterface
                 ValueObjectInterface::class
             ));
         }
-        return new static($name, $valueImplementor);
+        return new self($name, $valueImplementor);
     }
 
-    /**
-     * @param mixed $value
-     * @param EntityInterface $parent
-     *
-     * @return ValueObjectInterface
-     */
+    /** @param mixed $value */
     public function makeValue($value = null, EntityInterface $parent = null): ValueObjectInterface
     {
         if ($value instanceof ValueObjectInterface) {

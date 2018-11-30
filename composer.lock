@@ -4,7 +4,7 @@
         "Read more about it at https://getcomposer.org/doc/01-basic-usage.md#installing-dependencies",
         "This file is @generated automatically"
     ],
-    "content-hash": "a36710bf1f6ba7d3d178f595e155e2e7",
+    "content-hash": "21ea6daf61a3f5a0fa4d5d4f530ec9ff",
     "packages": [
         {
             "name": "beberlei/assert",
@@ -107,20 +107,24 @@
         },
         {
             "name": "daikon/interop",
-            "version": "dev-master",
+            "version": "dev-upgrade-7.2",
             "source": {
                 "type": "git",
                 "url": "https://github.com/daikon-cqrs/interop.git",
-                "reference": "f4581af6d35d2db22a8bbe35bf655c2457da3123"
+                "reference": "24cdd7c9c752fede0657ad086fc9855e1bda89ae"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/daikon-cqrs/interop/zipball/f4581af6d35d2db22a8bbe35bf655c2457da3123",
-                "reference": "f4581af6d35d2db22a8bbe35bf655c2457da3123",
+                "url": "https://api.github.com/repos/daikon-cqrs/interop/zipball/24cdd7c9c752fede0657ad086fc9855e1bda89ae",
+                "reference": "24cdd7c9c752fede0657ad086fc9855e1bda89ae",
                 "shasum": ""
             },
             "require": {
-                "php": ">=7.1"
+                "php": "^7.2"
+            },
+            "require-dev": {
+                "sebastian/phpcpd": "^4.1",
+                "squizlabs/php_codesniffer": "^3.3"
             },
             "type": "library",
             "autoload": {
@@ -132,9 +136,9 @@
             "license": [
                 "MPL-2.0"
             ],
-            "description": "Interop interfaces used across daikon components.",
+            "description": "Interop interfaces used across Daikon components.",
             "homepage": "https://github.com/daikon-cqrs/interop",
-            "time": "2017-07-25T18:40:38+00:00"
+            "time": "2018-11-30T00:48:22+00:00"
         },
         {
             "name": "jms/parser-lib",

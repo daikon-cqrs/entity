@@ -14,24 +14,19 @@ use Daikon\Entity\Assert\Assertion;
 
 final class Text implements ValueObjectInterface
 {
-    /**
-     * @var string
-     */
+    /** @var string */
     private $value;
 
-    /**
-     * @param string|null $nativeValue
-     * @return Text
-     */
-    public static function fromNative($nativeValue): Text
+    /** @param string|null $value */
+    public static function fromNative($value): Text
     {
-        Assertion::nullOrString($nativeValue, 'Trying to create Text VO from unsupported value type.');
-        return is_null($nativeValue) ? new static : new static($nativeValue);
+        Assertion::nullOrString($value, 'Trying to create Text VO from unsupported value type.');
+        return is_null($value) ? new self : new self($value);
     }
 
     public function equals(ValueObjectInterface $value): bool
     {
-        return $value instanceof static && $this->toNative() === $value->toNative();
+        return $value instanceof self && $this->toNative() === $value->toNative();
     }
 
     public function toNative(): string

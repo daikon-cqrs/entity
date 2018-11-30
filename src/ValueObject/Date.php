@@ -15,38 +15,31 @@ use DateTimeImmutable;
 
 final class Date implements ValueObjectInterface
 {
-    /**
-     * @var string
-     */
+    /** @var string */
     public const NATIVE_FORMAT = 'Y-m-d';
 
-    /**
-     * @var DateTimeImmutable|null
-     */
+    /** @var DateTimeImmutable|null */
     private $value;
 
     public static function today(): Date
     {
-        return new static(new DateTimeImmutable);
+        return new self(new DateTimeImmutable);
     }
 
     public static function createFromString(string $value, string $format = self::NATIVE_FORMAT): self
     {
         Assertion::date($value, $format);
         if (!$date = DateTimeImmutable::createFromFormat($format, $value)) {
-            throw new \RuntimeException("Invalid date string given to " . self::class);
+            throw new \RuntimeException('Invalid date string given to ' . self::class);
         }
-        return new static($date);
+        return new self($date);
     }
 
-    /**
-     * @param string|null $nativeValue
-     * @return Date
-     */
-    public static function fromNative($nativeValue): Date
+    /** @param string|null $value */
+    public static function fromNative($value): Date
     {
-        Assertion::nullOrString($nativeValue, 'Trying to create Date VO from unsupported value type.');
-        return empty($nativeValue) ? new static : static::createFromString($nativeValue);
+        Assertion::nullOrString($value, 'Trying to create Date VO from unsupported value type.');
+        return empty($value) ? new self : self::createFromString($value);
     }
 
     public function toNative(): ?string
@@ -56,7 +49,7 @@ final class Date implements ValueObjectInterface
 
     public function equals(ValueObjectInterface $value): bool
     {
-        return $value instanceof static && $this->toNative() === $value->toNative();
+        return $value instanceof self && $this->toNative() === $value->toNative();
     }
 
     public function __toString(): string

@@ -25,7 +25,7 @@ final class ValueObjectMap implements \IteratorAggregate, \Countable, ToNativeIn
 
     public static function forEntity(EntityInterface $entity, array $entityState = []): self
     {
-        return new static($entity, $entityState);
+        return new self($entity, $entityState);
     }
 
     /**

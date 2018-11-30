@@ -55,7 +55,7 @@ class EntityTest extends TestCase
         $this->assertTrue($this->entity->has('id'));
         $this->assertTrue($this->entity->has('title'));
         $this->assertTrue($this->entity->has('paragraphs'));
-        $article = $this->entity->fromNative([ 'id' => '941b4e51-e524-4e5d-8c17-1ef96585abc3' ]);
+        $article = $this->entity::fromNative([ 'id' => '941b4e51-e524-4e5d-8c17-1ef96585abc3' ]);
         $this->assertFalse($article->has('title'));
     }
 

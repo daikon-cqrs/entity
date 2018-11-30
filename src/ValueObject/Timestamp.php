@@ -16,48 +16,41 @@ use DateTimeZone;
 
 final class Timestamp implements ValueObjectInterface
 {
-    /**
-     * @var string
-     */
+    /** @var string */
     public const NATIVE_FORMAT = 'Y-m-d\TH:i:s.uP';
 
-    /**
-     * @var DateTimeImmutable|null
-     */
+    /** @var DateTimeImmutable|null */
     private $value;
 
     public static function now(): Timestamp
     {
-        return new static(new DateTimeImmutable);
+        return new self(new DateTimeImmutable);
     }
 
     public static function createFromString(string $date, string $format = self::NATIVE_FORMAT): Timestamp
     {
         Assertion::date($date, $format);
         if (!$timestamp = DateTimeImmutable::createFromFormat($format, $date)) {
-            throw new \RuntimeException("Invalid date string given to " . self::class);
+            throw new \RuntimeException('Invalid date string given to ' . self::class);
         }
-        return new static($timestamp);
+        return new self($timestamp);
     }
 
-    /**
-     * @param string|null $nativeValue
-     * @return Timestamp
-     */
-    public static function fromNative($nativeValue): Timestamp
+    /** @param string|null $value */
+    public static function fromNative($value): Timestamp
     {
-        Assertion::nullOrString($nativeValue, 'Trying to create Timestamp VO from unsupported value type.');
-        return empty($nativeValue) ? new static : static::createFromString($nativeValue);
+        Assertion::nullOrString($value, 'Trying to create Timestamp VO from unsupported value type.');
+        return empty($value) ? new self : self::createFromString($value);
     }
 
     public function toNative(): ?string
     {
-        return is_null($this->value) ? null : $this->value->format(static::NATIVE_FORMAT);
+        return is_null($this->value) ? null : $this->value->format(self::NATIVE_FORMAT);
     }
 
     public function equals(ValueObjectInterface $value): bool
     {
-        return $value instanceof static && $this->toNative() === $value->toNative();
+        return $value instanceof self && $this->toNative() === $value->toNative();
     }
 
     public function __toString(): string

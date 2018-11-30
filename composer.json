@@ -10,7 +10,7 @@
     "require": {
         "php": "^7.2",
         "daikon/data-structure": "dev-upgrade/nativecalls",
-        "daikon/interop": "master@dev",
+        "daikon/interop": "dev-upgrade-7.2",
         "ramsey/uuid": "^3.8",
         "jms/parser-lib": "^1.0",
         "beberlei/assert": "^3.0"

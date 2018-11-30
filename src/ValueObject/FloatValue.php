@@ -14,19 +14,14 @@ use Daikon\Entity\Assert\Assertion;
 
 final class FloatValue implements ValueObjectInterface
 {
-    /**
-     * @var float|null
-     */
+    /** @var float|null */
     private $value;
 
-    /**
-     * @param float|null $nativeValue
-     * @return FloatValue
-     */
-    public static function fromNative($nativeValue): FloatValue
+    /** @param float|null $value */
+    public static function fromNative($value): FloatValue
     {
-        Assertion::nullOrFloat($nativeValue, 'Trying to create FloatValue VO from unsupported value type.');
-        return new static($nativeValue);
+        Assertion::nullOrFloat($value, 'Trying to create FloatValue VO from unsupported value type.');
+        return new self($value);
     }
 
     public function toNative(): ?float
@@ -36,7 +31,7 @@ final class FloatValue implements ValueObjectInterface
 
     public function equals(ValueObjectInterface $value): bool
     {
-        return $value instanceof static && $this->toNative() === $value->toNative();
+        return $value instanceof self && $this->toNative() === $value->toNative();
     }
 
     public function __toString(): string
