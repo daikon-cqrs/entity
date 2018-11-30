@@ -14,9 +14,7 @@ use Ds\Vector;
 
 final class ValuePath implements \IteratorAggregate, \Countable
 {
-    /**
-     * @var Vector
-     */
+    /** @var Vector */
     private $internalVector;
 
     public function __construct(iterable $pathParts = null)

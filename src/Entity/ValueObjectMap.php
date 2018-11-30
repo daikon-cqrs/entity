@@ -18,9 +18,7 @@ final class ValueObjectMap implements \IteratorAggregate, \Countable, ToNativeIn
 {
     use TypedMapTrait;
 
-    /**
-     * @var EntityInterface $entity
-     */
+    /** @var EntityInterface $entity */
     private $entity;
 
     public static function forEntity(EntityInterface $entity, array $entityState = []): self
@@ -28,12 +26,7 @@ final class ValueObjectMap implements \IteratorAggregate, \Countable, ToNativeIn
         return new self($entity, $entityState);
     }
 
-    /**
-     * @param string $attrName
-     * @param mixed $value
-     *
-     * @return self
-     */
+    /** @param mixed $value */
     public function withValue(string $attrName, $value): self
     {
         $clonedMap = clone $this;

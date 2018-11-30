@@ -16,29 +16,19 @@ use JMS\Parser\SimpleLexer;
 
 final class ValuePathParser extends AbstractParser
 {
-    /**
-     * @var int
-     */
+    /** @var int */
     private const T_ATTRIBUTE = 1;
 
-    /**
-     * @var int
-     */
+    /** @var int */
     private const T_POSITION = 2;
 
-    /**
-     * @var int
-     */
+    /** @var int */
     private const T_COMPONENT_SEP = 3;
 
-    /**
-     * @var int
-     */
+    /** @var int */
     private const T_PART_SEP = 4;
 
-    /**
-     * @var string
-     */
+    /** @var string */
     private const TOKEN_REGEX = <<<REGEX
 /
     # type identifier which refers to an attribute
@@ -55,9 +45,7 @@ final class ValuePathParser extends AbstractParser
 /x
 REGEX;
 
-    /**
-     * @var string[]
-     */
+    /** @var string[] */
     private const TOKEN_MAP = [
         0 => 'T_UNKNOWN',
         1 => 'T_ATTRIBUTE',
@@ -65,9 +53,6 @@ REGEX;
         3 => 'T_PART_SEP'
     ];
 
-    /**
-     * @return ValuePathParser
-     */
     public static function create(): ValuePathParser
     {
         $mapToken = function (string $token): array {
@@ -89,17 +74,12 @@ REGEX;
     /**
      * @param string $path
      * @param string $context
-     *
-     * @return ValuePath
      */
     public function parse($path, $context = null): ValuePath
     {
         return parent::parse($path, $context);
     }
 
-    /**
-     * @return ValuePath
-     */
     public function parseInternal(): ValuePath
     {
         $valuePathParts = [];
@@ -109,9 +89,6 @@ REGEX;
         return new ValuePath($valuePathParts);
     }
 
-    /**
-     * @return null|ValuePathPart
-     */
     private function consume(): ?ValuePathPart
     {
         $this->eatSeparator();

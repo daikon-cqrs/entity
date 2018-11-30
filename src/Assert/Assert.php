@@ -15,13 +15,9 @@ use Daikon\Entity\Exception\LazyAssertionFailed;
 
 abstract class Assert extends BaseAssert
 {
-    /**
-     * @var string
-     */
+    /** @var string */
     protected static $lazyAssertionExceptionClass = LazyAssertionFailed::class;
 
-    /**
-     * @var string
-     */
+    /** @var string */
     protected static $assertionClass = Assertion::class;
 }

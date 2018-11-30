@@ -17,9 +17,7 @@ use Iterator;
 
 trait EntityListTrait
 {
-    /**
-     * @var Vector internal vector to store items
-     */
+    /** @var Vector */
     private $compositeVector;
 
     public static function makeEmpty(): self
