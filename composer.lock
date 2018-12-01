@@ -4,7 +4,7 @@
         "Read more about it at https://getcomposer.org/doc/01-basic-usage.md#installing-dependencies",
         "This file is @generated automatically"
     ],
-    "content-hash": "2c6a5272e52edcb7dd250aa9bf251d4f",
+    "content-hash": "06b4f2f6153f16f22a490e2fadd8d305",
     "packages": [
         {
             "name": "beberlei/assert",
@@ -63,7 +63,7 @@
         },
         {
             "name": "daikon/data-structure",
-            "version": "dev-upgrade/nativecalls",
+            "version": "dev-upgrade-7.2",
             "source": {
                 "type": "git",
                 "url": "https://github.com/daikon-cqrs/data-structure.git",
