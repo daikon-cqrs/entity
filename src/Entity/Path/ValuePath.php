@@ -14,9 +14,7 @@ use Ds\Vector;
 
 final class ValuePath implements \IteratorAggregate, \Countable
 {
-    /**
-     * @var Vector
-     */
+    /** @var Vector */
     private $internalVector;
 
     public function __construct(iterable $pathParts = null)
@@ -24,7 +22,7 @@ final class ValuePath implements \IteratorAggregate, \Countable
         $this->internalVector = new Vector(
             (function (ValuePathPart ...$pathParts): array {
                 return $pathParts;
-            })(...$pathParts ?? [])
+            })(...$pathParts ?? new \ArrayIterator([]))
         );
     }
 
@@ -47,7 +45,7 @@ final class ValuePath implements \IteratorAggregate, \Countable
         return count($this->internalVector);
     }
 
-    public function getIterator(): \Iterator
+    public function getIterator(): \Traversable
     {
         return $this->internalVector->getIterator();
     }

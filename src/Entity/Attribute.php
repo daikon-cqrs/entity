@@ -17,17 +17,13 @@ use Daikon\Entity\ValueObject\ValueObjectInterface;
 
 final class Attribute implements AttributeInterface
 {
-    /**
-     * @var string
-     */
+    /** @var string */
     private $name;
 
-    /**
-     * @var string
-     */
+    /** @var string */
     private $valueImplementor;
 
-    public static function define(string $name, $valueImplementor): AttributeInterface
+    public static function define(string $name, string $valueImplementor): AttributeInterface
     {
         if (!class_exists($valueImplementor)) {
             throw new ClassNotExists(sprintf('Unable to load VO class "%s"', $valueImplementor));
@@ -39,12 +35,13 @@ final class Attribute implements AttributeInterface
                 ValueObjectInterface::class
             ));
         }
-        return new static($name, $valueImplementor);
+        return new self($name, $valueImplementor);
     }
 
+    /** @param mixed $value */
     public function makeValue($value = null, EntityInterface $parent = null): ValueObjectInterface
     {
-        if (is_object($value)) {
+        if ($value instanceof ValueObjectInterface) {
             Assertion::isInstanceOf($value, $this->valueImplementor);
             return $value;
         }

@@ -18,23 +18,16 @@ use Daikon\Entity\ValueObject\ValueObjectInterface;
 
 abstract class Entity implements EntityInterface
 {
-    /**
-     * @var ValueObjectMap
-     */
+    /** @var ValueObjectMap */
     private $valueObjectMap;
 
-    /**
-     * @param ValuePathParser
-     */
+    /** @param ValuePathParser */
     private $pathParser;
 
-    /**
-     * @param mixed[] array
-     * @return EntityInterface
-     */
-    public static function fromNative($nativeState): EntityInterface
+    /** @param array $state */
+    public static function fromNative($state): EntityInterface
     {
-        return new static($nativeState);
+        return new static($state);
     }
 
     public function toNative(): array
@@ -50,6 +43,7 @@ abstract class Entity implements EntityInterface
         return $this->getIdentity()->equals($entity->getIdentity());
     }
 
+    /** @param mixed $value */
     public function withValue(string $attributeName, $value): EntityInterface
     {
         $copy = clone $this;
@@ -110,7 +104,7 @@ abstract class Entity implements EntityInterface
         $this->pathParser = ValuePathParser::create();
     }
 
-    private function evaluatePath($valuePath): ?ValueObjectInterface
+    private function evaluatePath(string $valuePath): ?ValueObjectInterface
     {
         $value = null;
         $entity = $this;

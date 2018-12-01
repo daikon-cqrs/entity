@@ -12,32 +12,28 @@ namespace Daikon\Entity\ValueObject;
 
 use Daikon\Entity\Assert\Assertion;
 use Ramsey\Uuid\Uuid as RamseyUuid;
+use Ramsey\Uuid\UuidInterface;
 
 final class Uuid implements ValueObjectInterface
 {
-    /**
-     * @var RamseyUuid|null
-     */
+    /** @var UuidInterface|null */
     private $value;
 
     public static function generate(): Uuid
     {
-        return new static(RamseyUuid::uuid4());
+        return new self(RamseyUuid::uuid4());
     }
 
-    /**
-     * @param string|null $nativeValue
-     * @return Uuid
-     */
-    public static function fromNative($nativeValue): Uuid
+    /** @param string|null $value */
+    public static function fromNative($value): Uuid
     {
-        Assertion::nullOrString($nativeValue, 'Trying to create Uuid VO from unsupported value type.');
-        return empty($nativeValue) ? new static : new static(RamseyUuid::fromString($nativeValue));
+        Assertion::nullOrString($value, 'Trying to create Uuid VO from unsupported value type.');
+        return empty($value) ? new self : new self(RamseyUuid::fromString($value));
     }
 
     public function equals(ValueObjectInterface $value): bool
     {
-        return $value instanceof static && $this->toNative() === $value->toNative();
+        return $value instanceof self && $this->toNative() === $value->toNative();
     }
 
     public function toNative(): ?string
@@ -50,7 +46,7 @@ final class Uuid implements ValueObjectInterface
         return $this->value ? $this->value->toString() : 'null';
     }
 
-    private function __construct(RamseyUuid $value = null)
+    private function __construct(UuidInterface $value = null)
     {
         $this->value = $value;
     }

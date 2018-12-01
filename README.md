@@ -1,4 +1,4 @@
-# entity
+# Entity
 
 [![Build Status](https://scrutinizer-ci.com/g/daikon-cqrs/entity/badges/build.png?b=master)](https://scrutinizer-ci.com/g/daikon-cqrs/entity/build-status/master)
 [![Code Coverage](https://scrutinizer-ci.com/g/daikon-cqrs/entity/badges/coverage.png?b=master)](https://scrutinizer-ci.com/g/daikon-cqrs/entity/?branch=master)

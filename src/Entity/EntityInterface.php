@@ -14,9 +14,6 @@ use Daikon\Entity\ValueObject\ValueObjectInterface;
 
 interface EntityInterface extends ValueObjectInterface
 {
-    /**
-     * @var string
-     */
     public const TYPE_KEY = '@type';
 
     public static function getAttributeMap(): AttributeMap;

@@ -31,7 +31,7 @@ final class EntityDiff
         ));
     }
 
-    private function assertComparibility(EntityInterface $left, EntityInterface $right)
+    private function assertComparibility(EntityInterface $left, EntityInterface $right): void
     {
         Assertion::isInstanceOf(
             $right,
@@ -42,7 +42,7 @@ final class EntityDiff
 
     private function listAtrributeNames(EntityInterface $entity): array
     {
-        return array_keys($entity->getAttributeMap()->toArray());
+        return array_keys($entity->getAttributeMap()->toNative());
     }
 
     private function bothEntitesHaveValueSet(string $attribute, EntityInterface $left, EntityInterface $right): bool
@@ -56,8 +56,16 @@ final class EntityDiff
         EntityInterface $left,
         EntityInterface $right
     ): array {
-        if (!$left->get($attribute)->equals($right->get($attribute))) {
-            $diff[$attribute] = $left->get($attribute);
+        $left_val = $left->get($attribute);
+        $right_val = $right->get($attribute);
+        if (is_null($left_val)) {
+            if (!is_null($right_val)) {
+                $diff[$attribute] = $left->get($attribute);
+            }
+        } else {
+            if (is_null($right_val) || !$left_val->equals($right_val)) {
+                $diff[$attribute] = $left->get($attribute);
+            }
         }
         return $diff;
     }

@@ -14,19 +14,14 @@ use Daikon\Entity\Assert\Assertion;
 
 final class IntValue implements ValueObjectInterface
 {
-    /**
-     * @var int|null
-     */
+    /** @var int|null */
     private $value;
 
-    /**
-     * @param int|null $nativeValue
-     * @return IntValue
-     */
-    public static function fromNative($nativeValue): IntValue
+    /** @param int|null $value  */
+    public static function fromNative($value): IntValue
     {
-        Assertion::nullOrInteger($nativeValue, 'Trying to create IntValue VO from unsupported value type.');
-        return new static($nativeValue);
+        Assertion::nullOrIntegerish($value, 'Trying to create IntValue VO from unsupported value type.');
+        return new self($value);
     }
 
     public function toNative(): ?int
@@ -36,7 +31,7 @@ final class IntValue implements ValueObjectInterface
 
     public function equals(ValueObjectInterface $value): bool
     {
-        return $value instanceof static && $this->toNative() === $value->toNative();
+        return $value instanceof self && $this->toNative() === $value->toNative();
     }
 
     public function __toString(): string

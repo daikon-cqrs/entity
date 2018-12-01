@@ -14,19 +14,14 @@ use Daikon\Entity\Assert\Assertion;
 
 final class BoolValue implements ValueObjectInterface
 {
-    /**
-     * @var bool
-     */
+    /** @var bool */
     private $value;
 
-    /**
-     * @param bool $nativeValue
-     * @return BoolValue
-     */
-    public static function fromNative($nativeValue): BoolValue
+    /** @param bool $value */
+    public static function fromNative($value): BoolValue
     {
-        Assertion::boolean($nativeValue, 'Trying to create BoolValue VO from unsupported value type.');
-        return new static($nativeValue);
+        Assertion::boolean($value, 'Trying to create BoolValue VO from unsupported value type.');
+        return new self($value);
     }
 
     public function toNative(): bool
@@ -36,7 +31,7 @@ final class BoolValue implements ValueObjectInterface
 
     public function equals(ValueObjectInterface $value): bool
     {
-        return $value instanceof static && $this->toNative() === $value->toNative();
+        return $value instanceof self && $this->toNative() === $value->toNative();
     }
 
     public function __toString(): string

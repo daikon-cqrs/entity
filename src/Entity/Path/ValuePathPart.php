@@ -12,14 +12,10 @@ namespace Daikon\Entity\Entity\Path;
 
 final class ValuePathPart
 {
-    /**
-     * @var string
-     */
+    /** @var string */
     private $attributeName;
 
-    /**
-     * @var int
-     */
+    /** @var int */
     private $position;
 
     public function __construct(string $attributeName, int $position = -1)

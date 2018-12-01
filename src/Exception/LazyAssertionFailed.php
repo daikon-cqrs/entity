@@ -14,4 +14,5 @@ use Assert\LazyAssertionException;
 
 final class LazyAssertionFailed extends LazyAssertionException implements ExceptionInterface
 {
+
 }

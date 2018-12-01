@@ -14,60 +14,41 @@ use Daikon\Entity\Assert\Assertion;
 
 final class Url implements ValueObjectInterface
 {
-    /**
-     * @var string
-     */
+    /** @var string */
     private const EMPTY = '';
 
-    /**
-     * @var string
-     */
+    /** @var string */
     private const DEFAULT_PATH = '/';
 
-    /**
-     * @var Text
-     */
+    /** @var Text */
     private $fragment;
 
-    /**
-     * @var Text
-     */
+    /** @var Text */
     private $host;
 
-    /*
-     * @var Text
-     */
+    /** @var Text */
     private $scheme;
 
-    /**
-     * @var Text
-     */
+    /** @var Text */
     private $query;
 
-    /**
-     * @var IntValue
-     */
+    /** @var IntValue */
     private $port;
 
-    /**
-     * @var Text
-     */
+    /** @var Text */
     private $path;
 
-    /**
-     * @param string|null $nativeValue
-     * @return Url
-     */
-    public static function fromNative($nativeValue): Url
+    /** @param string|null $value */
+    public static function fromNative($value): Url
     {
-        Assertion::nullOrUrl($nativeValue, 'Trying to create Url VO from unsupported value type.');
-        return empty($nativeValue) ? new static(static::EMPTY) : new static($nativeValue);
+        Assertion::nullOrUrl($value, 'Trying to create Url VO from unsupported value type.');
+        return empty($value) ? new self(self::EMPTY) : new self($value);
     }
 
     public function toNative(): string
     {
         if ($this->host->isEmpty()) {
-            return static::EMPTY;
+            return self::EMPTY;
         }
         return sprintf(
             '%s://%s',
@@ -84,7 +65,7 @@ final class Url implements ValueObjectInterface
 
     public function equals(ValueObjectInterface $value): bool
     {
-        return $value instanceof static && $value->toNative() === $this->toNative();
+        return $value instanceof self && $value->toNative() === $this->toNative();
     }
 
     public function __toString(): string
@@ -134,27 +115,27 @@ final class Url implements ValueObjectInterface
 
     private function parseHost(string $url): Text
     {
-        return Text::fromNative(parse_url($url, PHP_URL_HOST) ?: static::EMPTY);
+        return Text::fromNative(parse_url($url, PHP_URL_HOST) ?: self::EMPTY);
     }
 
     private function parseScheme(string $url): Text
     {
-        return Text::fromNative(parse_url($url, PHP_URL_SCHEME) ?: static::EMPTY);
+        return Text::fromNative(parse_url($url, PHP_URL_SCHEME) ?: self::EMPTY);
     }
 
     private function parseQuery(string $url): Text
     {
-        return Text::fromNative(parse_url($url, PHP_URL_QUERY) ?: static::EMPTY);
+        return Text::fromNative(parse_url($url, PHP_URL_QUERY) ?: self::EMPTY);
     }
 
     private function parseFragment(string $url): Text
     {
-        return Text::fromNative(parse_url($url, PHP_URL_FRAGMENT) ?: static::EMPTY);
+        return Text::fromNative(parse_url($url, PHP_URL_FRAGMENT) ?: self::EMPTY);
     }
 
     private function parsePath(string $url): Text
     {
-        return Text::fromNative(parse_url($url, PHP_URL_PATH) ?: static::DEFAULT_PATH);
+        return Text::fromNative(parse_url($url, PHP_URL_PATH) ?: self::DEFAULT_PATH);
     }
 
     private function parsePort(string $url): IntValue

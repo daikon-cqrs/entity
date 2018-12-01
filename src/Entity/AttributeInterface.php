@@ -14,7 +14,7 @@ use Daikon\Entity\ValueObject\ValueObjectInterface;
 
 interface AttributeInterface
 {
-    public static function define(string $name, $valueType): AttributeInterface;
+    public static function define(string $name, string $valueType): AttributeInterface;
 
     public function makeValue($value = null): ValueObjectInterface;
 

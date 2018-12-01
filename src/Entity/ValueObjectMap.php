@@ -10,26 +10,23 @@ declare(strict_types=1);
 
 namespace Daikon\Entity\Entity;
 
-use Countable;
 use Daikon\DataStructure\TypedMapTrait;
 use Daikon\Entity\ValueObject\ValueObjectInterface;
 use Daikon\Interop\ToNativeInterface;
-use IteratorAggregate;
 
-final class ValueObjectMap implements ToNativeInterface, IteratorAggregate, Countable
+final class ValueObjectMap implements \IteratorAggregate, \Countable, ToNativeInterface
 {
     use TypedMapTrait;
 
-    /**
-     * @var EntityInterface $entity
-     */
+    /** @var EntityInterface $entity */
     private $entity;
 
     public static function forEntity(EntityInterface $entity, array $entityState = []): self
     {
-        return new static($entity, $entityState);
+        return new self($entity, $entityState);
     }
 
+    /** @param mixed $value */
     public function withValue(string $attrName, $value): self
     {
         $clonedMap = clone $this;
