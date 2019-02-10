@@ -11,6 +11,7 @@ declare(strict_types=1);
 namespace Daikon\Entity\ValueObject;
 
 use Daikon\Entity\Assert\Assertion;
+use Daikon\Interop\ValueObjectInterface;
 use Ramsey\Uuid\Uuid as RamseyUuid;
 use Ramsey\Uuid\UuidInterface;
 

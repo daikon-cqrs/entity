@@ -14,7 +14,7 @@ use Daikon\Entity\Assert\Assertion;
 use Daikon\Entity\Entity\Path\ValuePathParser;
 use Daikon\Entity\Exception\InvalidPath;
 use Daikon\Entity\Exception\UnknownAttribute;
-use Daikon\Entity\ValueObject\ValueObjectInterface;
+use Daikon\Interop\ValueObjectInterface;
 
 abstract class Entity implements EntityInterface
 {

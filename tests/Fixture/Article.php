@@ -13,7 +13,7 @@ use Daikon\Entity\ValueObject\Text;
 use Daikon\Entity\ValueObject\Timestamp;
 use Daikon\Entity\ValueObject\Url;
 use Daikon\Entity\ValueObject\Uuid;
-use Daikon\Entity\ValueObject\ValueObjectInterface;
+use Daikon\Interop\ValueObjectInterface;
 
 final class Article extends Entity
 {

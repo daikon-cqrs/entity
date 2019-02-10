@@ -11,7 +11,7 @@ declare(strict_types=1);
 namespace Daikon\Entity\Entity;
 
 use Assert\Assertion;
-use Daikon\Entity\ValueObject\ValueObjectInterface;
+use Daikon\Interop\ValueObjectInterface;
 use Ds\Vector;
 use Iterator;
 

@@ -13,7 +13,7 @@ namespace Daikon\Entity\Entity;
 use Daikon\Entity\Assert\Assertion;
 use Daikon\Entity\Exception\ClassNotExists;
 use Daikon\Entity\Exception\UnexpectedType;
-use Daikon\Entity\ValueObject\ValueObjectInterface;
+use Daikon\Interop\ValueObjectInterface;
 
 final class Attribute implements AttributeInterface
 {

@@ -11,7 +11,7 @@ declare(strict_types=1);
 namespace Daikon\Entity\Entity;
 
 use Daikon\DataStructure\TypedMapTrait;
-use Daikon\Entity\ValueObject\ValueObjectInterface;
+use Daikon\Interop\ValueObjectInterface;
 use Daikon\Interop\ToNativeInterface;
 
 final class ValueObjectMap implements \IteratorAggregate, \Countable, ToNativeInterface
