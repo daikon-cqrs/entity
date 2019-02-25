@@ -6,7 +6,7 @@
  * file that was distributed with this source code.
  */
 
-declare(strict_types=1);
+declare (strict_types = 1);
 
 namespace Daikon\Entity\ValueObject;
 
@@ -16,10 +16,7 @@ use Daikon\Interop\ValueObjectInterface;
 final class Url implements ValueObjectInterface
 {
     /** @var string */
-    private const EMPTY = '';
-
-    /** @var string */
-    private const DEFAULT_PATH = '/';
+    private const NIL = null;
 
     /** @var Text */
     private $fragment;
@@ -42,14 +39,14 @@ final class Url implements ValueObjectInterface
     /** @param string|null $value */
     public static function fromNative($value): Url
     {
-        Assertion::nullOrUrl($value, 'Trying to create Url VO from unsupported value type.');
-        return empty($value) ? new self(self::EMPTY) : new self($value);
+        Assertion::nullOrUrl($value, 'Trying to create Url VO from unsupported value type: ' . $value);
+        return empty($value) ? new self(self::NIL) : new self($value);
     }
 
-    public function toNative(): string
+    public function toNative(): ?string
     {
         if ($this->host->isEmpty()) {
-            return self::EMPTY;
+            return self::NIL;
         }
         return sprintf(
             '%s://%s',
@@ -58,8 +55,8 @@ final class Url implements ValueObjectInterface
                 $this->host,
                 $this->formatPort(),
                 $this->path,
-                $this->formatQuery(),
-                $this->formatFragment()
+                $this->prefix('?', $this->query),
+                $this->prefix('#', $this->fragment),
             ])
         );
     }
@@ -71,17 +68,12 @@ final class Url implements ValueObjectInterface
 
     public function __toString(): string
     {
-        return $this->toNative();
+        return $this->toNative() ?? '';
     }
 
     public function getPath(): Text
     {
         return $this->path;
-    }
-
-    public function getPort(): IntValue
-    {
-        return $this->port;
     }
 
     public function getFragment(): Text
@@ -104,68 +96,53 @@ final class Url implements ValueObjectInterface
         return $this->scheme;
     }
 
-    private function __construct(string $url)
+    public function getPort(): ?IntValue
     {
-        $this->host = $this->parseHost($url);
-        $this->scheme = $this->parseScheme($url);
-        $this->query = $this->parseQuery($url);
-        $this->port = $this->parsePort($url);
-        $this->fragment = $this->parseFragment($url);
-        $this->path = $this->parsePath($url);
+        return $this->port;
     }
 
-    private function parseHost(string $url): Text
+    public function hasPort(): bool
     {
-        return Text::fromNative(parse_url($url, PHP_URL_HOST) ?: self::EMPTY);
+        return $this->port !== null;
     }
 
-    private function parseScheme(string $url): Text
+    private function __construct(?string $url = null)
     {
-        return Text::fromNative(parse_url($url, PHP_URL_SCHEME) ?: self::EMPTY);
+        if (is_null($url)) {
+            $emptyText = Text::fromNative(null);
+            $this->host = $emptyText;
+            $this->scheme = $emptyText;
+            $this->query = $emptyText;
+            $this->fragment = $emptyText;
+            $this->path = $emptyText;
+        } else {
+            $this->host = $this->parse($url, PHP_URL_HOST);
+            $this->scheme = $this->parse($url, PHP_URL_SCHEME);
+            $this->query = $this->parse($url, PHP_URL_QUERY);
+            $this->fragment = $this->parse($url, PHP_URL_FRAGMENT);
+            $this->path = $this->parse($url, PHP_URL_PASS);
+            $this->port = $this->parsePort($url);
+        }
     }
 
-    private function parseQuery(string $url): Text
+    private function parse(string $url, int $urlPart): Text
     {
-        return Text::fromNative(parse_url($url, PHP_URL_QUERY) ?: self::EMPTY);
+        return Text::fromNative(parse_url($url, $urlPart) ?: self::NIL);
     }
 
-    private function parseFragment(string $url): Text
+    private function parsePort(string $url): ?IntValue
     {
-        return Text::fromNative(parse_url($url, PHP_URL_FRAGMENT) ?: self::EMPTY);
+        $port = parse_url($url, PHP_URL_PORT);
+        return $port ? IntValue::fromNative($port) : null;
     }
 
-    private function parsePath(string $url): Text
+    private function prefix(string $prefix, Text $value): string
     {
-        return Text::fromNative(parse_url($url, PHP_URL_PATH) ?: self::DEFAULT_PATH);
-    }
-
-    private function parsePort(string $url): IntValue
-    {
-        return IntValue::fromNative(parse_url($url, PHP_URL_PORT) ?: null);
+        return $value->isEmpty() ? '' : $prefix . $value;
     }
 
     private function formatPort(): string
     {
-        $port = $this->port->toNative();
-        if (is_null($port)) {
-            return '';
-        }
-        return ':'.$port;
-    }
-
-    private function formatQuery(): string
-    {
-        if ($this->query->isEmpty()) {
-            return (string)$this->query;
-        }
-        return '?'.$this->query;
-    }
-
-    private function formatFragment(): string
-    {
-        if ($this->fragment->isEmpty()) {
-            return (string)$this->fragment;
-        }
-        return '#'.$this->fragment;
+        return $this->hasPort() ? ':' . $this->port : '';
     }
 }

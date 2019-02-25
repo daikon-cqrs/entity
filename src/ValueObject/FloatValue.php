@@ -1,4 +1,5 @@
 <?php
+
 /**
  * This file is part of the daikon-cqrs/entity project.
  *
@@ -6,7 +7,7 @@
  * file that was distributed with this source code.
  */
 
-declare(strict_types=1);
+declare (strict_types = 1);
 
 namespace Daikon\Entity\ValueObject;
 
@@ -37,7 +38,7 @@ final class FloatValue implements ValueObjectInterface
 
     public function __toString(): string
     {
-        return $this->value ? (string)$this->value : 'null';
+        return $this->value ? (string) $this->value : 'null';
     }
 
     private function __construct(?float $value)

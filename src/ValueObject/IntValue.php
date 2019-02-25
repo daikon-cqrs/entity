@@ -20,28 +20,28 @@ final class IntValue implements ValueObjectInterface
     private $value;
 
     /** @param int|null $value  */
-    public static function fromNative($value) : IntValue
+    public static function fromNative($value): IntValue
     {
         Assertion::nullOrIntegerish($value, 'Trying to create IntValue VO from unsupported value type.');
-        return new self((int)$value);
+        return new self(is_null($value) ? null : (int) $value);
     }
 
-    public function toNative() : ? int
+    public function toNative(): ?int
     {
         return $this->value;
     }
 
-    public function equals(ValueObjectInterface $value) : bool
+    public function equals(ValueObjectInterface $value): bool
     {
         return $value instanceof self && $this->toNative() === $value->toNative();
     }
 
-    public function __toString() : string
+    public function __toString(): string
     {
-        return is_null($this->value) ? 'null' : (string)$this->value;
+        return is_null($this->value) ? 'null' : (string) $this->value;
     }
 
-    private function __construct(? int $value)
+    private function __construct(?int $value)
     {
         $this->value = $value;
     }
