@@ -40,7 +40,7 @@ final class Url implements ValueObjectInterface
     public static function fromNative($value): Url
     {
         Assertion::nullOrUrl($value, 'Trying to create Url VO from unsupported value type: ' . $value);
-        return empty($value) ? new self(self::NIL) : new self($value);
+        return empty($value) ? new Url(self::NIL) : new Url($value);
     }
 
     public function toNative(): ?string
@@ -120,7 +120,7 @@ final class Url implements ValueObjectInterface
             $this->scheme = $this->parse($url, PHP_URL_SCHEME);
             $this->query = $this->parse($url, PHP_URL_QUERY);
             $this->fragment = $this->parse($url, PHP_URL_FRAGMENT);
-            $this->path = $this->parse($url, PHP_URL_PASS);
+            $this->path = $this->parse($url, PHP_URL_PATH);
             $this->port = $this->parsePort($url);
         }
     }
