@@ -39,6 +39,7 @@ final class Url implements ValueObjectInterface
     /** @param string|null $value */
     public static function fromNative($value): Url
     {
+        $value = empty($value) ? null : $value;
         Assertion::nullOrUrl($value, 'Trying to create Url VO from unsupported value type: ' . $value);
         return empty($value) ? new Url(self::NIL) : new Url($value);
     }

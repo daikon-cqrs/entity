@@ -22,6 +22,7 @@ final class IntValue implements ValueObjectInterface
     /** @param int|null $value  */
     public static function fromNative($value): IntValue
     {
+        $value = $value === '' ? null : $value;
         Assertion::nullOrIntegerish($value, 'Trying to create IntValue VO from unsupported value type.');
         return new self(is_null($value) ? null : (int) $value);
     }
