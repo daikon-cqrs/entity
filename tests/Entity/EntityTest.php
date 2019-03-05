@@ -3,11 +3,9 @@
 namespace Daikon\Tests\Entity\Entity;
 
 use Daikon\Entity\Entity\EntityDiff;
-use Daikon\Entity\EntityType\Attribute\NestedEntityListAttribute;
+use Daikon\Entity\Exception\AssertionFailed;
+use Daikon\Entity\Exception\UnknownAttribute;
 use Daikon\Tests\Entity\Fixture\Article;
-use Daikon\Tests\Entity\Fixture\ArticleType;
-use Daikon\Tests\Entity\Fixture\CategoryRelation;
-use Daikon\Tests\Entity\Fixture\CategoryRelationType;
 use Daikon\Tests\Entity\Fixture\Location;
 use Daikon\Tests\Entity\Fixture\Paragraph;
 use Daikon\Tests\Entity\TestCase;
@@ -39,9 +37,7 @@ class EntityTest extends TestCase
         ]]
     ];
 
-    /**
-     * @var Article $entity
-     */
+    /** @var Article $entity */
     private $entity;
 
     public function testGet(): void
@@ -99,28 +95,22 @@ class EntityTest extends TestCase
         $this->assertEquals(self::FIXTURE, $this->entity->toNative());
     }
 
-    /**
-     * @expectedException \Daikon\Entity\Exception\AssertionFailed
-     */
     public function testInvalidValue(): void
     {
+        $this->expectException(AssertionFailed::class);
         Article::fromNative([ 'id' => self::FIXED_UUID, 'title' =>  [ 123 ] ]);
     } // @codeCoverageIgnore
 
-    /**
-     * @expectedException \Daikon\Entity\Exception\UnknownAttribute
-     */
     public function testInvalidHas(): void
     {
+        $this->expectException(UnknownAttribute::class);
         $article = Article::fromNative([ 'id' => self::FIXED_UUID ]);
         $article->has('foobar');
     } // @codeCoverageIgnore
 
-    /**
-     * @expectedException \Daikon\Entity\Exception\UnknownAttribute
-     */
     public function testInvalidPath(): void
     {
+        $this->expectException(UnknownAttribute::class);
         $article = Article::fromNative([ 'id' => self::FIXED_UUID ]);
         $article->get('foo.0');
     } // @codeCoverageIgnore

@@ -33,7 +33,7 @@ final class IntegerTest extends TestCase
         $this->assertEquals((string)self::FIXED_NUM, (string)$this->integer);
     }
 
-    protected function setUp()
+    protected function setUp(): void
     {
         $this->integer = IntValue::fromNative(self::FIXED_NUM);
     }

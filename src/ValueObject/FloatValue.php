@@ -19,11 +19,12 @@ final class FloatValue implements ValueObjectInterface
     /** @var float|null */
     private $value;
 
-    /** @param float|null $value */
+    /** @param float|string|null $value */
     public static function fromNative($value): FloatValue
     {
         $value = $value === '' ? null : $value;
         Assertion::nullOrFloat($value, 'Trying to create FloatValue VO from unsupported value type.');
+        /** @psalm-suppress PossiblyInvalidArgument */
         return new self($value);
     }
 

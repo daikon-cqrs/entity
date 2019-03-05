@@ -49,7 +49,7 @@ final class GeoPointTest extends TestCase
         );
     }
 
-    protected function setUp()
+    protected function setUp(): void
     {
         $this->geoPoint = GeoPoint::fromNative(self::COORDS);
     }

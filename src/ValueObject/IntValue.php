@@ -19,7 +19,7 @@ final class IntValue implements ValueObjectInterface
     /** @var int|null */
     private $value;
 
-    /** @param int|null $value  */
+    /** @param int|string|null $value  */
     public static function fromNative($value): IntValue
     {
         $value = $value === '' ? null : $value;

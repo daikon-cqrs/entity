@@ -40,7 +40,7 @@ final class Url implements ValueObjectInterface
     public static function fromNative($value): Url
     {
         $value = empty($value) ? null : $value;
-        Assertion::nullOrUrl($value, 'Trying to create Url VO from unsupported value type: ' . $value);
+        Assertion::nullOrUrl($value, "Trying to create Url VO from unsupported value type: $value");
         return empty($value) ? new Url(self::NIL) : new Url($value);
     }
 
@@ -104,7 +104,7 @@ final class Url implements ValueObjectInterface
 
     public function hasPort(): bool
     {
-        return $this->port !== null;
+        return $this->port->toNative() !== null;
     }
 
     private function __construct(?string $url = null)
@@ -116,6 +116,7 @@ final class Url implements ValueObjectInterface
             $this->query = $emptyText;
             $this->fragment = $emptyText;
             $this->path = $emptyText;
+            $this->port = IntValue::fromNative(null);
         } else {
             $this->host = $this->parse($url, PHP_URL_HOST);
             $this->scheme = $this->parse($url, PHP_URL_SCHEME);
@@ -131,10 +132,10 @@ final class Url implements ValueObjectInterface
         return Text::fromNative(parse_url($url, $urlPart) ?: self::NIL);
     }
 
-    private function parsePort(string $url): ?IntValue
+    private function parsePort(string $url): IntValue
     {
         $port = parse_url($url, PHP_URL_PORT);
-        return $port ? IntValue::fromNative($port) : null;
+        return IntValue::fromNative($port ?? null);
     }
 
     private function prefix(string $prefix, Text $value): string
