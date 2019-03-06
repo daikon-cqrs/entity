@@ -31,10 +31,10 @@ final class Timestamp implements ValueObjectInterface
     public static function createFromString(string $date, string $format = self::NATIVE_FORMAT): Timestamp
     {
         Assertion::date($date, $format);
-        if (!$timestamp = DateTimeImmutable::createFromFormat($format, $date)) {
+        if (!$dateTime = DateTimeImmutable::createFromFormat($format, $date)) {
             throw new \RuntimeException('Invalid date string given to ' . self::class);
         }
-        return new self($timestamp);
+        return new self($dateTime);
     }
 
     /** @param string|null $value */
@@ -52,6 +52,33 @@ final class Timestamp implements ValueObjectInterface
     public function equals(ValueObjectInterface $value): bool
     {
         return $value instanceof self && $this->toNative() === $value->toNative();
+    }
+
+    public function isNull(): bool
+    {
+        return $this->value === null;
+    }
+
+    public function isBefore(Timestamp $comparand): bool
+    {
+        if ($this->isNull()) {
+            return true;
+        } elseif ($comparand->isNull()) {
+            return false;
+        } else {
+            return $this->value < DateTimeImmutable::createFromFormat(self::NATIVE_FORMAT, (string)$comparand);
+        }
+    }
+
+    public function isAfter(Timestamp $comparand): bool
+    {
+        if ($this->isNull()) {
+            return false;
+        } elseif ($comparand->isNull()) {
+            return true;
+        } else {
+            return $this->value > DateTimeImmutable::createFromFormat(self::NATIVE_FORMAT, (string)$comparand);
+        }
     }
 
     public function __toString(): string

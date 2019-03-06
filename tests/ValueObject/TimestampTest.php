@@ -11,6 +11,8 @@ final class TimestampTest extends TestCase
 
     private const FIXED_TIMESTAMP_UTC = '2016-07-04T17:27:07.000000+00:00';
 
+    private const FIXED_LATE_TIMESTAMP_UTC = '2016-07-05T17:27:07.000000+00:00';
+
     /**
      * @var Timestamp $timestamp
      */
@@ -33,6 +35,34 @@ final class TimestampTest extends TestCase
     public function testToString()
     {
         $this->assertEquals(self::FIXED_TIMESTAMP_UTC, (string)$this->timestamp);
+    }
+
+    public function testIsNull()
+    {
+        $nullTs = Timestamp::fromNative(null);
+        $this->assertTrue($nullTs->isNull());
+    }
+
+    public function testIsBefore()
+    {
+        $nullTs = Timestamp::fromNative(null);
+        $earlyTs = Timestamp::createFromString(self::FIXED_TIMESTAMP_UTC);
+        $lateTs = Timestamp::createFromString(self::FIXED_LATE_TIMESTAMP_UTC);
+        $this->assertTrue($nullTs->isBefore($earlyTs));
+        $this->assertFalse($earlyTs->isBefore($nullTs));
+        $this->assertTrue($earlyTs->isBefore($lateTs));
+        $this->assertFalse($lateTs->isBefore($earlyTs));
+    }
+
+    public function testIsAfter()
+    {
+        $nullTs = Timestamp::fromNative(null);
+        $earlyTs = Timestamp::createFromString(self::FIXED_TIMESTAMP_UTC);
+        $lateTs = Timestamp::createFromString(self::FIXED_LATE_TIMESTAMP_UTC);
+        $this->assertFalse($nullTs->isAfter($earlyTs));
+        $this->assertTrue($earlyTs->isAfter($nullTs));
+        $this->assertFalse($earlyTs->isAfter($lateTs));
+        $this->assertTrue($lateTs->isAfter($earlyTs));
     }
 
     protected function setUp(): void
