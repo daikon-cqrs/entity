@@ -59,7 +59,7 @@ trait EntityListTrait
             return false;
         }
         /** @var  EntityInterface $entity */
-        foreach ($this as $pos => $entity) {
+        foreach ($this->compositeVector as $pos => $entity) {
             if (!$entity->equals($list->get($pos))) {
                 return false;
             }
@@ -79,7 +79,7 @@ trait EntityListTrait
     public function diff(EntityListInterface $list): EntityListInterface
     {
         $differingEntities = [];
-        foreach ($this as $pos => $entity) {
+        foreach ($this->compositeVector as $pos => $entity) {
             if (!$list->has($pos) || !(new EntityDiff)($entity, $list->get($pos))->isEmpty()) {
                 $differingEntities[] = $entity;
             }
