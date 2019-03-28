@@ -4,7 +4,8 @@ namespace Daikon\Tests\Entity\Fixture;
 
 use Daikon\Entity\Entity\Attribute;
 use Daikon\Entity\Entity\AttributeMap;
-use Daikon\Entity\Entity\Entity;
+use Daikon\Entity\Entity\EntityInterface;
+use Daikon\Entity\Entity\EntityTrait;
 use Daikon\Entity\ValueObject\BoolValue;
 use Daikon\Entity\ValueObject\Date;
 use Daikon\Entity\ValueObject\Email;
@@ -15,8 +16,10 @@ use Daikon\Entity\ValueObject\Url;
 use Daikon\Entity\ValueObject\Uuid;
 use Daikon\Interop\ValueObjectInterface;
 
-final class Article extends Entity
+final class Article implements EntityInterface
 {
+    use EntityTrait;
+
     public static function getAttributeMap(): AttributeMap
     {
         return new AttributeMap([

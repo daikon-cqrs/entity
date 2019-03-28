@@ -4,13 +4,16 @@ namespace Daikon\Tests\Entity\Fixture;
 
 use Daikon\Entity\Entity\Attribute;
 use Daikon\Entity\Entity\AttributeMap;
-use Daikon\Entity\Entity\Entity;
+use Daikon\Entity\Entity\EntityInterface;
+use Daikon\Entity\Entity\EntityTrait;
 use Daikon\Entity\ValueObject\IntValue;
 use Daikon\Entity\ValueObject\Text;
 use Daikon\Interop\ValueObjectInterface;
 
-final class Paragraph extends Entity
+final class Paragraph implements EntityInterface
 {
+    use EntityTrait;
+
     public static function getAttributeMap(): AttributeMap
     {
         return new AttributeMap([
