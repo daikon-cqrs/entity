@@ -6,15 +6,15 @@ use Daikon\Entity\Entity\Attribute;
 use Daikon\Entity\Entity\AttributeMap;
 use Daikon\Entity\Entity\EntityInterface;
 use Daikon\Entity\Entity\EntityTrait;
-use Daikon\Entity\ValueObject\BoolValue;
-use Daikon\Entity\ValueObject\Date;
-use Daikon\Entity\ValueObject\Email;
-use Daikon\Entity\ValueObject\FloatValue;
-use Daikon\Entity\ValueObject\Text;
-use Daikon\Entity\ValueObject\Timestamp;
-use Daikon\Entity\ValueObject\Url;
-use Daikon\Entity\ValueObject\Uuid;
-use Daikon\Interop\ValueObjectInterface;
+use Daikon\ValueObject\BoolValue;
+use Daikon\ValueObject\Date;
+use Daikon\ValueObject\Email;
+use Daikon\ValueObject\FloatValue;
+use Daikon\ValueObject\Text;
+use Daikon\ValueObject\Timestamp;
+use Daikon\ValueObject\Url;
+use Daikon\ValueObject\Uuid;
+use Daikon\ValueObject\ValueObjectInterface;
 
 final class Article implements EntityInterface
 {

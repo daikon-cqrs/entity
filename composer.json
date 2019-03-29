@@ -12,8 +12,8 @@
         "beberlei/assert": "^3.0",
         "daikon/data-structure": "master@dev",
         "daikon/interop": "master@dev",
-        "jms/parser-lib": "^1.0",
-        "ramsey/uuid": "^3.8"
+        "daikon/value-object": "master@dev",
+        "jms/parser-lib": "^1.0"
     },
     "require-dev": {
         "phpunit/phpunit": "^8.0",

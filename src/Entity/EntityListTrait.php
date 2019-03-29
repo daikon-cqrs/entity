@@ -202,15 +202,15 @@ trait EntityListTrait
         })->toArray();
     }
 
-    /** @param self $value */
-    public function equals($list): bool
+    /** @param self $comparator */
+    public function equals($comparator): bool
     {
-        if (!$list instanceof static || $this->count() !== $list->count()) {
+        if (!$comparator instanceof static || $this->count() !== $comparator->count()) {
             return false;
         }
         /** @var EntityInterface $entity */
         foreach ($this->compositeVector as $index => $entity) {
-            if (!$entity->equals($list->get($index))) {
+            if (!$entity->equals($comparator->get($index))) {
                 return false;
             }
         }

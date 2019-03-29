@@ -10,11 +10,9 @@ declare(strict_types=1);
 
 namespace Daikon\Entity\Entity;
 
-use Daikon\Entity\Assert\Assertion;
+use Assert\Assertion;
 use Daikon\Entity\Entity\Path\ValuePathParser;
-use Daikon\Entity\Exception\InvalidPath;
-use Daikon\Entity\Exception\UnknownAttribute;
-use Daikon\Interop\ValueObjectInterface;
+use Daikon\ValueObject\ValueObjectInterface;
 
 trait EntityTrait
 {
@@ -61,7 +59,7 @@ trait EntityTrait
     public function has(string $attributeName): bool
     {
         if (!$this->getAttributeMap()->has($attributeName)) {
-            throw new UnknownAttribute(sprintf(
+            throw new \InvalidArgumentException(sprintf(
                 'Attribute "%s" is not known to the entity %s',
                 $attributeName,
                 static::class
@@ -76,7 +74,7 @@ trait EntityTrait
             return $this->evaluatePath($valuePath);
         }
         if (!$this->getAttributeMap()->has($valuePath)) {
-            throw new UnknownAttribute(sprintf(
+            throw new \InvalidArgumentException(sprintf(
                 'Attribute "%s" is unknown to entity "%s"',
                 $valuePath,
                 static::class
@@ -85,13 +83,13 @@ trait EntityTrait
         return $this->valueObjectMap->has($valuePath) ? $this->valueObjectMap->get($valuePath) : null;
     }
 
-    /** @param self $value */
-    public function equals($entity): bool
+    /** @param self $comparator */
+    public function equals($comparator): bool
     {
-        if (!$entity instanceof static) {
+        if (!$comparator instanceof static) {
             return false;
         }
-        return (new EntityDiff)($this, $entity)->isEmpty();
+        return (new EntityDiff)($this, $comparator)->isEmpty();
     }
 
     public function __toString(): string
@@ -113,7 +111,7 @@ trait EntityTrait
             $value = $entity->get($pathPart->getAttributeName());
             if ($value && $pathPart->hasPosition()) {
                 if (!$value instanceof EntityListInterface) {
-                    throw new InvalidPath('Trying to traverse non-entity value');
+                    throw new \InvalidArgumentException('Trying to traverse non-entity value');
                 }
                 $entity = $value->get($pathPart->getPosition());
                 $value = $entity;

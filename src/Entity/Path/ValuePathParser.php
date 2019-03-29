@@ -10,7 +10,6 @@ declare(strict_types=1);
 
 namespace Daikon\Entity\Entity\Path;
 
-use Daikon\Entity\Exception\InvalidPath;
 use JMS\Parser\AbstractParser;
 use JMS\Parser\SimpleLexer;
 
@@ -110,7 +109,9 @@ REGEX;
     {
         if (!$this->lexer->isNext(self::T_ATTRIBUTE)) {
             if ($this->lexer->next !== null) {
-                throw new InvalidPath('Expecting T_TYPE at the beginning of a new path-part.');
+                throw new \InvalidArgumentException(
+                    'Expecting T_TYPE at the beginning of a new path-part.'
+                );
             }
             return null;
         }

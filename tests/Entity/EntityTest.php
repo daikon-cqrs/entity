@@ -3,8 +3,7 @@
 namespace Daikon\Tests\Entity\Entity;
 
 use Daikon\Entity\Entity\EntityDiff;
-use Daikon\Entity\Exception\AssertionFailed;
-use Daikon\Entity\Exception\UnknownAttribute;
+use Assert\AssertionFailedException;
 use Daikon\Tests\Entity\Fixture\Article;
 use Daikon\Tests\Entity\Fixture\Location;
 use Daikon\Tests\Entity\Fixture\Paragraph;
@@ -97,20 +96,20 @@ class EntityTest extends TestCase
 
     public function testInvalidValue(): void
     {
-        $this->expectException(AssertionFailed::class);
+        $this->expectException(AssertionFailedException::class);
         Article::fromNative(['id' => self::FIXED_UUID, 'title' =>  [123]]);
     } // @codeCoverageIgnore
 
     public function testInvalidHas(): void
     {
-        $this->expectException(UnknownAttribute::class);
+        $this->expectException(\InvalidArgumentException::class);
         $article = Article::fromNative(['id' => self::FIXED_UUID]);
         $article->has('foobar');
     } // @codeCoverageIgnore
 
     public function testInvalidPath(): void
     {
-        $this->expectException(UnknownAttribute::class);
+        $this->expectException(\InvalidArgumentException::class);
         $article = Article::fromNative(['id' => self::FIXED_UUID]);
         $article->get('foo.0');
     } // @codeCoverageIgnore

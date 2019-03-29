@@ -10,10 +10,8 @@ declare(strict_types=1);
 
 namespace Daikon\Entity\Entity;
 
-use Daikon\Entity\Assert\Assertion;
-use Daikon\Entity\Exception\ClassNotExists;
-use Daikon\Entity\Exception\UnexpectedType;
-use Daikon\Interop\ValueObjectInterface;
+use Assert\Assertion;
+use Daikon\ValueObject\ValueObjectInterface;
 
 final class Attribute implements AttributeInterface
 {
@@ -26,10 +24,10 @@ final class Attribute implements AttributeInterface
     public static function define(string $name, string $valueImplementor): AttributeInterface
     {
         if (!class_exists($valueImplementor)) {
-            throw new ClassNotExists(sprintf('Unable to load VO class "%s"', $valueImplementor));
+            throw new \RuntimeException(sprintf('Unable to load VO class "%s"', $valueImplementor));
         }
         if (!is_subclass_of($valueImplementor, ValueObjectInterface::class)) {
-            throw new UnexpectedType(sprintf(
+            throw new \InvalidArgumentException(sprintf(
                 'Given VO class "%s" does not implement required interface: %s',
                 $valueImplementor,
                 ValueObjectInterface::class

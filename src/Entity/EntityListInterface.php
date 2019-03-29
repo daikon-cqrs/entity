@@ -10,7 +10,7 @@ declare(strict_types=1);
 
 namespace Daikon\Entity\Entity;
 
-use Daikon\Interop\ValueObjectInterface;
+use Daikon\ValueObject\ValueObjectInterface;
 
 interface EntityListInterface extends ValueObjectInterface
 {

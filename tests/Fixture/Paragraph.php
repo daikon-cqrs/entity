@@ -6,9 +6,9 @@ use Daikon\Entity\Entity\Attribute;
 use Daikon\Entity\Entity\AttributeMap;
 use Daikon\Entity\Entity\EntityInterface;
 use Daikon\Entity\Entity\EntityTrait;
-use Daikon\Entity\ValueObject\IntValue;
-use Daikon\Entity\ValueObject\Text;
-use Daikon\Interop\ValueObjectInterface;
+use Daikon\ValueObject\IntValue;
+use Daikon\ValueObject\Text;
+use Daikon\ValueObject\ValueObjectInterface;
 
 final class Paragraph implements EntityInterface
 {

@@ -10,7 +10,7 @@ declare(strict_types=1);
 
 namespace Daikon\Entity\Entity;
 
-use Daikon\Entity\Assert\Assertion;
+use Assert\Assertion;
 
 final class EntityDiff
 {

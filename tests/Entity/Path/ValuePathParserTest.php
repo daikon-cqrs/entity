@@ -5,7 +5,6 @@ namespace Daikon\Tests\Entity\Entity\Path;
 use Daikon\Entity\Entity\Path\ValuePath;
 use Daikon\Entity\Entity\Path\ValuePathParser;
 use Daikon\Tests\Entity\TestCase;
-use Daikon\Entity\Exception\InvalidPath;
 
 class ValuePathParserTest extends TestCase
 {
@@ -25,7 +24,7 @@ class ValuePathParserTest extends TestCase
 
     public function testInvalidPath(): void
     {
-        $this->expectException(InvalidPath::class);
+        $this->expectException(\InvalidArgumentException::class);
         ValuePathParser::create()->parse('2-teasers');
     } // @codeCoverageIgnore
 
