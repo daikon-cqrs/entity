@@ -62,7 +62,8 @@ final class Url implements ValueObjectInterface
         );
     }
 
-    public function equals(ValueObjectInterface $value): bool
+    /** @param self $value */
+    public function equals($value): bool
     {
         return $value instanceof self && $value->toNative() === $this->toNative();
     }

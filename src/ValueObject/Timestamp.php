@@ -49,7 +49,8 @@ final class Timestamp implements ValueObjectInterface
         return is_null($this->value) ? null : $this->value->format(self::NATIVE_FORMAT);
     }
 
-    public function equals(ValueObjectInterface $value): bool
+    /** @param self $value */
+    public function equals($value): bool
     {
         return $value instanceof self && $this->toNative() === $value->toNative();
     }

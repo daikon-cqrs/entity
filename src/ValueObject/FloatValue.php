@@ -33,7 +33,8 @@ final class FloatValue implements ValueObjectInterface
         return $this->value;
     }
 
-    public function equals(ValueObjectInterface $value): bool
+    /** @param self $value */
+    public function equals($value): bool
     {
         return $value instanceof self && $this->toNative() === $value->toNative();
     }

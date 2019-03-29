@@ -11,39 +11,38 @@ declare(strict_types=1);
 namespace Daikon\Entity\Entity;
 
 use Daikon\Interop\ValueObjectInterface;
-use Iterator;
 
 interface EntityListInterface extends ValueObjectInterface
 {
-    public static function makeEmpty();
+    public static function makeEmpty(): EntityListInterface;
 
-    public static function wrap($entities);
+    public static function wrap($entities): EntityListInterface;
 
     public function diff(EntityListInterface $list): EntityListInterface;
 
     public function has(int $index): bool;
 
-    public function get(int $index);
+    public function get(int $index): EntityInterface;
 
-    public function push(EntityInterface $item);
+    public function push(EntityInterface $item): EntityListInterface;
 
-    public function prepend(EntityInterface $item);
+    public function unshift(EntityInterface $item): EntityListInterface;
 
-    public function remove(EntityInterface $item);
+    public function remove(EntityInterface $item): EntityListInterface;
 
-    public function reverse();
+    public function reverse(): EntityListInterface;
 
     public function count(): int;
 
     public function isEmpty(): bool;
 
-    public function indexOf(EntityInterface $item): int;
+    public function indexOf(EntityInterface $item);
 
-    public function getFirst();
+    public function getFirst(): ?EntityInterface;
 
-    public function getLast();
+    public function getLast(): ?EntityInterface;
 
     public function unwrap(): array;
 
-    public function getIterator(): Iterator;
+    public function getIterator(): \Iterator;
 }

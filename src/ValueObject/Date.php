@@ -48,7 +48,8 @@ final class Date implements ValueObjectInterface
         return is_null($this->value) ? null : $this->value->format(static::NATIVE_FORMAT);
     }
 
-    public function equals(ValueObjectInterface $value): bool
+    /** @param self $value */
+    public function equals($value): bool
     {
         return $value instanceof self && $this->toNative() === $value->toNative();
     }

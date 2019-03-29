@@ -44,7 +44,8 @@ final class GeoPoint implements ValueObjectInterface
         return [ 'lon' => $this->lon->toNative(), 'lat' => $this->lat->toNative() ];
     }
 
-    public function equals(ValueObjectInterface $value): bool
+    /** @param self $value */
+    public function equals($value): bool
     {
         return $value instanceof self && $this->toNative() == $value->toNative();
     }

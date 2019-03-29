@@ -85,7 +85,8 @@ trait EntityTrait
         return $this->valueObjectMap->has($valuePath) ? $this->valueObjectMap->get($valuePath) : null;
     }
 
-    public function equals(ValueObjectInterface $entity): bool
+    /** @param self $value */
+    public function equals($entity): bool
     {
         if (!$entity instanceof static) {
             return false;

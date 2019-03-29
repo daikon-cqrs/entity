@@ -67,12 +67,12 @@
             "source": {
                 "type": "git",
                 "url": "https://github.com/daikon-cqrs/data-structure.git",
-                "reference": "9b6e87afb0de7c592b1a48755293fbe70e2f0c74"
+                "reference": "64cecc0f43243b55d3fa768a7c6bf974b96d7d48"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/daikon-cqrs/data-structure/zipball/9b6e87afb0de7c592b1a48755293fbe70e2f0c74",
-                "reference": "9b6e87afb0de7c592b1a48755293fbe70e2f0c74",
+                "url": "https://api.github.com/repos/daikon-cqrs/data-structure/zipball/64cecc0f43243b55d3fa768a7c6bf974b96d7d48",
+                "reference": "64cecc0f43243b55d3fa768a7c6bf974b96d7d48",
                 "shasum": ""
             },
             "require": {
@@ -103,7 +103,7 @@
                 "list",
                 "map"
             ],
-            "time": "2019-03-20T22:15:55+00:00"
+            "time": "2019-03-29T00:43:49+00:00"
         },
         {
             "name": "daikon/interop",
@@ -111,12 +111,12 @@
             "source": {
                 "type": "git",
                 "url": "https://github.com/daikon-cqrs/interop.git",
-                "reference": "1f7de0b96886d2db554bf6c44a96c5bbe2d4108e"
+                "reference": "dd9710e681224ac1b6f165d1e43a5e58da2465cd"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/daikon-cqrs/interop/zipball/1f7de0b96886d2db554bf6c44a96c5bbe2d4108e",
-                "reference": "1f7de0b96886d2db554bf6c44a96c5bbe2d4108e",
+                "url": "https://api.github.com/repos/daikon-cqrs/interop/zipball/dd9710e681224ac1b6f165d1e43a5e58da2465cd",
+                "reference": "dd9710e681224ac1b6f165d1e43a5e58da2465cd",
                 "shasum": ""
             },
             "require": {
@@ -138,7 +138,7 @@
             ],
             "description": "Interop traits used across Daikon components.",
             "homepage": "https://github.com/daikon-cqrs/interop",
-            "time": "2019-03-20T22:10:38+00:00"
+            "time": "2019-03-28T22:15:07+00:00"
         },
         {
             "name": "jms/parser-lib",

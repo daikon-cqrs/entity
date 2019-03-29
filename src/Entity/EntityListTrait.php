@@ -11,115 +11,58 @@ declare(strict_types=1);
 namespace Daikon\Entity\Entity;
 
 use Assert\Assertion;
-use Daikon\Interop\ValueObjectInterface;
 use Ds\Vector;
-use Iterator;
 
 trait EntityListTrait
 {
     /** @var Vector */
     private $compositeVector;
 
-    public static function makeEmpty(): self
-    {
-        return new self;
-    }
-
-    public static function wrap($entities): self
-    {
-        return new self($entities);
-    }
-
-    public static function fromNative($payload): self
-    {
-        Assertion::nullOrIsArray($payload);
-        if (is_null($payload)) {
-            return self::makeEmpty();
-        }
-        $entities = [];
-        foreach ($payload as $entity) {
-            Assertion::keyExists($entity, EntityInterface::TYPE_KEY);
-            $entityFqcn = $entity[EntityInterface::TYPE_KEY];
-            $entities[] = call_user_func([ $entityFqcn, 'fromNative' ], $entity);
-        }
-        return self::wrap($entities);
-    }
-
-    public function toNative(): array
-    {
-        return $this->compositeVector->map(function (ValueObjectInterface $entity): array {
-            return $entity->toNative();
-        })->toArray();
-    }
-
-    public function equals(ValueObjectInterface $list): bool
-    {
-        /** EntityList $list */
-        if (!$list instanceof self || $this->count() !== $list->count()) {
-            return false;
-        }
-        /** @var  EntityInterface $entity */
-        foreach ($this->compositeVector as $pos => $entity) {
-            if (!$entity->equals($list->get($pos))) {
-                return false;
-            }
-        }
-        return true;
-    }
-
-    public function __toString(): string
-    {
-        $parts = [];
-        foreach ($this as $entity) {
-            $parts[] = (string)$entity;
-        }
-        return implode(', ', $parts);
-    }
-
-    public function diff(EntityListInterface $list): EntityListInterface
-    {
-        $differingEntities = [];
-        foreach ($this->compositeVector as $pos => $entity) {
-            if (!$list->has($pos) || !(new EntityDiff)($entity, $list->get($pos))->isEmpty()) {
-                $differingEntities[] = $entity;
-            }
-        }
-        return new self($differingEntities);
-    }
+    /** @var null|string[] */
+    private $itemTypes;
 
     public function has(int $index): bool
     {
         return $this->compositeVector->offsetExists($index);
     }
 
+    /** @throws \OutOfRangeException */
     public function get(int $index): EntityInterface
     {
         return $this->compositeVector->get($index);
     }
 
-    public function push(EntityInterface $item): self
+    /** @throws \InvalidArgumentException */
+    public function push(EntityInterface $item): EntityListInterface
     {
+        $this->assertItemType($item);
         $copy = clone $this;
         $copy->compositeVector->push($item);
         return $copy;
     }
 
-    public function prepend(EntityInterface $item): self
+    /** @throws InvalidArgumentException */
+    public function unshift(EntityInterface $item): EntityListInterface
     {
+        $this->assertItemType($item);
         $copy = clone $this;
         $copy->compositeVector->unshift($item);
         return $copy;
     }
 
-    public function remove(EntityInterface $item): self
+    /** @throws \InvalidArgumentException */
+    public function remove(EntityInterface $item): EntityListInterface
     {
-        $idx = $this->indexOf($item);
+        $index = $this->indexOf($item);
+        if ($index === false) {
+            return $this;
+        }
         $copy = clone $this;
-        $copy->compositeVector->remove($idx);
+        $copy->compositeVector->remove($index);
         return $copy;
     }
 
-    public function reverse(): self
+    public function reverse(): EntityListInterface
     {
         $copy = clone $this;
         $copy->compositeVector->reverse();
@@ -136,19 +79,99 @@ trait EntityListTrait
         return $this->compositeVector->isEmpty();
     }
 
-    public function indexOf(EntityInterface $item): int
+    /**
+     * @return int|bool
+     * @throws \InvalidArgumentException
+     */
+    public function indexOf(EntityInterface $item)
     {
+        $this->assertItemType($item);
         return $this->compositeVector->find($item);
     }
 
-    public function getFirst()
+    public function getFirst(): EntityInterface
     {
         return $this->compositeVector->first();
     }
 
-    public function getLast()
+    public function getLast(): EntityInterface
     {
         return $this->compositeVector->last();
+    }
+
+    /** @psalm-suppress MoreSpecificReturnType */
+    public function getIterator(): \Iterator
+    {
+        return $this->compositeVector->getIterator();
+    }
+
+    public function getItemTypes(): ?array
+    {
+        return $this->itemTypes;
+    }
+
+    /** @var string|string[] $itemTypes */
+    private function init(iterable $items, $itemTypes): void
+    {
+        Assertion::notEmpty($itemTypes);
+        $this->itemTypes = (array)$itemTypes;
+        foreach ($items as $index => $item) {
+            $this->assertItemIndex($index);
+            $this->assertItemType($item);
+        }
+        $this->compositeVector = new Vector($items);
+    }
+
+    /** @param mixed $index */
+    private function assertItemIndex($index): void
+    {
+        if (!is_int($index)) {
+            throw new \InvalidArgumentException(sprintf(
+                'Invalid item key given to %s. Expected int but was given %s.',
+                static::class,
+                is_object($index) ? get_class($index) : @gettype($index)
+            ));
+        }
+    }
+
+    /** @param mixed $item */
+    private function assertItemType($item): void
+    {
+        if (empty($this->itemTypes)) {
+            throw new \RuntimeException('Item types have not been specified.');
+        }
+
+        $itemIsValid = false;
+        foreach ($this->itemTypes as $type) {
+            if (is_a($item, $type)) {
+                $itemIsValid = true;
+                break;
+            }
+        }
+
+        if (!$itemIsValid) {
+            throw new \InvalidArgumentException(sprintf(
+                'Invalid item type given to %s. Expected one of %s but was given %s.',
+                static::class,
+                implode(', ', $this->itemTypes),
+                is_object($item) ? get_class($item) : @gettype($item)
+            ));
+        }
+    }
+
+    private function __clone()
+    {
+        $this->compositeVector = new Vector($this->compositeVector->toArray());
+    }
+
+    public static function makeEmpty(): EntityListInterface
+    {
+        return new static;
+    }
+
+    public static function wrap($entities): EntityListInterface
+    {
+        return new static($entities);
     }
 
     public function unwrap(): array
@@ -156,8 +179,61 @@ trait EntityListTrait
         return $this->compositeVector->toArray();
     }
 
-    public function getIterator(): Iterator
+    /** @param null|array $payload */
+    public static function fromNative($payload): EntityListInterface
     {
-        return $this->compositeVector->getIterator();
+        Assertion::nullOrIsArray($payload);
+        if (is_null($payload)) {
+            return static::makeEmpty();
+        }
+        $entities = [];
+        foreach ($payload as $entity) {
+            Assertion::keyExists($entity, EntityInterface::TYPE_KEY);
+            $entityType = $entity[EntityInterface::TYPE_KEY];
+            $entities[] = call_user_func([$entityType, 'fromNative'], $entity);
+        }
+        return static::wrap($entities);
+    }
+
+    public function toNative(): array
+    {
+        return $this->compositeVector->map(function (EntityInterface $entity): array {
+            return (array)$entity->toNative();
+        })->toArray();
+    }
+
+    /** @param self $value */
+    public function equals($list): bool
+    {
+        if (!$list instanceof static || $this->count() !== $list->count()) {
+            return false;
+        }
+        /** @var EntityInterface $entity */
+        foreach ($this->compositeVector as $index => $entity) {
+            if (!$entity->equals($list->get($index))) {
+                return false;
+            }
+        }
+        return true;
+    }
+
+    public function diff(EntityListInterface $list): EntityListInterface
+    {
+        $differingEntities = [];
+        foreach ($this->compositeVector as $pos => $entity) {
+            if (!$list->has($pos) || !(new EntityDiff)($entity, $list->get($pos))->isEmpty()) {
+                $differingEntities[] = $entity;
+            }
+        }
+        return new static($differingEntities);
+    }
+
+    public function __toString(): string
+    {
+        $parts = [];
+        foreach ($this as $entity) {
+            $parts[] = (string)$entity;
+        }
+        return implode(', ', $parts);
     }
 }

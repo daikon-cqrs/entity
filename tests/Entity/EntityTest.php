@@ -51,7 +51,7 @@ class EntityTest extends TestCase
         $this->assertTrue($this->entity->has('id'));
         $this->assertTrue($this->entity->has('title'));
         $this->assertTrue($this->entity->has('paragraphs'));
-        $article = $this->entity::fromNative([ 'id' => '941b4e51-e524-4e5d-8c17-1ef96585abc3' ]);
+        $article = $this->entity::fromNative(['id' => '941b4e51-e524-4e5d-8c17-1ef96585abc3']);
         $this->assertFalse($article->has('title'));
     }
 
@@ -77,7 +77,7 @@ class EntityTest extends TestCase
 
     public function testIsSameAs(): void
     {
-        $articleTwo = Article::fromNative([ 'id' => self::FIXTURE['id'], 'title' => 'Hello world!' ]);
+        $articleTwo = Article::fromNative(['id' => self::FIXTURE['id'], 'title' => 'Hello world!']);
         // considered same, due to identifier
         $this->assertTrue($this->entity->isSameAs($articleTwo));
     }
@@ -98,20 +98,20 @@ class EntityTest extends TestCase
     public function testInvalidValue(): void
     {
         $this->expectException(AssertionFailed::class);
-        Article::fromNative([ 'id' => self::FIXED_UUID, 'title' =>  [ 123 ] ]);
+        Article::fromNative(['id' => self::FIXED_UUID, 'title' =>  [123]]);
     } // @codeCoverageIgnore
 
     public function testInvalidHas(): void
     {
         $this->expectException(UnknownAttribute::class);
-        $article = Article::fromNative([ 'id' => self::FIXED_UUID ]);
+        $article = Article::fromNative(['id' => self::FIXED_UUID]);
         $article->has('foobar');
     } // @codeCoverageIgnore
 
     public function testInvalidPath(): void
     {
         $this->expectException(UnknownAttribute::class);
-        $article = Article::fromNative([ 'id' => self::FIXED_UUID ]);
+        $article = Article::fromNative(['id' => self::FIXED_UUID]);
         $article->get('foo.0');
     } // @codeCoverageIgnore
 
