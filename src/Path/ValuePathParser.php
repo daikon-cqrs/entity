@@ -8,7 +8,7 @@
 
 declare(strict_types=1);
 
-namespace Daikon\Entity\Entity\Path;
+namespace Daikon\Entity\Path;
 
 use JMS\Parser\AbstractParser;
 use JMS\Parser\SimpleLexer;

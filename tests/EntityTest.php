@@ -1,13 +1,13 @@
 <?php
 
-namespace Daikon\Tests\Entity\Entity;
+namespace Daikon\Tests\Entity;
 
-use Daikon\Entity\Entity\EntityDiff;
+use Daikon\Entity\EntityDiff;
 use Assert\AssertionFailedException;
 use Daikon\Tests\Entity\Fixture\Article;
 use Daikon\Tests\Entity\Fixture\Location;
 use Daikon\Tests\Entity\Fixture\Paragraph;
-use Daikon\Tests\Entity\TestCase;
+use PHPUnit\Framework\TestCase;
 
 class EntityTest extends TestCase
 {

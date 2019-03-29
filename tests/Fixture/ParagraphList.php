@@ -2,8 +2,8 @@
 
 namespace Daikon\Tests\Entity\Fixture;
 
-use Daikon\Entity\Entity\EntityListInterface;
-use Daikon\Entity\Entity\EntityListTrait;
+use Daikon\Entity\EntityListInterface;
+use Daikon\Entity\EntityListTrait;
 use Ds\Vector;
 
 final class ParagraphList implements EntityListInterface

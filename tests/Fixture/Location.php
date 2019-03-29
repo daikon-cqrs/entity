@@ -2,10 +2,10 @@
 
 namespace Daikon\Tests\Entity\Fixture;
 
-use Daikon\Entity\Entity\Attribute;
-use Daikon\Entity\Entity\AttributeMap;
-use Daikon\Entity\Entity\EntityInterface;
-use Daikon\Entity\Entity\EntityTrait;
+use Daikon\Entity\Attribute;
+use Daikon\Entity\AttributeMap;
+use Daikon\Entity\EntityInterface;
+use Daikon\Entity\EntityTrait;
 use Daikon\ValueObject\GeoPoint;
 use Daikon\ValueObject\IntValue;
 use Daikon\ValueObject\Text;

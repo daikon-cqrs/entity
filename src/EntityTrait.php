@@ -8,10 +8,10 @@
 
 declare(strict_types=1);
 
-namespace Daikon\Entity\Entity;
+namespace Daikon\Entity;
 
 use Assert\Assertion;
-use Daikon\Entity\Entity\Path\ValuePathParser;
+use Daikon\Entity\Path\ValuePathParser;
 use Daikon\ValueObject\ValueObjectInterface;
 
 trait EntityTrait
