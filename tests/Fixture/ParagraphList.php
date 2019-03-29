@@ -12,8 +12,6 @@ final class ParagraphList implements EntityListInterface
 
     private function __construct(array $paragraphs = [])
     {
-        $this->compositeVector = new Vector((function (Paragraph ...$paragraphs): array {
-             return $paragraphs;
-        })(...$paragraphs));
+        $this->init($paragraphs, Paragraph::class);
     }
 }

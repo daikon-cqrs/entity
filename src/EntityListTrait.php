@@ -186,12 +186,14 @@ trait EntityListTrait
         if (is_null($payload)) {
             return static::makeEmpty();
         }
+
         $entities = [];
         foreach ($payload as $entity) {
             Assertion::keyExists($entity, EntityInterface::TYPE_KEY);
             $entityType = $entity[EntityInterface::TYPE_KEY];
             $entities[] = call_user_func([$entityType, 'fromNative'], $entity);
         }
+
         return static::wrap($entities);
     }
 
