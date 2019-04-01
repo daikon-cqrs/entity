@@ -32,7 +32,6 @@ trait EntityListTrait
         return $this->compositeVector->get($index);
     }
 
-    /** @throws \InvalidArgumentException */
     public function push(EntityInterface $item): EntityListInterface
     {
         $this->assertItemType($item);
@@ -41,7 +40,6 @@ trait EntityListTrait
         return $copy;
     }
 
-    /** @throws InvalidArgumentException */
     public function unshift(EntityInterface $item): EntityListInterface
     {
         $this->assertItemType($item);
@@ -50,7 +48,6 @@ trait EntityListTrait
         return $copy;
     }
 
-    /** @throws \InvalidArgumentException */
     public function remove(EntityInterface $item): EntityListInterface
     {
         $index = $this->indexOf($item);
@@ -79,10 +76,7 @@ trait EntityListTrait
         return $this->compositeVector->isEmpty();
     }
 
-    /**
-     * @return int|bool
-     * @throws \InvalidArgumentException
-     */
+    /** @return int|bool */
     public function indexOf(EntityInterface $item)
     {
         $this->assertItemType($item);
@@ -113,7 +107,7 @@ trait EntityListTrait
     /** @var string|string[] $itemTypes */
     private function init(iterable $items, $itemTypes): void
     {
-        Assertion::notEmpty($itemTypes);
+        Assertion::true(is_string($itemTypes) || is_array($itemTypes), 'Item types must be a string or array.');
         $this->itemTypes = (array)$itemTypes;
         foreach ($items as $index => $item) {
             $this->assertItemIndex($index);
@@ -125,22 +119,17 @@ trait EntityListTrait
     /** @param mixed $index */
     private function assertItemIndex($index): void
     {
-        if (!is_int($index)) {
-            throw new \InvalidArgumentException(sprintf(
-                'Invalid item key given to %s. Expected int but was given %s.',
-                static::class,
-                is_object($index) ? get_class($index) : @gettype($index)
-            ));
-        }
+        Assertion::integer($index, sprintf(
+            'Invalid item key given to %s. Expected int but was given %s.',
+            static::class,
+            is_object($index) ? get_class($index) : @gettype($index)
+        ));
     }
 
     /** @param mixed $item */
     private function assertItemType($item): void
     {
-        if (empty($this->itemTypes)) {
-            throw new \RuntimeException('Item types have not been specified.');
-        }
-
+        Assertion::notEmpty($this->itemTypes, 'Item types have not been specified.');
         $itemIsValid = false;
         foreach ($this->itemTypes as $type) {
             if (is_a($item, $type)) {
@@ -149,14 +138,12 @@ trait EntityListTrait
             }
         }
 
-        if (!$itemIsValid) {
-            throw new \InvalidArgumentException(sprintf(
-                'Invalid item type given to %s. Expected one of %s but was given %s.',
-                static::class,
-                implode(', ', $this->itemTypes),
-                is_object($item) ? get_class($item) : @gettype($item)
-            ));
-        }
+        Assertion::true($itemIsValid, sprintf(
+            'Invalid item type given to %s. Expected one of %s but was given %s.',
+            static::class,
+            implode(', ', $this->itemTypes),
+            is_object($item) ? get_class($item) : @gettype($item)
+        ));
     }
 
     private function __clone()
