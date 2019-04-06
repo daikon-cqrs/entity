@@ -12,7 +12,7 @@ namespace Daikon\Entity;
 
 use Daikon\ValueObject\ValueObjectInterface;
 
-interface EntityListInterface extends ValueObjectInterface
+interface EntityListInterface extends ValueObjectInterface, \IteratorAggregate, \Countable
 {
     public static function makeEmpty(): EntityListInterface;
 
