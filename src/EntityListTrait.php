@@ -59,6 +59,18 @@ trait EntityListTrait
         return $copy;
     }
 
+    public function replace(EntityInterface $item, EntityInterface $replacement): EntityListInterface
+    {
+        $index = $this->indexOf($item);
+        if ($index === false) {
+            throw new \OutOfRangeException;
+        }
+        $copy = clone $this;
+        $copy->compositeVector->remove($index);
+        $copy->compositeVector->insert($index, $replacement);
+        return $copy;
+    }
+
     public function reverse(): EntityListInterface
     {
         $copy = clone $this;
