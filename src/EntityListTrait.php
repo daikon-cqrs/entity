@@ -144,7 +144,7 @@ trait EntityListTrait
         Assertion::notEmpty($this->itemTypes, 'Item types have not been specified.');
         $itemIsValid = false;
         foreach ($this->itemTypes as $type) {
-            if (is_a($item, $type)) {
+            if (is_a($item, $type, true)) {
                 $itemIsValid = true;
                 break;
             }
