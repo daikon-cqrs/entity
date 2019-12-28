@@ -1,4 +1,4 @@
-<?php
+<?php declare(strict_types=1);
 /**
  * This file is part of the daikon-cqrs/entity project.
  *
@@ -6,13 +6,12 @@
  * file that was distributed with this source code.
  */
 
-declare(strict_types=1);
-
 namespace Daikon\Entity;
 
 use Assert\Assertion;
 use Daikon\Entity\Path\ValuePathParser;
 use Daikon\ValueObject\ValueObjectInterface;
+use InvalidArgumentException;
 
 trait EntityTrait
 {
@@ -31,7 +30,7 @@ trait EntityTrait
     public function toNative(): array
     {
         $entityState = $this->valueObjectMap->toNative();
-        $entityState[self::TYPE_KEY] = static::class;
+        $entityState[EntityInterface::TYPE_KEY] = static::class;
         return $entityState;
     }
 
@@ -59,7 +58,7 @@ trait EntityTrait
     public function has(string $attributeName): bool
     {
         if (!$this->getAttributeMap()->has($attributeName)) {
-            throw new \InvalidArgumentException(sprintf(
+            throw new InvalidArgumentException(sprintf(
                 'Attribute "%s" is not known to the entity %s',
                 $attributeName,
                 static::class
@@ -74,7 +73,7 @@ trait EntityTrait
             return $this->evaluatePath($valuePath);
         }
         if (!$this->getAttributeMap()->has($valuePath)) {
-            throw new \InvalidArgumentException(sprintf(
+            throw new InvalidArgumentException(sprintf(
                 'Attribute "%s" is unknown to entity "%s"',
                 $valuePath,
                 static::class
@@ -94,7 +93,7 @@ trait EntityTrait
 
     public function __toString(): string
     {
-        return sprintf('%s:%s', static::class, $this->getIdentity());
+        return sprintf('%s:%s', static::class, (string)$this->getIdentity());
     }
 
     private function __construct(array $values = [])
@@ -111,7 +110,7 @@ trait EntityTrait
             $value = $entity->get($pathPart->getAttributeName());
             if ($value && $pathPart->hasPosition()) {
                 if (!$value instanceof EntityListInterface) {
-                    throw new \InvalidArgumentException('Trying to traverse non-entity value');
+                    throw new InvalidArgumentException('Trying to traverse non-entity value');
                 }
                 $entity = $value->get($pathPart->getPosition());
                 $value = $entity;

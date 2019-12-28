@@ -1,4 +1,4 @@
-<?php
+<?php declare(strict_types=1);
 /**
  * This file is part of the daikon-cqrs/entity project.
  *
@@ -6,13 +6,14 @@
  * file that was distributed with this source code.
  */
 
-declare(strict_types=1);
-
 namespace Daikon\Entity\Path;
 
+use ArrayIterator;
+use Countable;
 use Ds\Vector;
+use IteratorAggregate;
 
-final class ValuePath implements \IteratorAggregate, \Countable
+final class ValuePath implements IteratorAggregate, Countable
 {
     /** @var Vector */
     private $internalVector;
@@ -22,7 +23,7 @@ final class ValuePath implements \IteratorAggregate, \Countable
         $this->internalVector = new Vector(
             (function (ValuePathPart ...$pathParts): array {
                 return $pathParts;
-            })(...$pathParts ?? new \ArrayIterator([]))
+            })(...$pathParts ?? new ArrayIterator([]))
         );
     }
 
@@ -53,7 +54,7 @@ final class ValuePath implements \IteratorAggregate, \Countable
     public function __toString(): string
     {
         $flattenPath = function (string $path, ValuePathPart $pathPart): string {
-            return empty($path) ? (string)$pathPart : sprintf('%s-%s', $path, $pathPart);
+            return empty($path) ? (string)$pathPart : sprintf('%s-%s', $path, (string)$pathPart);
         };
         return $this->internalVector->reduce($flattenPath, '');
     }

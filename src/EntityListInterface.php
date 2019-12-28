@@ -1,4 +1,4 @@
-<?php
+<?php declare(strict_types=1);
 /**
  * This file is part of the daikon-cqrs/entity project.
  *
@@ -6,17 +6,18 @@
  * file that was distributed with this source code.
  */
 
-declare(strict_types=1);
-
 namespace Daikon\Entity;
 
+use Countable;
 use Daikon\ValueObject\ValueObjectInterface;
+use IteratorAggregate;
+use Traversable;
 
-interface EntityListInterface extends ValueObjectInterface, \IteratorAggregate, \Countable
+interface EntityListInterface extends ValueObjectInterface, IteratorAggregate, Countable
 {
     public static function makeEmpty(): EntityListInterface;
 
-    public static function wrap($entities): EntityListInterface;
+    public static function wrap(iterable $entities): EntityListInterface;
 
     public function diff(EntityListInterface $list): EntityListInterface;
 
@@ -36,13 +37,14 @@ interface EntityListInterface extends ValueObjectInterface, \IteratorAggregate, 
 
     public function isEmpty(): bool;
 
+    /** @return mixed */
     public function indexOf(EntityInterface $item);
 
-    public function getFirst(): ?EntityInterface;
+    public function getFirst(): EntityInterface;
 
-    public function getLast(): ?EntityInterface;
+    public function getLast(): EntityInterface;
 
     public function unwrap(): array;
 
-    public function getIterator(): \Iterator;
+    public function getIterator(): Traversable;
 }

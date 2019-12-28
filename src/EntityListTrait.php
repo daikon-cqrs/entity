@@ -1,4 +1,4 @@
-<?php
+<?php declare(strict_types=1);
 /**
  * This file is part of the daikon-cqrs/entity project.
  *
@@ -6,32 +6,35 @@
  * file that was distributed with this source code.
  */
 
-declare(strict_types=1);
-
 namespace Daikon\Entity;
 
 use Assert\Assertion;
 use Ds\Vector;
+use InvalidArgumentException;
+use OutOfRangeException;
+use Traversable;
+use UnderflowException;
 
 trait EntityListTrait
 {
     /** @var Vector */
     private $compositeVector;
 
-    /** @var null|string[] */
-    private $itemTypes;
+    /** @var string[] */
+    private $itemTypes = [];
 
     public function has(int $index): bool
     {
         return $this->compositeVector->offsetExists($index);
     }
 
-    /** @throws \OutOfRangeException */
+    /** @throws OutOfRangeException */
     public function get(int $index): EntityInterface
     {
         return $this->compositeVector->get($index);
     }
 
+    /** @throws InvalidArgumentException */
     public function push(EntityInterface $item): EntityListInterface
     {
         $this->assertItemType($item);
@@ -40,6 +43,7 @@ trait EntityListTrait
         return $copy;
     }
 
+    /** @throws InvalidArgumentException */
     public function unshift(EntityInterface $item): EntityListInterface
     {
         $this->assertItemType($item);
@@ -48,6 +52,7 @@ trait EntityListTrait
         return $copy;
     }
 
+    /** @throws InvalidArgumentException */
     public function remove(EntityInterface $item): EntityListInterface
     {
         $index = $this->indexOf($item);
@@ -55,7 +60,7 @@ trait EntityListTrait
             return $this;
         }
         $copy = clone $this;
-        $copy->compositeVector->remove($index);
+        $copy->compositeVector->remove((int)$index);
         return $copy;
     }
 
@@ -63,11 +68,11 @@ trait EntityListTrait
     {
         $index = $this->indexOf($item);
         if ($index === false) {
-            throw new \OutOfRangeException;
+            throw new OutOfRangeException;
         }
         $copy = clone $this;
-        $copy->compositeVector->remove($index);
-        $copy->compositeVector->insert($index, $replacement);
+        $copy->compositeVector->remove((int)$index);
+        $copy->compositeVector->insert((int)$index, $replacement);
         return $copy;
     }
 
@@ -88,38 +93,41 @@ trait EntityListTrait
         return $this->compositeVector->isEmpty();
     }
 
-    /** @return int|bool */
+    /** @throws InvalidArgumentException */
     public function indexOf(EntityInterface $item)
     {
         $this->assertItemType($item);
         return $this->compositeVector->find($item);
     }
 
+    /** @throws UnderflowException */
     public function getFirst(): EntityInterface
     {
         return $this->compositeVector->first();
     }
 
+    /** @throws UnderflowException */
     public function getLast(): EntityInterface
     {
         return $this->compositeVector->last();
     }
 
-    /** @psalm-suppress MoreSpecificReturnType */
-    public function getIterator(): \Iterator
+    public function getIterator(): Traversable
     {
         return $this->compositeVector->getIterator();
     }
 
-    public function getItemTypes(): ?array
+    public function getItemTypes(): array
     {
         return $this->itemTypes;
     }
 
-    /** @var string|string[] $itemTypes */
+    /** @param string|string[] $itemTypes */
     private function init(iterable $items, $itemTypes): void
     {
-        Assertion::true(is_string($itemTypes) || is_array($itemTypes), 'Item types must be a string or array.');
+        if (!is_string($itemTypes) && !is_array($itemTypes)) {
+            throw new InvalidArgumentException('Item types must be a string or array.');
+        }
         $this->itemTypes = (array)$itemTypes;
         foreach ($items as $index => $item) {
             $this->assertItemIndex($index);
@@ -131,17 +139,18 @@ trait EntityListTrait
     /** @param mixed $index */
     private function assertItemIndex($index): void
     {
-        Assertion::integer($index, sprintf(
-            'Invalid item key given to %s. Expected int but was given %s.',
-            static::class,
-            is_object($index) ? get_class($index) : @gettype($index)
-        ));
+        if (!is_int($index)) {
+            throw new InvalidArgumentException(sprintf(
+                'Invalid item key given to %s. Expected int but was given %s.',
+                static::class,
+                is_object($index) ? get_class($index) : @gettype($index)
+            ));
+        }
     }
 
-    /** @param mixed $item */
+    /** @param EntityInterface $item */
     private function assertItemType($item): void
     {
-        Assertion::notEmpty($this->itemTypes, 'Item types have not been specified.');
         $itemIsValid = false;
         foreach ($this->itemTypes as $type) {
             if (is_a($item, $type, true)) {
@@ -149,13 +158,14 @@ trait EntityListTrait
                 break;
             }
         }
-
-        Assertion::true($itemIsValid, sprintf(
-            'Invalid item type given to %s. Expected one of %s but was given %s.',
-            static::class,
-            implode(', ', $this->itemTypes),
-            is_object($item) ? get_class($item) : @gettype($item)
-        ));
+        if (!$itemIsValid) {
+            throw new InvalidArgumentException(sprintf(
+                'Invalid item type given to %s. Expected one of %s but was given %s.',
+                static::class,
+                implode(', ', $this->itemTypes),
+                is_object($item) ? get_class($item) : @gettype($item)
+            ));
+        }
     }
 
     private function __clone()
@@ -168,7 +178,7 @@ trait EntityListTrait
         return new static;
     }
 
-    public static function wrap($entities): EntityListInterface
+    public static function wrap(iterable $entities): EntityListInterface
     {
         return new static($entities);
     }
@@ -178,21 +188,20 @@ trait EntityListTrait
         return $this->compositeVector->toArray();
     }
 
-    /** @param null|array $payload */
+    /** @param null|iterable $payload */
     public static function fromNative($payload): EntityListInterface
     {
-        Assertion::nullOrIsArray($payload);
+        Assertion::nullOrIsTraversable($payload);
+
         if (is_null($payload)) {
             return static::makeEmpty();
         }
-
         $entities = [];
         foreach ($payload as $entity) {
             Assertion::keyExists($entity, EntityInterface::TYPE_KEY);
             $entityType = $entity[EntityInterface::TYPE_KEY];
             $entities[] = call_user_func([$entityType, 'fromNative'], $entity);
         }
-
         return static::wrap($entities);
     }
 

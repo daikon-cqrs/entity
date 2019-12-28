@@ -1,4 +1,10 @@
-<?php
+<?php declare(strict_types=1);
+/**
+ * This file is part of the daikon-cqrs/entity project.
+ *
+ * For the full copyright and license information, please view the LICENSE
+ * file that was distributed with this source code.
+ */
 
 namespace Daikon\Tests\Entity\Fixture;
 
@@ -30,15 +36,15 @@ final class Paragraph implements EntityInterface
 
     public function getId(): IntValue
     {
-        return $this->get('id');
+        return $this->get('id') ?? IntValue::zero();
     }
 
-    public function getKicker(): Text
+    public function getKicker(): ?Text
     {
         return $this->get('kicker');
     }
 
-    public function getContent(): Text
+    public function getContent(): ?Text
     {
         return $this->get('content');
     }

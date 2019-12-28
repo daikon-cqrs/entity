@@ -1,4 +1,4 @@
-<?php
+<?php declare(strict_types=1);
 /**
  * This file is part of the daikon-cqrs/entity project.
  *
@@ -6,12 +6,12 @@
  * file that was distributed with this source code.
  */
 
-declare(strict_types=1);
-
 namespace Daikon\Entity;
 
 use Assert\Assertion;
 use Daikon\ValueObject\ValueObjectInterface;
+use InvalidArgumentException;
+use RuntimeException;
 
 final class Attribute implements AttributeInterface
 {
@@ -24,10 +24,10 @@ final class Attribute implements AttributeInterface
     public static function define(string $name, string $valueImplementor): AttributeInterface
     {
         if (!class_exists($valueImplementor)) {
-            throw new \RuntimeException(sprintf('Unable to load VO class "%s"', $valueImplementor));
+            throw new RuntimeException(sprintf('Unable to load VO class "%s"', $valueImplementor));
         }
         if (!is_subclass_of($valueImplementor, ValueObjectInterface::class)) {
-            throw new \InvalidArgumentException(sprintf(
+            throw new InvalidArgumentException(sprintf(
                 'Given VO class "%s" does not implement required interface: %s',
                 $valueImplementor,
                 ValueObjectInterface::class

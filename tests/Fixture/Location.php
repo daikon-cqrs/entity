@@ -1,4 +1,10 @@
-<?php
+<?php declare(strict_types=1);
+/**
+ * This file is part of the daikon-cqrs/entity project.
+ *
+ * For the full copyright and license information, please view the LICENSE
+ * file that was distributed with this source code.
+ */
 
 namespace Daikon\Tests\Entity\Fixture;
 
@@ -11,6 +17,7 @@ use Daikon\ValueObject\IntValue;
 use Daikon\ValueObject\Text;
 use Daikon\ValueObject\ValueObjectInterface;
 
+/** @psalm-suppress NullableReturnStatement */
 final class Location implements EntityInterface
 {
     use EntityTrait;
@@ -35,35 +42,35 @@ final class Location implements EntityInterface
 
     public function getId(): IntValue
     {
-        return $this->get('id');
+        return $this->get('id') ?? IntValue::zero();
     }
 
-    public function getName(): Text
+    public function getName(): ?Text
     {
         return $this->get('name');
     }
 
-    public function getStreet(): Text
+    public function getStreet(): ?Text
     {
         return $this->get('street');
     }
 
-    public function getPostalCode(): Text
+    public function getPostalCode(): ?Text
     {
         return $this->get('postalCode');
     }
 
-    public function getCity(): Text
+    public function getCity(): ?Text
     {
         return $this->get('city');
     }
 
-    public function getCountry(): Text
+    public function getCountry(): ?Text
     {
         return $this->get('country');
     }
 
-    public function getCoords(): GeoPoint
+    public function getCoords(): ?GeoPoint
     {
         return $this->get('coords');
     }

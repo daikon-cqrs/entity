@@ -1,4 +1,4 @@
-<?php
+<?php declare(strict_types=1);
 /**
  * This file is part of the daikon-cqrs/entity project.
  *
@@ -6,28 +6,22 @@
  * file that was distributed with this source code.
  */
 
-declare(strict_types=1);
-
 namespace Daikon\Entity\Path;
 
+use InvalidArgumentException;
 use JMS\Parser\AbstractParser;
 use JMS\Parser\SimpleLexer;
 
 final class ValuePathParser extends AbstractParser
 {
-    /** @var int */
     private const T_ATTRIBUTE = 1;
 
-    /** @var int */
     private const T_POSITION = 2;
 
-    /** @var int */
     private const T_COMPONENT_SEP = 3;
 
-    /** @var int */
     private const T_PART_SEP = 4;
 
-    /** @var string */
     private const TOKEN_REGEX = <<<REGEX
 /
     # type identifier which refers to an attribute
@@ -44,7 +38,6 @@ final class ValuePathParser extends AbstractParser
 /x
 REGEX;
 
-    /** @var string[] */
     private const TOKEN_MAP = [
         0 => 'T_UNKNOWN',
         1 => 'T_ATTRIBUTE',
@@ -108,10 +101,9 @@ REGEX;
     private function parseAttribute(): ?string
     {
         if (!$this->lexer->isNext(self::T_ATTRIBUTE)) {
-            if ($this->lexer->next !== null) {
-                throw new \InvalidArgumentException(
-                    'Expecting T_TYPE at the beginning of a new path-part.'
-                );
+            /** @psalm-suppress MissingPropertyType */
+            if (!is_null($this->lexer->next)) {
+                throw new InvalidArgumentException('Expecting T_TYPE at the beginning of a new path-part.');
             }
             return null;
         }

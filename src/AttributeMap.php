@@ -1,4 +1,4 @@
-<?php
+<?php declare(strict_types=1);
 /**
  * This file is part of the daikon-cqrs/entity project.
  *
@@ -6,22 +6,30 @@
  * file that was distributed with this source code.
  */
 
-declare(strict_types=1);
-
 namespace Daikon\Entity;
 
+use Countable;
 use Daikon\DataStructure\TypedMapTrait;
+use InvalidArgumentException;
+use IteratorAggregate;
 
-final class AttributeMap implements \IteratorAggregate, \Countable
+final class AttributeMap implements IteratorAggregate, Countable
 {
     use TypedMapTrait;
 
-    public function __construct(array $attributes = [])
+    public function __construct(iterable $attributes = [])
     {
-        $this->init(array_reduce($attributes, function (array $carry, AttributeInterface $attribute): array {
-            $carry[$attribute->getName()] = $attribute; // enforce consistent attribute keys
-            return $carry;
-        }, []), AttributeInterface::class);
+        $mappedAttributes = [];
+        /** @var AttributeInterface $attribute */
+        foreach ($attributes as $attribute) {
+            $attributeName = $attribute->getName();
+            if (isset($mappedAttributes[$attributeName])) {
+                throw new InvalidArgumentException("Attribute name '$attributeName' is already defined.");
+            }
+            $mappedAttributes[$attributeName] = $attribute;
+        }
+
+        $this->init($mappedAttributes, AttributeInterface::class);
     }
 
     public function byClassNames(array $classNames = []): self

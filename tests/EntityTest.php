@@ -1,9 +1,15 @@
-<?php
+<?php declare(strict_types=1);
+/**
+ * This file is part of the daikon-cqrs/entity project.
+ *
+ * For the full copyright and license information, please view the LICENSE
+ * file that was distributed with this source code.
+ */
 
 namespace Daikon\Tests\Entity;
 
-use Daikon\Entity\EntityDiff;
 use Assert\AssertionFailedException;
+use Daikon\Entity\EntityDiff;
 use Daikon\Tests\Entity\Fixture\Article;
 use Daikon\Tests\Entity\Fixture\Location;
 use Daikon\Tests\Entity\Fixture\Paragraph;
@@ -36,7 +42,7 @@ class EntityTest extends TestCase
         ]]
     ];
 
-    /** @var Article $entity */
+    /** @var Article */
     private $entity;
 
     public function testGet(): void

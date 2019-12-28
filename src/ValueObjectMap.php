@@ -1,4 +1,4 @@
-<?php
+<?php declare(strict_types=1);
 /**
  * This file is part of the daikon-cqrs/entity project.
  *
@@ -6,19 +6,19 @@
  * file that was distributed with this source code.
  */
 
-declare(strict_types=1);
-
 namespace Daikon\Entity;
 
+use Countable;
 use Daikon\DataStructure\TypedMapTrait;
 use Daikon\Interop\ToNativeInterface;
 use Daikon\ValueObject\ValueObjectInterface;
+use IteratorAggregate;
 
-final class ValueObjectMap implements \IteratorAggregate, \Countable, ToNativeInterface
+final class ValueObjectMap implements IteratorAggregate, Countable, ToNativeInterface
 {
     use TypedMapTrait;
 
-    /** @var EntityInterface $entity */
+    /** @var EntityInterface */
     private $entity;
 
     public static function forEntity(EntityInterface $entity, array $entityState = []): self

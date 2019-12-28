@@ -1,12 +1,10 @@
-<?php
+<?php declare(strict_types=1);
 /**
  * This file is part of the daikon-cqrs/entity project.
  *
  * For the full copyright and license information, please view the LICENSE
  * file that was distributed with this source code.
  */
-
-declare(strict_types=1);
 
 namespace Daikon\Entity;
 
@@ -16,7 +14,8 @@ final class EntityDiff
 {
     public function __invoke(EntityInterface $left, EntityInterface $right): ValueObjectMap
     {
-        $this->assertComparibility($left, $right);
+        Assertion::isInstanceOf($right, get_class($left), 'Comparing entities of different types is not supported.');
+
         return ValueObjectMap::forEntity($left, array_reduce(
             $this->listAtrributeNames($left),
             function (array $diff, string $attribute) use ($left, $right): array {
@@ -29,15 +28,6 @@ final class EntityDiff
             },
             []
         ));
-    }
-
-    private function assertComparibility(EntityInterface $left, EntityInterface $right): void
-    {
-        Assertion::isInstanceOf(
-            $right,
-            get_class($left),
-            'Comparing entities of different types is not supported.'
-        );
     }
 
     private function listAtrributeNames(EntityInterface $entity): array

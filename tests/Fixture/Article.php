@@ -1,4 +1,10 @@
-<?php
+<?php declare(strict_types=1);
+/**
+ * This file is part of the daikon-cqrs/entity project.
+ *
+ * For the full copyright and license information, please view the LICENSE
+ * file that was distributed with this source code.
+ */
 
 namespace Daikon\Tests\Entity\Fixture;
 
@@ -43,45 +49,45 @@ final class Article implements EntityInterface
 
     public function getId(): Uuid
     {
-        return $this->get('id');
+        return $this->get('id') ?? Uuid::generate();
     }
 
-    public function getTitle(): Text
+    public function getTitle(): ?Text
     {
         return $this->get('title');
     }
 
-    public function getUrl(): Url
+    public function getUrl(): ?Url
     {
         return $this->get('url');
     }
 
-    public function getFeedbackMail(): Email
+    public function getFeedbackMail(): ?Email
     {
         return $this->get('feedbackMail');
     }
 
-    public function getAverageVoting(): FloatValue
+    public function getAverageVoting(): ?FloatValue
     {
         return $this->get('averageVoting');
     }
 
-    public function getWorkshopDate(): Date
+    public function getWorkshopDate(): ?Date
     {
         return $this->get('workshopDate');
     }
 
-    public function getWorkshopLocation(): Location
+    public function getWorkshopLocation(): ?Location
     {
         return $this->get('workshopLocation');
     }
 
-    public function isWorkshopCancelled(): BoolValue
+    public function isWorkshopCancelled(): ?BoolValue
     {
         return $this->get('workshopCancelled') ?? BoolValue::fromNative(false);
     }
 
-    public function getParagraphs(): ParagraphList
+    public function getParagraphs(): ?ParagraphList
     {
         return $this->get('paragraphs') ?? ParagraphList::makeEmpty();
     }
