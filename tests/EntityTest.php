@@ -60,7 +60,7 @@ class EntityTest extends TestCase
         $this->assertFalse($article->has('title'));
     }
 
-    public function testWithValue(): void
+    public function testWith(): void
     {
         $article = $this->entity->withValue('id', self::FIXED_UUID);
         $this->assertEquals(self::FIXTURE['id'], $this->entity->get('id')->toNative());
@@ -71,10 +71,12 @@ class EntityTest extends TestCase
     {
         $article = Article::fromNative([
             'id' => self::FIXED_UUID,
-            'title' => 'Hello world!'
+            'title' => 'Hello world!',
+            'url' => 'http://metallica.com',
         ]);
         $diffData = [
-            'title' => 'This is different'
+            'title' => 'This is different',
+            'url' => 'http://tv.lol',
         ];
         $calculatedDiff = (new EntityDiff)($article->withValues($diffData), $article);
         $this->assertEquals($diffData, $calculatedDiff->toNative());
@@ -87,7 +89,7 @@ class EntityTest extends TestCase
         $this->assertTrue($this->entity->isSameAs($articleTwo));
     }
 
-    public function testGetValuePath(): void
+    public function testGetPath(): void
     {
         $this->assertEquals(
             self::FIXTURE['paragraphs'][0]['kicker'],
@@ -103,7 +105,7 @@ class EntityTest extends TestCase
     public function testInvalidValue(): void
     {
         $this->expectException(AssertionFailedException::class);
-        Article::fromNative(['id' => self::FIXED_UUID, 'title' =>  [123]]);
+        Article::fromNative(['id' => self::FIXED_UUID, 'title' => [123]]);
     } // @codeCoverageIgnore
 
     public function testInvalidHas(): void

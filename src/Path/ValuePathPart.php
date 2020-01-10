@@ -10,11 +10,9 @@ namespace Daikon\Entity\Path;
 
 final class ValuePathPart
 {
-    /** @var string */
-    private $attributeName;
+    private string $attributeName;
 
-    /** @var int */
-    private $position;
+    private int $position;
 
     public function __construct(string $attributeName, int $position = -1)
     {

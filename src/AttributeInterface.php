@@ -12,7 +12,7 @@ use Daikon\ValueObject\ValueObjectInterface;
 
 interface AttributeInterface
 {
-    public static function define(string $name, string $valueType): AttributeInterface;
+    public static function define(string $name, string $valueType): self;
 
     /** @psalm-suppress MissingParamType */
     public function makeValue($value = null): ValueObjectInterface;

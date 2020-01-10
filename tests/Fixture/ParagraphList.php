@@ -11,12 +11,10 @@ namespace Daikon\Tests\Entity\Fixture;
 use Daikon\Entity\EntityListInterface;
 use Daikon\Entity\EntityListTrait;
 
+/**
+ * @type Daikon\Tests\Entity\Fixture\Paragraph
+ */
 final class ParagraphList implements EntityListInterface
 {
     use EntityListTrait;
-
-    private function __construct(iterable $paragraphs = [])
-    {
-        $this->init($paragraphs, Paragraph::class);
-    }
 }

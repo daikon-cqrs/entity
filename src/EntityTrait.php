@@ -8,21 +8,34 @@
 
 namespace Daikon\Entity;
 
-use Assert\Assertion;
+use Assert\Assert;
 use Daikon\Entity\Path\ValuePathParser;
+use Daikon\Entity\Path\ValuePathPart;
 use Daikon\ValueObject\ValueObjectInterface;
-use InvalidArgumentException;
+use Daikon\ValueObject\ValueObjectMap;
 
 trait EntityTrait
 {
-    /** @var ValueObjectMap */
-    private $valueObjectMap;
+    private ValueObjectMap $valueObjectMap;
 
-    /** @param ValuePathParser */
-    private $pathParser;
+    private ValuePathParser $pathParser;
 
-    /** @param array $state */
-    public static function fromNative($state): EntityInterface
+    private function __construct(array $state = [])
+    {
+        $this->pathParser = ValuePathParser::create();
+
+        $objects = [];
+        foreach ($this->getAttributeMap() as $name => $attribute) {
+            if (array_key_exists($name, $state)) {
+                $objects[$name] = $attribute->makeValue($state[$name]);
+            }
+        }
+
+        $this->valueObjectMap = new ValueObjectMap($objects);
+    }
+
+    /** @param mixed $state */
+    public static function fromNative($state): self
     {
         return new static($state);
     }
@@ -36,86 +49,106 @@ trait EntityTrait
 
     public function isSameAs(EntityInterface $entity): bool
     {
-        Assertion::isInstanceOf($entity, static::class);
         return $this->getIdentity()->equals($entity->getIdentity());
     }
 
-    /** @param mixed $value */
-    public function withValue(string $attributeName, $value): EntityInterface
+    public function has(string $name): bool
+    {
+        $has = $this->getAttributeMap()->has($name);
+        Assert::that($has)->true("Attribute '$name' is not known to the entity ".static::class);
+        return $this->valueObjectMap->has($name);
+    }
+
+    public function get(string $name, $default = null): ?ValueObjectInterface
+    {
+        if (mb_strpos($name, '.')) {
+            return $this->evaluatePath($name);
+        }
+
+        $attribute = $this->getAttributeMap()->get($name, null);
+        Assert::that($attribute)->notNull("Attribute '$name' is not known to the entity ".static::class);
+        /** @psalm-suppress PossiblyNullArgument */
+        $attributeType = get_class($attribute);
+        Assert::that($default)->nullOr()->isInstanceOf($attributeType, sprintf(
+            "Default type for '$name' must be null or $attributeType, but got '%s'",
+            is_object($default) ? get_class($default) : @gettype($default)
+        ));
+
+        return $this->valueObjectMap->get($name, $default);
+    }
+
+    public function withValue(string $name, $value): self
     {
         $copy = clone $this;
-        $copy->valueObjectMap = $this->valueObjectMap->withValue($attributeName, $value);
+        $copy->valueObjectMap = $copy->valueObjectMap->with($name, $this->makeValue($name, $value));
         return $copy;
     }
 
-    public function withValues(array $values): EntityInterface
+    public function withValues(iterable $values): self
     {
         $copy = clone $this;
-        $copy->valueObjectMap = $this->valueObjectMap->withValues($values);
+        foreach ($values as $name => $value) {
+            $object = $this->makeValue($name, $value);
+            $copy->valueObjectMap = $copy->valueObjectMap->with($name, $object);
+        }
         return $copy;
     }
 
-    public function has(string $attributeName): bool
-    {
-        if (!$this->getAttributeMap()->has($attributeName)) {
-            throw new InvalidArgumentException(sprintf(
-                'Attribute "%s" is not known to the entity %s',
-                $attributeName,
-                static::class
-            ));
-        }
-        return $this->valueObjectMap->has($attributeName);
-    }
-
-    public function get(string $valuePath): ?ValueObjectInterface
-    {
-        if (mb_strpos($valuePath, '.')) {
-            return $this->evaluatePath($valuePath);
-        }
-        if (!$this->getAttributeMap()->has($valuePath)) {
-            throw new InvalidArgumentException(sprintf(
-                'Attribute "%s" is unknown to entity "%s"',
-                $valuePath,
-                static::class
-            ));
-        }
-        return $this->valueObjectMap->has($valuePath) ? $this->valueObjectMap->get($valuePath) : null;
-    }
-
-    /** @param self $comparator */
+    /** @param static $comparator */
     public function equals($comparator): bool
     {
-        if (!$comparator instanceof static) {
-            return false;
-        }
+        /**
+         * @psalm-suppress RedundantConditionGivenDocblockType
+         * @psalm-suppress DocblockTypeContradiction
+         */
+        Assert::that($comparator)->isInstanceOf(static::class, sprintf(
+            "Invalid comparator type '%s' given to ".static::class,
+            is_object($comparator) ? get_class($comparator) : @gettype($comparator)
+        ));
         return (new EntityDiff)($this, $comparator)->isEmpty();
     }
 
     public function __toString(): string
     {
-        return sprintf('%s:%s', static::class, (string)$this->getIdentity());
+        return (string)$this->getIdentity();
     }
 
-    private function __construct(array $values = [])
+    /** @param mixed $value */
+    private function makeValue(string $name, $value): ValueObjectInterface
     {
-        $this->valueObjectMap = ValueObjectMap::forEntity($this, $values);
-        $this->pathParser = ValuePathParser::create();
+        $attribute = $this->getAttributeMap()->get($name, null);
+        Assert::that($attribute)->isInstanceOf(
+            AttributeInterface::class,
+            sprintf("Attribute '%s' is unknown to entity %s", $name, static::class)
+        );
+        /** @var AttributeInterface $attribute */
+        return $attribute->makeValue($value);
     }
 
     private function evaluatePath(string $valuePath): ?ValueObjectInterface
     {
-        $value = null;
         $entity = $this;
+        /** @var ValuePathPart $pathPart */
         foreach ($this->pathParser->parse($valuePath) as $pathPart) {
-            $value = $entity->get($pathPart->getAttributeName());
+            $value = $entity ? $entity->get($pathPart->getAttributeName()) : null;
             if ($value && $pathPart->hasPosition()) {
-                if (!$value instanceof EntityListInterface) {
-                    throw new InvalidArgumentException('Trying to traverse non-entity value');
-                }
+                Assert::that($value)->isInstanceOf(EntityListInterface::class, 'Trying to traverse non-entity list');
+                /** @var EntityListInterface $value */
                 $entity = $value->get($pathPart->getPosition());
                 $value = $entity;
             }
         }
-        return $value;
+        return $value ?? null;
+    }
+
+    public function __get(string $attribute)
+    {
+        return $this->get($attribute);
+    }
+
+    public function __clone()
+    {
+        $this->pathParser = clone $this->pathParser;
+        $this->valueObjectMap = clone $this->valueObjectMap;
     }
 }

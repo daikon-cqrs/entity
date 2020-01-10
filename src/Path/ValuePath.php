@@ -8,59 +8,25 @@
 
 namespace Daikon\Entity\Path;
 
-use ArrayIterator;
-use Countable;
-use Ds\Vector;
-use IteratorAggregate;
+use Daikon\DataStructure\TypedListInterface;
+use Daikon\DataStructure\TypedListTrait;
 
-final class ValuePath implements IteratorAggregate, Countable
+final class ValuePath implements TypedListInterface
 {
-    /** @var Vector */
-    private $internalVector;
+    use TypedListTrait;
 
-    public function __construct(iterable $pathParts = null)
+    public function __construct(iterable $pathParts = [])
     {
-        $this->internalVector = new Vector(
-            (function (ValuePathPart ...$pathParts): array {
-                return $pathParts;
-            })(...$pathParts ?? new ArrayIterator([]))
-        );
-    }
-
-    public function push(ValuePathPart $pathPart): ValuePath
-    {
-        $clonedPath = clone $this;
-        $clonedPath->internalVector->push($pathPart);
-        return $clonedPath;
-    }
-
-    public function reverse(): ValuePath
-    {
-        $clonedPath = clone $this;
-        $clonedPath->internalVector->reverse();
-        return $clonedPath;
-    }
-
-    public function count(): int
-    {
-        return count($this->internalVector);
-    }
-
-    public function getIterator(): \Traversable
-    {
-        return $this->internalVector->getIterator();
+        $this->init($pathParts, [ValuePathPart::class]);
     }
 
     public function __toString(): string
     {
-        $flattenPath = function (string $path, ValuePathPart $pathPart): string {
-            return empty($path) ? (string)$pathPart : sprintf('%s-%s', $path, (string)$pathPart);
-        };
-        return $this->internalVector->reduce($flattenPath, '');
-    }
-
-    public function __clone()
-    {
-        $this->internalVector = new Vector($this->internalVector->toArray());
+        return $this->reduce(
+            function (string $path, ValuePathPart $pathPart): string {
+                return empty($path) ? (string)$pathPart : sprintf('%s-%s', $path, (string)$pathPart);
+            },
+            ''
+        );
     }
 }

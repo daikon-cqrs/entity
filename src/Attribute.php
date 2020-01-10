@@ -8,47 +8,48 @@
 
 namespace Daikon\Entity;
 
-use Assert\Assertion;
+use Assert\Assert;
 use Daikon\ValueObject\ValueObjectInterface;
 use InvalidArgumentException;
 use RuntimeException;
 
 final class Attribute implements AttributeInterface
 {
-    /** @var string */
-    private $name;
+    private string $name;
 
-    /** @var string */
-    private $valueImplementor;
+    private string $valueType;
 
-    public static function define(string $name, string $valueImplementor): AttributeInterface
+    public static function define(string $name, string $valueType): self
     {
-        if (!class_exists($valueImplementor)) {
-            throw new RuntimeException(sprintf('Unable to load VO class "%s"', $valueImplementor));
+        if (!class_exists($valueType)) {
+            throw new RuntimeException(sprintf('Unable to load VO class "%s"', $valueType));
         }
-        if (!is_subclass_of($valueImplementor, ValueObjectInterface::class)) {
+
+        if (!is_subclass_of($valueType, ValueObjectInterface::class)) {
             throw new InvalidArgumentException(sprintf(
                 'Given VO class "%s" does not implement required interface: %s',
-                $valueImplementor,
+                $valueType,
                 ValueObjectInterface::class
             ));
         }
-        return new self($name, $valueImplementor);
+
+        return new self($name, $valueType);
     }
 
     /** @param mixed $value */
-    public function makeValue($value = null, EntityInterface $parent = null): ValueObjectInterface
+    public function makeValue($value = null): ValueObjectInterface
     {
         if ($value instanceof ValueObjectInterface) {
-            Assertion::isInstanceOf($value, $this->valueImplementor);
+            Assert::that($value)->isInstanceOf($this->valueType);
             return $value;
         }
-        return call_user_func([$this->valueImplementor, 'fromNative'], $value);
+
+        return call_user_func([$this->valueType, 'fromNative'], $value);
     }
 
     public function getValueType(): string
     {
-        return $this->valueImplementor;
+        return $this->valueType;
     }
 
     public function getName(): string
@@ -56,9 +57,9 @@ final class Attribute implements AttributeInterface
         return $this->name;
     }
 
-    private function __construct(string $name, string $valueImplementor)
+    private function __construct(string $name, string $valueType)
     {
         $this->name = $name;
-        $this->valueImplementor = $valueImplementor;
+        $this->valueType = $valueType;
     }
 }

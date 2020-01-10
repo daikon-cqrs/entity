@@ -10,6 +10,7 @@ namespace Daikon\Tests\Entity\Entity\Path;
 
 use Daikon\Entity\Path\ValuePath;
 use Daikon\Entity\Path\ValuePathParser;
+use InvalidArgumentException;
 use PHPUnit\Framework\TestCase;
 
 class ValuePathParserTest extends TestCase
@@ -23,14 +24,13 @@ class ValuePathParserTest extends TestCase
     {
         $typePath = ValuePathParser::create()->parse($pathExpression);
 
-        $this->assertInstanceOf(ValuePath::class, $typePath);
         $this->assertCount($expectedLength, $typePath);
         $this->assertEquals($pathExpression, $typePath->__toString());
     }
 
     public function testInvalidPath(): void
     {
-        $this->expectException(\InvalidArgumentException::class);
+        $this->expectException(InvalidArgumentException::class);
         ValuePathParser::create()->parse('2-teasers');
     } // @codeCoverageIgnore
 

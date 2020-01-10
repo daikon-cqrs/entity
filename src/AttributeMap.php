@@ -8,12 +8,11 @@
 
 namespace Daikon\Entity;
 
-use Countable;
+use Assert\Assert;
+use Daikon\DataStructure\TypedMapInterface;
 use Daikon\DataStructure\TypedMapTrait;
-use InvalidArgumentException;
-use IteratorAggregate;
 
-final class AttributeMap implements IteratorAggregate, Countable
+final class AttributeMap implements TypedMapInterface
 {
     use TypedMapTrait;
 
@@ -23,25 +22,13 @@ final class AttributeMap implements IteratorAggregate, Countable
         /** @var AttributeInterface $attribute */
         foreach ($attributes as $attribute) {
             $attributeName = $attribute->getName();
-            if (isset($mappedAttributes[$attributeName])) {
-                throw new InvalidArgumentException("Attribute name '$attributeName' is already defined.");
-            }
+            Assert::that($mappedAttributes)->keyNotExists(
+                $attributeName,
+                "Attribute name '$attributeName' is already defined."
+            );
             $mappedAttributes[$attributeName] = $attribute;
         }
 
-        $this->init($mappedAttributes, AttributeInterface::class);
-    }
-
-    public function byClassNames(array $classNames = []): self
-    {
-        $clonedMap = clone $this;
-        (function (string ...$classNames) use ($clonedMap): void {
-            $clonedMap->compositeMap = $clonedMap->compositeMap->filter(
-                function (string $name, AttributeInterface $attribute) use ($classNames): bool {
-                    return in_array(get_class($attribute), $classNames);
-                }
-            );
-        })(...$classNames);
-        return $clonedMap;
+        $this->init($mappedAttributes, [AttributeInterface::class]);
     }
 }

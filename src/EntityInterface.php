@@ -18,14 +18,16 @@ interface EntityInterface extends ValueObjectInterface
 
     public function getIdentity(): ValueObjectInterface;
 
+    /** @param static $entity */
     public function isSameAs(EntityInterface $entity): bool;
 
+    public function has(string $name): bool;
+
+    /** @param null|ValueObjectInterface $default */
+    public function get(string $name, $default = null): ?ValueObjectInterface;
+
     /** @param mixed $value */
-    public function withValue(string $attributeName, $value): EntityInterface;
+    public function withValue(string $name, $value): self;
 
-    public function withValues(array $values): EntityInterface;
-
-    public function get(string $valuePath): ?ValueObjectInterface;
-
-    public function has(string $attributeName): bool;
+    public function withValues(iterable $values): self;
 }

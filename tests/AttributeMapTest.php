@@ -17,8 +17,9 @@ final class AttributeMapTest extends TestCase
 {
     public function testConstructWithSelf(): void
     {
-        /** @var AttributeInterface $attributeMock */
         $attributeMock = $this->createMock(AttributeInterface::class);
+        $attributeMock->expects($this->exactly(2))->method('getName')->willReturn('mock');
+
         $attributeMap = new AttributeMap([$attributeMock]);
         $newMap = new AttributeMap($attributeMap);
         $this->assertCount(1, $newMap);
@@ -38,7 +39,7 @@ final class AttributeMapTest extends TestCase
         $emptyMap = new AttributeMap;
         /** @var AttributeInterface $attributeMock */
         $attributeMock = $this->createMock(AttributeInterface::class);
-        $attributeMap = $emptyMap->set('mock', $attributeMock);
+        $attributeMap = $emptyMap->with('mock', $attributeMock);
         $this->assertCount(1, $attributeMap);
         $this->assertEquals($attributeMock, $attributeMap->get('mock'));
         $this->assertTrue($emptyMap->isEmpty());

@@ -17,7 +17,6 @@ use Daikon\ValueObject\IntValue;
 use Daikon\ValueObject\Text;
 use Daikon\ValueObject\ValueObjectInterface;
 
-/** @psalm-suppress NullableReturnStatement */
 final class Location implements EntityInterface
 {
     use EntityTrait;

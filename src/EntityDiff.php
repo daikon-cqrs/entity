@@ -8,16 +8,20 @@
 
 namespace Daikon\Entity;
 
-use Assert\Assertion;
+use Assert\Assert;
+use Daikon\ValueObject\ValueObjectMap;
 
 final class EntityDiff
 {
     public function __invoke(EntityInterface $left, EntityInterface $right): ValueObjectMap
     {
-        Assertion::isInstanceOf($right, get_class($left), 'Comparing entities of different types is not supported.');
+        Assert::that($right)->isInstanceOf(
+            get_class($left),
+            'Comparing entities of different types is not supported.'
+        );
 
-        return ValueObjectMap::forEntity($left, array_reduce(
-            $this->listAtrributeNames($left),
+        return new ValueObjectMap(array_reduce(
+            $left->getAttributeMap()->keys(),
             function (array $diff, string $attribute) use ($left, $right): array {
                 if ($this->bothEntitesHaveValueSet($attribute, $left, $right)) {
                     $diff = $this->addValueIfDifferent($diff, $attribute, $left, $right);
@@ -28,11 +32,6 @@ final class EntityDiff
             },
             []
         ));
-    }
-
-    private function listAtrributeNames(EntityInterface $entity): array
-    {
-        return array_keys($entity->getAttributeMap()->toNative());
     }
 
     private function bothEntitesHaveValueSet(string $attribute, EntityInterface $left, EntityInterface $right): bool
@@ -46,8 +45,8 @@ final class EntityDiff
         EntityInterface $left,
         EntityInterface $right
     ): array {
-        $left_val = $left->get($attribute);
-        $right_val = $right->get($attribute);
+        $left_val = $left->get($attribute, null);
+        $right_val = $right->get($attribute, null);
         if (is_null($left_val)) {
             if (!is_null($right_val)) {
                 $diff[$attribute] = $left->get($attribute);
