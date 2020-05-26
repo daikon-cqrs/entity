@@ -123,12 +123,12 @@
             "source": {
                 "type": "git",
                 "url": "https://github.com/daikon-cqrs/interop.git",
-                "reference": "9240b899c5aa24baab6f84e12e2ca475b1c04fcb"
+                "reference": "ca4538d0ba2948435a25ba77a44ca1a33dd12e8c"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/daikon-cqrs/interop/zipball/9240b899c5aa24baab6f84e12e2ca475b1c04fcb",
-                "reference": "9240b899c5aa24baab6f84e12e2ca475b1c04fcb",
+                "url": "https://api.github.com/repos/daikon-cqrs/interop/zipball/ca4538d0ba2948435a25ba77a44ca1a33dd12e8c",
+                "reference": "ca4538d0ba2948435a25ba77a44ca1a33dd12e8c",
                 "shasum": ""
             },
             "require": {
@@ -152,7 +152,7 @@
             ],
             "description": "Interop components used across Daikon components.",
             "homepage": "https://github.com/daikon-cqrs/interop",
-            "time": "2020-05-26T15:35:25+00:00"
+            "time": "2020-05-26T18:47:20+00:00"
         },
         {
             "name": "daikon/value-object",
@@ -160,12 +160,12 @@
             "source": {
                 "type": "git",
                 "url": "https://github.com/daikon-cqrs/value-object.git",
-                "reference": "be6402a9a5581466774b94852a9b00c5c8ad83d4"
+                "reference": "a3222f2884dc75dae45058de4715e1492e8d40f8"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/daikon-cqrs/value-object/zipball/be6402a9a5581466774b94852a9b00c5c8ad83d4",
-                "reference": "be6402a9a5581466774b94852a9b00c5c8ad83d4",
+                "url": "https://api.github.com/repos/daikon-cqrs/value-object/zipball/a3222f2884dc75dae45058de4715e1492e8d40f8",
+                "reference": "a3222f2884dc75dae45058de4715e1492e8d40f8",
                 "shasum": ""
             },
             "require": {
@@ -196,7 +196,7 @@
             "keywords": [
                 "value-object"
             ],
-            "time": "2020-05-26T15:59:20+00:00"
+            "time": "2020-05-26T18:57:53+00:00"
         },
         {
             "name": "jms/parser-lib",
