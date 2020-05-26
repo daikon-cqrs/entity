@@ -39,7 +39,10 @@ trait EntityListTrait
     {
         $differingEntities = [];
         foreach ($this as $pos => $entity) {
-            /** @psalm-suppress PossiblyNullArgument */
+            /**
+             * @psalm-suppress PossiblyNullArgument
+             * @psalm-suppress ArgumentTypeCoercion
+             */
             if (!$list->has($pos) || !(new EntityDiff)($entity, $list->get($pos))->isEmpty()) {
                 $differingEntities[] = $entity;
             }
