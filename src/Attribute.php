@@ -9,9 +9,9 @@
 namespace Daikon\Entity;
 
 use Assert\Assert;
+use Daikon\Interop\RuntimeException;
 use Daikon\ValueObject\ValueObjectInterface;
 use InvalidArgumentException;
-use RuntimeException;
 
 final class Attribute implements AttributeInterface
 {
