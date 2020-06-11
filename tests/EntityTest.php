@@ -8,11 +8,12 @@
 
 namespace Daikon\Tests\Entity;
 
-use Assert\AssertionFailedException;
 use Daikon\Entity\EntityDiff;
+use Daikon\Interop\InvalidArgumentException;
 use Daikon\Tests\Entity\Fixture\Article;
 use Daikon\Tests\Entity\Fixture\Location;
 use Daikon\Tests\Entity\Fixture\Paragraph;
+use Daikon\ValueObject\Text;
 use PHPUnit\Framework\TestCase;
 
 class EntityTest extends TestCase
@@ -42,8 +43,7 @@ class EntityTest extends TestCase
         ]]
     ];
 
-    /** @var Article */
-    private $entity;
+    private Article $entity;
 
     public function testGet(): void
     {
@@ -63,8 +63,8 @@ class EntityTest extends TestCase
     public function testWith(): void
     {
         $article = $this->entity->withValue('id', self::FIXED_UUID);
-        $this->assertEquals(self::FIXTURE['id'], $this->entity->get('id')->toNative());
-        $this->assertEquals(self::FIXED_UUID, $article->get('id')->toNative());
+        $this->assertEquals(self::FIXTURE['id'], $this->entity->getId()->toNative());
+        $this->assertEquals(self::FIXED_UUID, $article->getId()->toNative());
     }
 
     public function testDiff(): void
@@ -87,14 +87,17 @@ class EntityTest extends TestCase
         $articleTwo = Article::fromNative(['id' => self::FIXTURE['id'], 'title' => 'Hello world!']);
         // considered same, due to identifier
         $this->assertTrue($this->entity->isSameAs($articleTwo));
+
+        $this->expectException(InvalidArgumentException::class);
+        /** @psalm-suppress InvalidArgument */
+        $this->entity->isSameAs(Location::fromNative([]));
     }
 
     public function testGetPath(): void
     {
-        $this->assertEquals(
-            self::FIXTURE['paragraphs'][0]['kicker'],
-            $this->entity->get('paragraphs.0-kicker')->toNative()
-        );
+        /** @var Text $value */
+        $value = $this->entity->get('paragraphs.0-kicker');
+        $this->assertEquals(self::FIXTURE['paragraphs'][0]['kicker'], $value->toNative());
     }
 
     public function testToNative(): void
@@ -104,23 +107,23 @@ class EntityTest extends TestCase
 
     public function testInvalidValue(): void
     {
-        $this->expectException(AssertionFailedException::class);
+        $this->expectException(InvalidArgumentException::class);
         Article::fromNative(['id' => self::FIXED_UUID, 'title' => [123]]);
-    } // @codeCoverageIgnore
+    }
 
     public function testInvalidHas(): void
     {
-        $this->expectException(\InvalidArgumentException::class);
+        $this->expectException(InvalidArgumentException::class);
         $article = Article::fromNative(['id' => self::FIXED_UUID]);
         $article->has('foobar');
-    } // @codeCoverageIgnore
+    }
 
     public function testInvalidPath(): void
     {
-        $this->expectException(\InvalidArgumentException::class);
+        $this->expectException(InvalidArgumentException::class);
         $article = Article::fromNative(['id' => self::FIXED_UUID]);
         $article->get('foo.0');
-    } // @codeCoverageIgnore
+    }
 
     protected function setUp(): void
     {

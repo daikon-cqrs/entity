@@ -9,7 +9,6 @@
     "minimum-stability": "dev",
     "require": {
         "php": "^7.4",
-        "beberlei/assert": "^3.0",
         "daikon/data-structure": "master@dev",
         "daikon/interop": "master@dev",
         "daikon/value-object": "master@dev",

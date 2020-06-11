@@ -10,7 +10,7 @@ namespace Daikon\Tests\Entity;
 
 use Daikon\Entity\AttributeInterface;
 use Daikon\Entity\AttributeMap;
-use InvalidArgumentException;
+use Daikon\Interop\InvalidArgumentException;
 use PHPUnit\Framework\TestCase;
 
 final class AttributeMapTest extends TestCase

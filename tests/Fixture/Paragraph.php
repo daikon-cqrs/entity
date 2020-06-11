@@ -39,13 +39,13 @@ final class Paragraph implements EntityInterface
         return $this->get('id') ?? IntValue::zero();
     }
 
-    public function getKicker(): ?Text
+    public function getKicker(): Text
     {
-        return $this->get('kicker');
+        return $this->get('kicker') ?? Text::makeEmpty();
     }
 
-    public function getContent(): ?Text
+    public function getContent(): Text
     {
-        return $this->get('content');
+        return $this->get('content') ?? Text::makeEmpty();
     }
 }

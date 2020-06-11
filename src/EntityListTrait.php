@@ -8,7 +8,7 @@
 
 namespace Daikon\Entity;
 
-use Assert\Assert;
+use Daikon\Interop\Assertion;
 use Daikon\ValueObject\ValueObjectListTrait;
 
 trait EntityListTrait
@@ -18,17 +18,15 @@ trait EntityListTrait
     /** @param null|array $state */
     public static function fromNative($state): self
     {
-        Assert::that($state)->nullOr()->isTraversable(
-            'State provided to '.static::class.' must be null or iterable'
-        );
+        Assertion::nullOrIsTraversable($state, "State provided to '".static::class."' must be null or iterable.");
 
         $entities = [];
         $typeFactories = static::getTypeFactories();
         if (!is_null($state)) {
             foreach ($state as $data) {
-                Assert::that($data)->keyExists(EntityInterface::TYPE_KEY, 'Entity state is missing type key.');
+                Assertion::keyExists($data, EntityInterface::TYPE_KEY, 'Entity state is missing type key.');
                 $entityType = $data[EntityInterface::TYPE_KEY];
-                $entities[] = call_user_func($typeFactories[$entityType], $data);
+                $entities[] = $typeFactories[$entityType]($data);
             }
         }
 

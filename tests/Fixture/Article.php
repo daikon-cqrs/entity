@@ -52,9 +52,9 @@ final class Article implements EntityInterface
         return $this->get('id') ?? Uuid::generate();
     }
 
-    public function getTitle(): ?Text
+    public function getTitle(): Text
     {
-        return $this->get('title');
+        return $this->get('title') ?? Text::makeEmpty();
     }
 
     public function getUrl(): ?Url
@@ -72,9 +72,9 @@ final class Article implements EntityInterface
         return $this->get('averageVoting');
     }
 
-    public function getWorkshopDate(): ?Date
+    public function getWorkshopDate(): Date
     {
-        return $this->get('workshopDate');
+        return $this->get('workshopDate') ?? Date::makeEmpty();
     }
 
     public function getWorkshopLocation(): ?Location
@@ -82,12 +82,12 @@ final class Article implements EntityInterface
         return $this->get('workshopLocation');
     }
 
-    public function isWorkshopCancelled(): ?BoolValue
+    public function isWorkshopCancelled(): BoolValue
     {
-        return $this->get('workshopCancelled') ?? BoolValue::fromNative(false);
+        return $this->get('workshopCancelled') ?? BoolValue::false();
     }
 
-    public function getParagraphs(): ?ParagraphList
+    public function getParagraphs(): ParagraphList
     {
         return $this->get('paragraphs') ?? ParagraphList::makeEmpty();
     }

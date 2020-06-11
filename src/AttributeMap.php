@@ -8,25 +8,19 @@
 
 namespace Daikon\Entity;
 
-use Assert\Assert;
-use Daikon\DataStructure\TypedMapInterface;
-use Daikon\DataStructure\TypedMapTrait;
+use Daikon\DataStructure\TypedMap;
+use Daikon\Interop\Assertion;
 
-final class AttributeMap implements TypedMapInterface
+final class AttributeMap extends TypedMap
 {
-    use TypedMapTrait;
-
     public function __construct(iterable $attributes = [])
     {
         $mappedAttributes = [];
         /** @var AttributeInterface $attribute */
         foreach ($attributes as $attribute) {
-            $attributeName = $attribute->getName();
-            Assert::that($mappedAttributes)->keyNotExists(
-                $attributeName,
-                "Attribute name '$attributeName' is already defined."
-            );
-            $mappedAttributes[$attributeName] = $attribute;
+            $name = $attribute->getName();
+            Assertion::keyNotExists($mappedAttributes, $name, "Attribute name '$name' is already defined.");
+            $mappedAttributes[$name] = $attribute;
         }
 
         $this->init($mappedAttributes, [AttributeInterface::class]);

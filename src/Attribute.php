@@ -8,10 +8,9 @@
 
 namespace Daikon\Entity;
 
-use Assert\Assert;
-use Daikon\Interop\RuntimeException;
+use Daikon\Interop\Assert;
+use Daikon\Interop\Assertion;
 use Daikon\ValueObject\ValueObjectInterface;
-use InvalidArgumentException;
 
 final class Attribute implements AttributeInterface
 {
@@ -21,17 +20,13 @@ final class Attribute implements AttributeInterface
 
     public static function define(string $name, string $valueType): self
     {
-        if (!class_exists($valueType)) {
-            throw new RuntimeException(sprintf('Unable to load VO class "%s"', $valueType));
-        }
-
-        if (!is_subclass_of($valueType, ValueObjectInterface::class)) {
-            throw new InvalidArgumentException(sprintf(
-                'Given VO class "%s" does not implement required interface: %s',
+        Assert::that($valueType)
+            ->classExists(sprintf('Unable to load value type "%s"', $valueType))
+            ->implementsInterface(ValueObjectInterface::class, sprintf(
+                "Given value type '%s' does not implement required interface '%s'.",
                 $valueType,
                 ValueObjectInterface::class
             ));
-        }
 
         return new self($name, $valueType);
     }
@@ -40,11 +35,15 @@ final class Attribute implements AttributeInterface
     public function makeValue($value = null): ValueObjectInterface
     {
         if ($value instanceof ValueObjectInterface) {
-            Assert::that($value)->isInstanceOf($this->valueType);
+            Assertion::isInstanceOf($value, $this->valueType, sprintf(
+                "Value '%s' must be instance of value type '%s'.",
+                get_class($value),
+                $this->valueType
+            ));
             return $value;
         }
 
-        return call_user_func([$this->valueType, 'fromNative'], $value);
+        return ($this->valueType.'::fromNative')($value);
     }
 
     public function getValueType(): string

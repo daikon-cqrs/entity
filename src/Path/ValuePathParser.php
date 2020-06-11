@@ -8,7 +8,7 @@
 
 namespace Daikon\Entity\Path;
 
-use InvalidArgumentException;
+use Daikon\Interop\Assertion;
 use JMS\Parser\AbstractParser;
 use JMS\Parser\SimpleLexer;
 
@@ -85,10 +85,7 @@ REGEX;
     {
         $this->eatSeparator();
         $attribute = $this->parseAttribute();
-        if (is_null($attribute)) {
-            return null;
-        }
-        return new ValuePathPart($attribute, $this->parsePosition());
+        return is_null($attribute) ? null : new ValuePathPart($attribute, $this->parsePosition());
     }
 
     private function eatSeparator(): void
@@ -101,10 +98,7 @@ REGEX;
     private function parseAttribute(): ?string
     {
         if (!$this->lexer->isNext(self::T_ATTRIBUTE)) {
-            /** @psalm-suppress MissingPropertyType */
-            if (!is_null($this->lexer->next)) {
-                throw new InvalidArgumentException('Expecting T_TYPE at the beginning of a new path-part.');
-            }
+            Assertion::null($this->lexer->next, 'Expecting T_TYPE at the beginning of a new path-part.');
             return null;
         }
         return $this->match(self::T_ATTRIBUTE);

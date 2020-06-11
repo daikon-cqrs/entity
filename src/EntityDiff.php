@@ -8,17 +8,14 @@
 
 namespace Daikon\Entity;
 
-use Assert\Assert;
+use Daikon\Interop\Assertion;
 use Daikon\ValueObject\ValueObjectMap;
 
 final class EntityDiff
 {
     public function __invoke(EntityInterface $left, EntityInterface $right): ValueObjectMap
     {
-        Assert::that($right)->isInstanceOf(
-            get_class($left),
-            'Comparing entities of different types is not supported.'
-        );
+        Assertion::isInstanceOf($right, get_class($left), 'Comparing entities of different types is not supported.');
 
         return new ValueObjectMap(array_reduce(
             $left->getAttributeMap()->keys(),

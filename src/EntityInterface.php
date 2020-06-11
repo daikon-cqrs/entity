@@ -18,8 +18,8 @@ interface EntityInterface extends ValueObjectInterface
 
     public function getIdentity(): ValueObjectInterface;
 
-    /** @param static $entity */
-    public function isSameAs(EntityInterface $entity): bool;
+    /** @psalm-suppress MissingParamType */
+    public function isSameAs($entity): bool;
 
     public function has(string $name): bool;
 

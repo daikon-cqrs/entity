@@ -44,29 +44,29 @@ final class Location implements EntityInterface
         return $this->get('id') ?? IntValue::zero();
     }
 
-    public function getName(): ?Text
+    public function getName(): Text
     {
-        return $this->get('name');
+        return $this->get('name') ?? Text::makeEmpty();
     }
 
-    public function getStreet(): ?Text
+    public function getStreet(): Text
     {
-        return $this->get('street');
+        return $this->get('street') ?? Text::makeEmpty();
     }
 
-    public function getPostalCode(): ?Text
+    public function getPostalCode(): Text
     {
-        return $this->get('postalCode');
+        return $this->get('postalCode') ?? Text::makeEmpty();
     }
 
-    public function getCity(): ?Text
+    public function getCity(): Text
     {
-        return $this->get('city');
+        return $this->get('city') ?? Text::makeEmpty();
     }
 
-    public function getCountry(): ?Text
+    public function getCountry(): Text
     {
-        return $this->get('country');
+        return $this->get('country') ?? Text::makeEmpty();
     }
 
     public function getCoords(): ?GeoPoint

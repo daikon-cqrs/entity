@@ -12,5 +12,5 @@ use Daikon\ValueObject\ValueObjectListInterface;
 
 interface EntityListInterface extends ValueObjectListInterface
 {
-    public function diff(self $list): self;
+    public function diff(EntityListInterface $list): self;
 }

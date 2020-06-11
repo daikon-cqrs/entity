@@ -8,13 +8,10 @@
 
 namespace Daikon\Entity\Path;
 
-use Daikon\DataStructure\TypedListInterface;
-use Daikon\DataStructure\TypedListTrait;
+use Daikon\DataStructure\TypedList;
 
-final class ValuePath implements TypedListInterface
+final class ValuePath extends TypedList
 {
-    use TypedListTrait;
-
     public function __construct(iterable $pathParts = [])
     {
         $this->init($pathParts, [ValuePathPart::class]);
