@@ -8,13 +8,11 @@
 
 namespace Daikon\Tests\Entity\Fixture;
 
-use Daikon\Entity\EntityListInterface;
-use Daikon\Entity\EntityListTrait;
+use Daikon\Entity\EntityList;
 
 /**
- * @type Daikon\Tests\Entity\Fixture\Paragraph
+ * @type(Daikon\Tests\Entity\Fixture\Paragraph)
  */
-final class ParagraphList implements EntityListInterface
+final class ParagraphList extends EntityList
 {
-    use EntityListTrait;
 }

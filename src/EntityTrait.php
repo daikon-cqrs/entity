@@ -75,7 +75,7 @@ trait EntityTrait
         /** @psalm-suppress PossiblyNullArgument */
         $attributeType = get_class($attribute);
         Assertion::nullOrIsInstanceOf($default, $attributeType, sprintf(
-            "Default type for '$name' must be null or $attributeType, but got '%s'",
+            "Default type for '$name' must be null or $attributeType, but got '%s'.",
             is_object($default) ? get_class($default) : @gettype($default)
         ));
 
@@ -119,7 +119,7 @@ trait EntityTrait
         Assertion::isInstanceOf(
             $attribute,
             AttributeInterface::class,
-            sprintf("Attribute '%s' is unknown to entity %s", $name, static::class)
+            sprintf("Attribute '%s' is unknown to entity '%s'.", $name, static::class)
         );
         /** @var AttributeInterface $attribute */
         return $attribute->makeValue($value);
@@ -135,10 +135,10 @@ trait EntityTrait
             if ($value && $pathPart->hasPosition()) {
                 Assertion::isInstanceOf(
                     $value,
-                    EntityListInterface::class,
+                    EntityList::class,
                     sprintf("Trying to traverse a non-entity list '%s' on entity '%s'.", $name, static::class)
                 );
-                /** @var EntityListInterface $value */
+                /** @var EntityList $value */
                 $entity = $value->get($pathPart->getPosition());
                 $value = $entity;
             }

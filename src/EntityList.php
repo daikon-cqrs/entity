@@ -9,23 +9,28 @@
 namespace Daikon\Entity;
 
 use Daikon\Interop\Assertion;
-use Daikon\ValueObject\ValueObjectListTrait;
+use Daikon\ValueObject\ValueObjectList;
 
-trait EntityListTrait
+/**
+ * @type(Daikon\Entity\EntityInterface)
+ */
+class EntityList extends ValueObjectList
 {
-    use ValueObjectListTrait;
-
-    /** @param null|array $state */
+    /**
+     * @param null|iterable $state
+     * @return static
+     */
     public static function fromNative($state): self
     {
         Assertion::nullOrIsTraversable($state, "State provided to '".static::class."' must be null or iterable.");
 
         $entities = [];
-        $typeFactories = static::getTypeFactories();
+        $typeFactories = static::inferTypeFactories();
         if (!is_null($state)) {
             foreach ($state as $data) {
                 Assertion::keyExists($data, EntityInterface::TYPE_KEY, 'Entity state is missing type key.');
                 $entityType = $data[EntityInterface::TYPE_KEY];
+                Assertion::isCallable($typeFactories[$entityType], "Entity factory for '$entityType' is not valid.");
                 $entities[] = $typeFactories[$entityType]($data);
             }
         }
@@ -33,7 +38,8 @@ trait EntityListTrait
         return new static($entities);
     }
 
-    public function diff(EntityListInterface $list): self
+    /** @return static */
+    public function diff(self $list): self
     {
         $differingEntities = [];
         foreach ($this as $pos => $entity) {
