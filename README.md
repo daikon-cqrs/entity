@@ -5,7 +5,7 @@
 ![Packagist License](https://img.shields.io/packagist/l/daikon/entity)
 
 [![Build Status](https://travis-ci.com/daikon-cqrs/entity.svg?branch=master)](https://travis-ci.com/daikon-cqrs/entity)
-[![Code Coverage](https://scrutinizer-ci.com/g/daikon-cqrs/entity/badges/coverage.png?b=master)](https://scrutinizer-ci.com/g/daikon-cqrs/entity/?branch=master)
+[![Code Coverage](https://img.shields.io/codecov/c/github/daikon-cqrs/entity)](https://codecov.io/gh/daikon-cqrs/entity)
 [![Type Coverage](https://shepherd.dev/github/daikon-cqrs/entity/coverage.svg)](https://shepherd.dev/github/daikon-cqrs/entity)
 [![Libraries.io dependency status](https://img.shields.io/librariesio/github/daikon-cqrs/entity)](https://libraries.io/github/daikon-cqrs/entity)
 [![Scrutinizer code quality](https://img.shields.io/scrutinizer/quality/g/daikon-cqrs/entity/master)](https://scrutinizer-ci.com/g/daikon-cqrs/entity/?branch=master)
