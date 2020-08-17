@@ -20,7 +20,7 @@ trait EntityTrait
 
     private ValuePathParser $pathParser;
 
-    private function __construct(array $state = [])
+    final protected function __construct(array $state = [])
     {
         $this->pathParser = ValuePathParser::create();
 
