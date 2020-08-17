@@ -35,11 +35,12 @@ trait EntityTrait
     }
 
     /**
-     * @param mixed $state
+     * @param array|null $state
      * @return static
      */
     public static function fromNative($state): self
     {
+        /** @psalm-suppress UnsafeInstantiation */
         return new static($state);
     }
 
