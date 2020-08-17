@@ -14,7 +14,7 @@ use Daikon\Interop\Assertion;
 use Daikon\ValueObject\ValueObjectInterface;
 use Daikon\ValueObject\ValueObjectMap;
 
-trait EntityTrait
+abstract class Entity implements EntityInterface
 {
     private ValueObjectMap $valueObjectMap;
 
@@ -35,12 +35,11 @@ trait EntityTrait
     }
 
     /**
-     * @param array|null $state
+     * @param array $state
      * @return static
      */
     public static function fromNative($state): self
     {
-        /** @psalm-suppress UnsafeInstantiation */
         return new static($state);
     }
 
