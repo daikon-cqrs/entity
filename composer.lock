@@ -2838,16 +2838,16 @@
         },
         {
             "name": "sebastian/phpcpd",
-            "version": "6.0.1",
+            "version": "6.0.2",
             "source": {
                 "type": "git",
                 "url": "https://github.com/sebastianbergmann/phpcpd.git",
-                "reference": "cf724b982a0f28455473867650802fea5cc2a65a"
+                "reference": "4f130523214c755c69d1d59297afdff206c7b029"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/sebastianbergmann/phpcpd/zipball/cf724b982a0f28455473867650802fea5cc2a65a",
-                "reference": "cf724b982a0f28455473867650802fea5cc2a65a",
+                "url": "https://api.github.com/repos/sebastianbergmann/phpcpd/zipball/4f130523214c755c69d1d59297afdff206c7b029",
+                "reference": "4f130523214c755c69d1d59297afdff206c7b029",
                 "shasum": ""
             },
             "require": {
@@ -2891,7 +2891,7 @@
                     "type": "github"
                 }
             ],
-            "time": "2020-08-13T12:03:35+00:00"
+            "time": "2020-08-18T13:27:23+00:00"
         },
         {
             "name": "sebastian/recursion-context",
