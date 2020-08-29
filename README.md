@@ -1,14 +1,15 @@
 # Entity
 
-![Packagist PHP Version Support](https://img.shields.io/packagist/php-v/daikon/entity)
-![GitHub code size in bytes](https://img.shields.io/github/languages/code-size/daikon-cqrs/entity)
-![Packagist License](https://img.shields.io/packagist/l/daikon/entity)
+![PHP Version Support](https://badgen.net/packagist/php/daikon/entity?color=blue)
+[![Lines of Code](https://badgen.net/codeclimate/loc/daikon-cqrs/entity)](https://codeclimate.com/github/daikon-cqrs/entity/code?sort=-loc)
+[![Packagist](https://badgen.net/packagist/name/daikon/entity?color=blue)](https://packagist.org/packages/daikon/entity)
+[![License](https://badgen.net/github/license/daikon-cqrs/entity)](https://github.com/daikon-cqrs/entity/blob/master/LICENSE)
 
-[![Build Status](https://travis-ci.com/daikon-cqrs/entity.svg?branch=master)](https://travis-ci.com/daikon-cqrs/entity)
-[![Code Coverage](https://img.shields.io/codecov/c/github/daikon-cqrs/entity)](https://codecov.io/gh/daikon-cqrs/entity)
+[![Build Status](https://badgen.net/travis/daikon-cqrs/entity?label=build)](https://travis-ci.com/daikon-cqrs/entity)
+[![Code Coverage](https://badgen.net/codecov/c/github/daikon-cqrs/entity)](https://codecov.io/gh/daikon-cqrs/entity)
 [![Type Coverage](https://shepherd.dev/github/daikon-cqrs/entity/coverage.svg)](https://shepherd.dev/github/daikon-cqrs/entity)
-[![Libraries.io dependency status](https://img.shields.io/librariesio/github/daikon-cqrs/entity)](https://libraries.io/github/daikon-cqrs/entity)
-[![Scrutinizer code quality](https://img.shields.io/scrutinizer/quality/g/daikon-cqrs/entity/master)](https://scrutinizer-ci.com/g/daikon-cqrs/entity/?branch=master)
-[![Code Climate maintainability](https://img.shields.io/codeclimate/maintainability/daikon-cqrs/entity)](https://codeclimate.com/github/daikon-cqrs/entity/maintainability)
+[![Code Quality](https://img.shields.io/scrutinizer/quality/g/daikon-cqrs/entity/master)](https://scrutinizer-ci.com/g/daikon-cqrs/entity/?branch=master)
+[![Code Maintainability](https://badgen.net/codeclimate/maintainability/daikon-cqrs/entity)](https://codeclimate.com/github/daikon-cqrs/entity)
+[![Dependabot](https://badgen.net/github/dependabot/daikon-cqrs/entity)](https://github.com/daikon-cqrs/entity/network/updates)
 
 Boilerplate for well structured entities in Daikon-CQRS projects.
